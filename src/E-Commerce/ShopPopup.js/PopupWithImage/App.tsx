@@ -1,7 +1,9 @@
 import {
   AspectRatio,
   Box,
+  Button,
   Flex,
+  HStack,
   Heading,
   Image,
   Link,
@@ -14,17 +16,22 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Logo } from "./Logo";
 import { SubscribeForm } from "./SubscribeForm";
+import { StepsWithCirclesAndText } from "../../../Application/ProgressSteps/StepsWithCirclesAndText/App";
+import { StepsWithCircles } from "../../../Application/ProgressSteps/StepsWithCircles/App";
 
-export const PopupWithImage = () => (
-  <Box height="100vh">
+export const PopupWithImage = (props: any) => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  return (
+    // <Box height="100vh" display={isOpen ? "initial" : "none"}>
     <Modal
-      isOpen={true}
-      onClose={() => void 0}
+      isOpen={props.isOpen}
+      onClose={props.onClose}
       isCentered
-      size="5xl"
+      size={{ base: "full", md: "5xl" }}
       // `trapFocus` and `blockScrollOnMount` are only switched off so that the preview works properly.
       blockScrollOnMount={false}
       trapFocus={false}
@@ -33,9 +40,9 @@ export const PopupWithImage = () => (
       <ModalContent borderRadius="none" mx="4">
         <ModalCloseButton size="lg" />
         <ModalBody padding="0">
-          <Flex align="center">
+          <Flex>
             <AspectRatio
-              ratio={3 / 4}
+              ratio={1}
               width="50%"
               maxW={{ lg: "md" }}
               display={{ base: "none", md: "flex" }}
@@ -54,21 +61,15 @@ export const PopupWithImage = () => (
               py="12"
               px={{ base: "4", md: "6" }}
             >
-              <Box maxW="sm" mx="auto">
-                <Logo
+              <Box maxW="md" mx="auto">
+                <StepsWithCircles />
+                {/* <Logo
                   height="4"
                   color={useColorModeValue("blue.500", "blue.200")}
                   mx="auto"
-                />
-                <Box
-                  textAlign="center"
-                  maxW={{ base: "2xs", sm: "xs" }}
-                  mx="auto"
-                  mt="10"
-                >
-                  <Heading fontWeight="extrabold">
-                    Save Big on Your Next Order
-                  </Heading>
+                /> */}
+                <Box textAlign="left" mx="auto" mt="4">
+                  <Heading fontWeight="extrabold">Title</Heading>
                   <Text fontSize="lg" mt="2">
                     Subscribe to our newsletter and{" "}
                     <Box as="strong" whiteSpace="nowrap">
@@ -78,8 +79,20 @@ export const PopupWithImage = () => (
                 </Box>
 
                 <Stack spacing="7" mt="8">
-                  <SubscribeForm />
+                  <HStack>
+                    <Button>Get Started</Button>
+                    <Button variant="outline">Learn More</Button>
+                  </HStack>
                   <Text
+                    fontSize="sm"
+                    color={useColorModeValue("gray.600", "gray.400")}
+                  >
+                    {
+                      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus recusandae"
+                    }
+                  </Text>
+                  {/* <SubscribeForm /> */}
+                  {/* <Text
                     fontSize="sm"
                     textAlign="center"
                     color={useColorModeValue("gray.600", "gray.400")}
@@ -89,7 +102,7 @@ export const PopupWithImage = () => (
                       privacy policy
                     </Link>{" "}
                     and <Link textDecoration="underline">terms</Link>
-                  </Text>
+                  </Text> */}
                 </Stack>
               </Box>
             </Flex>
@@ -97,5 +110,6 @@ export const PopupWithImage = () => (
         </ModalBody>
       </ModalContent>
     </Modal>
-  </Box>
-);
+    // </Box>
+  );
+};

@@ -1,20 +1,38 @@
-import { Box, Button, Flex, Heading, HStack, Img, Stack, Text } from '@chakra-ui/react'
-import { HiChevronRight } from 'react-icons/hi'
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  HStack,
+  Img,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { HiChevronRight } from "react-icons/hi";
 
-export const App = () => {
+export const WithImageBackground = () => {
   return (
     <Box bg="gray.800" as="section" minH="140px" position="relative">
       <Box py="32" position="relative" zIndex={1}>
-        <Box maxW={{ base: 'xl', md: '7xl' }} mx="auto" px={{ base: '6', md: '8' }} color="white">
+        <Box
+          maxW={{ base: "xl", md: "7xl" }}
+          mx="auto"
+          px={{ base: "6", md: "8" }}
+          color="white"
+        >
           <Box maxW="xl">
             <Heading as="h1" size="3xl" fontWeight="extrabold">
               Build relationship with the your customers
             </Heading>
-            <Text fontSize={{ md: '2xl' }} mt="4" maxW="lg">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.
+            <Text fontSize={{ md: "2xl" }} mt="4" maxW="lg">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Text>
-            <Stack direction={{ base: 'column', md: 'row' }} mt="10" spacing="4">
+            <Stack
+              direction={{ base: "column", md: "row" }}
+              mt="10"
+              spacing="4"
+            >
               <Button
                 as="a"
                 href="#"
@@ -30,14 +48,14 @@ export const App = () => {
               <HStack
                 as="a"
                 transition="background 0.2s"
-                justify={{ base: 'center', md: 'flex-start' }}
+                justify={{ base: "center", md: "flex-start" }}
                 href="#"
                 color="white"
                 rounded="full"
                 fontWeight="bold"
                 px="6"
                 py="3"
-                _hover={{ bg: 'whiteAlpha.300' }}
+                _hover={{ bg: "whiteAlpha.300" }}
               >
                 <span>Talk to Sales</span>
                 <HiChevronRight />
@@ -70,5 +88,5 @@ export const App = () => {
         </Box>
       </Flex>
     </Box>
-  )
-}
+  );
+};

@@ -3,7 +3,7 @@ import { Step } from "./Step";
 import { useStep } from "./useStep";
 
 export const StepsWithCircles = () => {
-  const numberOfSteps = 5;
+  const numberOfSteps = 4;
   const [currentStep, { setStep }] = useStep({
     maxStep: numberOfSteps,
     initialStep: 2,

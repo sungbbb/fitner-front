@@ -11,32 +11,41 @@ import {
   Stack,
   Text,
   useBreakpointValue,
-} from '@chakra-ui/react'
-import { posts } from './data'
+} from "@chakra-ui/react";
+import { posts } from "./data";
 
-export const App = () => {
-  const isMobile = useBreakpointValue({ base: true, md: false })
+export const BlogWithThreeColumns = () => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <Box bg="bg.surface">
-      <Container py={{ base: '16', md: '24' }}>
-        <Stack spacing={{ base: '12', md: '16' }}>
+      <Container py={{ base: "16", md: "24" }}>
+        <Stack spacing={{ base: "12", md: "16" }}>
           <Stack direction="row" justify="space-between">
-            <Stack spacing={{ base: '4', md: '5' }}>
+            <Stack spacing={{ base: "4", md: "5" }}>
               <Stack spacing="3">
-                <Text color="accent" fontWeight="semibold" fontSize={{ base: 'sm', md: 'md' }}>
+                <Text
+                  color="accent"
+                  fontWeight="semibold"
+                  fontSize={{ base: "sm", md: "md" }}
+                >
                   Our Blog
                 </Text>
-                <Heading size={{ base: 'sm', md: 'md' }}>Latest blog posts</Heading>
+                <Heading size={{ base: "sm", md: "md" }}>
+                  Latest blog posts
+                </Heading>
               </Stack>
-              <Text color="fg.muted" fontSize={{ base: 'lg', md: 'xl' }}>
+              <Text color="fg.muted" fontSize={{ base: "lg", md: "xl" }}>
                 Ice cream pudding dragée macaroon donut marzipan chocolate
               </Text>
             </Stack>
             {!isMobile && <Button size="xl">Show all</Button>}
           </Stack>
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={{ base: '12', lg: '8' }}>
+          <SimpleGrid
+            columns={{ base: 1, md: 2, lg: 3 }}
+            gap={{ base: "12", lg: "8" }}
+          >
             {posts.map((post) => (
-              <Link key={post.id} _hover={{ textDecor: 'none' }} role="group">
+              <Link key={post.id} _hover={{ textDecor: "none" }} role="group">
                 <Stack spacing="8">
                   <Box overflow="hidden">
                     <Image
@@ -46,7 +55,7 @@ export const App = () => {
                       height="15rem"
                       objectFit="cover"
                       transition="all 0.2s"
-                      _groupHover={{ transform: 'scale(1.05)' }}
+                      _groupHover={{ transform: "scale(1.05)" }}
                     />
                   </Box>
                   <Stack spacing="3">
@@ -71,5 +80,5 @@ export const App = () => {
         </Stack>
       </Container>
     </Box>
-  )
-}
+  );
+};

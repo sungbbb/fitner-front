@@ -1,5 +1,12 @@
+import { Plumtic } from "../Testimonial With Curve/Logo";
+
 const Logo1 = () => (
-  <svg height="40" viewBox="0 0 125 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    height="40"
+    viewBox="0 0 125 40"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M88.861 37.225c.759 0 1.208-.575 1.208-1.474 0-.932-.482-1.474-1.192-1.474-.406 0-.688.18-.899.466h-.01V33.27h-.44v3.873h.44v-.368h.01c.228.314.504.45.883.45Zm-.032-.369c-.596 0-.889-.471-.889-1.1 0-.606.282-1.105.894-1.105.531 0 .786.477.786 1.105 0 .634-.255 1.1-.791 1.1Zm1.983 1.214c.341 0 .558-.12.785-.7l1.198-3.028h-.466l-.64 1.745c-.086.233-.184.547-.184.547h-.01s-.104-.314-.19-.547l-.661-1.745h-.477l1.094 2.72-.108.276c-.108.271-.233.342-.417.342a.616.616 0 0 1-.298-.06h-.022v.39c.12.049.228.06.396.06Zm3.106-.927h.737V33.27h-.737v3.873Zm2.539.082c.861 0 1.452-.64 1.452-1.469 0-.829-.59-1.468-1.452-1.468-.861 0-1.452.64-1.452 1.468 0 .83.59 1.469 1.452 1.469Zm0-.564c-.455 0-.704-.363-.704-.905 0-.541.249-.91.704-.91.45 0 .704.369.704.91 0 .542-.254.905-.704.905Zm3.019 1.43c.412 0 .769-.097 1.002-.314.206-.19.331-.455.331-.845v-2.568h-.71v.293h-.011c-.168-.233-.422-.369-.77-.369-.703 0-1.202.531-1.202 1.36 0 .84.607 1.327 1.225 1.327.352 0 .563-.14.725-.325h.017v.304c0 .379-.2.58-.618.58-.341 0-.498-.136-.558-.31h-.731c.075.542.541.867 1.3.867Zm-.01-1.706c-.38 0-.63-.276-.63-.748 0-.466.25-.758.624-.758.444 0 .661.346.661.753 0 .412-.19.753-.656.753Zm3.134.84c.861 0 1.452-.64 1.452-1.469 0-.829-.591-1.468-1.452-1.468-.862 0-1.452.64-1.452 1.468 0 .83.59 1.469 1.452 1.469Zm0-.564c-.455 0-.705-.363-.705-.905 0-.541.25-.91.705-.91.449 0 .704.369.704.91 0 .542-.255.905-.704.905Zm1.794.482h.737v-2.779h-.737v2.78Zm0-3.212h.737v-.661h-.737v.66Zm1.212 4.122h.737V36.83h.01c.158.239.412.396.802.396.715 0 1.203-.57 1.203-1.469 0-.867-.471-1.468-1.208-1.468a.972.972 0 0 0-.818.423h-.016v-.347h-.71v3.69Zm1.392-1.44c-.439 0-.672-.331-.672-.835 0-.498.185-.894.645-.894.455 0 .639.368.639.894s-.238.834-.612.834Zm2.83.612c.693 0 1.17-.336 1.17-.894 0-.65-.515-.78-.981-.878-.395-.081-.763-.103-.763-.341 0-.2.189-.31.476-.31.315 0 .504.11.537.407h.666c-.054-.558-.46-.92-1.192-.92-.634 0-1.132.286-1.132.888 0 .606.487.742.986.84.379.075.731.102.731.368 0 .195-.184.32-.509.32-.33 0-.558-.141-.607-.461h-.682c.043.59.493.98 1.3.98Zm3.968-.082v-2.779h-.737v1.604c0 .368-.212.628-.558.628-.314 0-.461-.179-.461-.504v-1.728h-.731v1.853c0 .607.347 1.002.964 1.002.39 0 .607-.146.797-.4h.016v.324h.71Zm.476 0h.737V35.53c0-.369.2-.607.498-.607.271 0 .428.163.428.477v1.744h.737V35.53c0-.369.19-.607.499-.607.271 0 .428.163.428.477v1.744h.737v-1.869c0-.607-.331-.986-.916-.986-.352 0-.645.184-.834.488h-.011a.83.83 0 0 0-.77-.488.908.908 0 0 0-.807.45h-.016v-.374h-.71v2.78Z"
       fill="#E5708C"
@@ -24,32 +31,47 @@ const Logo1 = () => (
       </linearGradient>
     </defs>
   </svg>
-)
+);
 
 const Logo2 = () => (
-  <svg height="40" viewBox="0 0 78 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    height="40"
+    viewBox="0 0 78 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path d="M55.5 0H77.5L58.5 32H36.5L55.5 0Z" fill="#FF7A00"></path>
     <path d="M35.5 0H51.5L32.5 32H16.5L35.5 0Z" fill="#FF9736"></path>
     <path d="M19.5 0H31.5L12.5 32H0.5L19.5 0Z" fill="#FFBC7D"></path>
   </svg>
-)
+);
 export const testimonials = [
   {
-    avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
-    company: 'Logoipsum',
-    name: 'Sarah Johnson',
+    avatarUrl: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
+    company: "Logoipsum",
+    name: "Sarah Johnson",
     logo: Logo1,
-    title: 'Senior UI Designer',
+    title: "Senior UI Designer",
     quote:
       '"As a senior UI designer at Logoipsum Inc, I have had the pleasure of using Chakra UI for several of our projects. I have to say, it has been an absolute game-changer for our team."',
   },
   {
-    avatarUrl: 'https://tinyurl.com/299apdk5',
-    company: 'ABC Inc',
-    name: 'David Smith',
+    avatarUrl: "https://tinyurl.com/299apdk5",
+    company: "ABC Inc",
+    name: "David Smith",
     logo: Logo2,
-    title: 'Lead Developer',
+    title: "Lead Developer",
     quote:
       '"As a lead developer at ABC Inc, I have had the opportunity to work with Chakra UI on multiple projects. I can confidently say that it is one of the best UI libraries I have ever used."',
   },
-]
+  {
+    avatarUrl:
+      "https://images.unsplash.com/photo-1547037579-f0fc020ac3be?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTI2fHxtYW4lMjBzbWlsaW5nfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    company: "Plumtic HQ",
+    name: "Kunle Adigun",
+    logo: Logo1,
+    title: "Chief Technology Officer",
+    quote:
+      '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Ut enim ad minim. Lorem ipsum dolor sit amet."',
+  },
+];
