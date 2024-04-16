@@ -18,21 +18,21 @@ export const Features = () => (
       <Stack spacing={{ base: "12", md: "16" }}>
         <Stack spacing={{ base: "4", md: "5" }} maxW="3xl">
           <Stack spacing="3">
-            <Text
+            {/* <Text
               fontSize={{ base: "sm", md: "md" }}
               fontWeight="semibold"
               color="accent"
             >
               Features
-            </Text>
-            <Heading size={{ base: "sm", md: "md" }}>
-              What can you expect?
+            </Text> */}
+            <Heading size={{ base: "sm", md: "md" }} fontWeight="extrabold">
+            핏트너가 드리는 5가지 약속
             </Heading>
           </Stack>
-          <Text color="fg.muted" fontSize={{ base: "lg", md: "xl" }}>
+          {/* <Text color="fg.muted" fontSize={{ base: "lg", md: "xl" }}>
             A bundle of 210+ ready-to-use, responsive and accessible components
             with clever structured sourcode files.
-          </Text>
+          </Text> */}
         </Stack>
         <SimpleGrid
           columns={{ base: 1, md: 2, lg: 3 }}
@@ -55,14 +55,14 @@ export const Features = () => (
                 </Text>
                 <Text color="fg.muted">{feature.description}</Text>
               </Stack>
-              <Button
+              {/* <Button
                 variant="text"
                 colorScheme="blue"
                 rightIcon={<FiArrowRight />}
                 alignSelf="start"
               >
                 Read more
-              </Button>
+              </Button> */}
             </Stack>
           ))}
         </SimpleGrid>

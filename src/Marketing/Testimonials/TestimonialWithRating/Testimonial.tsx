@@ -13,11 +13,14 @@ interface TestiomonialProps {
 export const Testimonial = (props: TestiomonialProps) => {
   const { avatarUrl, name, quote, title, company, logo: Logo } = props;
   return (
-    <Stack spacing={{ base: "6", md: "8" }} flex={1}>
-      <Rating />
-      <Text textStyle={{ base: "lg", md: "xl" }} fontWeight="medium">
-        {quote}
-      </Text>
+    <Stack
+      spacing={{ base: "6", md: "8" }}
+      flex={1}
+      border={"1px solid #d9d9d9"}
+      borderRadius={"lg"}
+      padding={"10"}
+    >
+      {/* 유저정보 */}
       <Stack
         gap="5"
         spacing="0"
@@ -25,20 +28,22 @@ export const Testimonial = (props: TestiomonialProps) => {
         divider={<StackDivider display={{ base: "none", md: "block" }} />}
         align={{ base: "flex-start", md: "center" }}
       >
-        <Stack
-          spacing={{ base: "4", md: "5" }}
-          direction={{ base: "column", md: "row" }}
-        >
+        <Stack spacing={{ base: "4", md: "5" }} direction={"row"}>
           <Avatar src={avatarUrl} boxSize="14" name={name} />
           <Box>
             <Text fontWeight="semibold">{name}</Text>
-            <Text color="fg.muted">
+            <Rating />
+            {/* <Text color="fg.muted">
               {title}, {company}
-            </Text>
+            </Text> */}
           </Box>
         </Stack>
-        <Logo />
+        {/* <Logo /> */}
       </Stack>
+
+      <Text textStyle={{ base: "lg", md: "xl" }} fontWeight="medium">
+        {quote}
+      </Text>
     </Stack>
   );
 };

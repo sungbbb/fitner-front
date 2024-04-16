@@ -5,7 +5,11 @@ import { Testimonial } from "./Testimonial";
 export const TestimonialWithRating = () => (
   <Box as="section" py={{ base: "16", md: "24" }}>
     <Container>
-      <Stack direction={{ base: "column", lg: "row" }} spacing="16">
+      <Stack
+        direction={{ base: "column", lg: "row" }}
+        align={{ base: "center", lg: "stretch" }}
+        spacing="16"
+      >
         {testimonials.map((testimonial, id) => (
           <Testimonial key={id} {...testimonial} />
         ))}

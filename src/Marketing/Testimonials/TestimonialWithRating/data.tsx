@@ -49,29 +49,29 @@ export const testimonials = [
   {
     avatarUrl: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
     company: "Logoipsum",
-    name: "Sarah Johnson",
+    name: "손**",
     logo: Logo1,
     title: "Senior UI Designer",
     quote:
-      '"As a senior UI designer at Logoipsum Inc, I have had the pleasure of using Chakra UI for several of our projects. I have to say, it has been an absolute game-changer for our team."',
+      '리뷰 1',
   },
   {
     avatarUrl: "https://tinyurl.com/299apdk5",
     company: "ABC Inc",
-    name: "David Smith",
+    name: "조**님",
     logo: Logo2,
     title: "Lead Developer",
     quote:
-      '"As a lead developer at ABC Inc, I have had the opportunity to work with Chakra UI on multiple projects. I can confidently say that it is one of the best UI libraries I have ever used."',
+      '리뷰 2',
   },
   {
     avatarUrl:
       "https://images.unsplash.com/photo-1547037579-f0fc020ac3be?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTI2fHxtYW4lMjBzbWlsaW5nfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     company: "Plumtic HQ",
-    name: "Kunle Adigun",
+    name: "유**",
     logo: Logo1,
     title: "Chief Technology Officer",
     quote:
-      '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Ut enim ad minim. Lorem ipsum dolor sit amet."',
+      '리뷰 3',
   },
 ];

@@ -18,18 +18,18 @@ function Landing(props) {
   const [popupOpen, setPopupOpen] = React.useState(false);
   return (
     <LayoutWithFullContentHeight>
-      <WithImageBackground />
+      <WithImageBackground onClick={() => setPopupOpen(true)} />
       <LogoGridWithTitle />
       <HeroWithImageTop />
       <TestimonialWithRating />
-      <StatsWithDivider />
+      <StatsWithDivider onClick={() => setPopupOpen(true)} />
 
       <Box bgColor="gray.100">
-        <HeroWithImageReverse />
-        <HeroWithImage />
+        <HeroWithImageReverse onClick={() => setPopupOpen(true)} />
+        <HeroWithImage onClick={() => setPopupOpen(true)} />
       </Box>
-      <HeroWithCropedImage />
-      <BlogWithThreeColumns />
+      <HeroWithCropedImage onClick={() => setPopupOpen(true)} />
+      <BlogWithThreeColumns onClick={() => setPopupOpen(true)} />
       <Features />
       <CTA1 onClick={() => setPopupOpen(true)} />
       <PopupWithImage isOpen={popupOpen} onClose={() => setPopupOpen(false)} />

@@ -69,28 +69,37 @@ export const PopupWithImage = (props: any) => {
                   mx="auto"
                 /> */}
                 <Box textAlign="left" mx="auto" mt="4">
-                  <Heading fontWeight="extrabold">Title</Heading>
-                  <Text fontSize="lg" mt="2">
-                    Subscribe to our newsletter and{" "}
-                    <Box as="strong" whiteSpace="nowrap">
-                      get 20% off your first order
-                    </Box>
-                  </Text>
+                  <Heading
+                    fontWeight="extrabold"
+                    fontSize={{ base: "5xl", md: "4xl" }}
+                  >
+                    내게 맞는 영양제 찾기
+                  </Heading>
+                  <Stack fontSize={{ base: "md", md: "sm" }} mt="2">
+                    <Text>
+                      이제부터 당신에게 꼭 맞는 영양제를 찾기위한 건강설문을
+                      진행할게요
+                    </Text>
+                    <Text>
+                      이 설문은 당신의 건강을 파악하기 위해 SCI 의학 논문을
+                      분석하여 만들어졌습니다.
+                    </Text>
+                  </Stack>
                 </Box>
 
                 <Stack spacing="7" mt="8">
                   <HStack>
-                    <Button>Get Started</Button>
-                    <Button variant="outline">Learn More</Button>
+                    <Button>설문 시작하기</Button>
+                    <Button variant="outline">건너뛰기</Button>
                   </HStack>
-                  <Text
+                  {/* <Text
                     fontSize="sm"
                     color={useColorModeValue("gray.600", "gray.400")}
                   >
                     {
                       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus recusandae"
                     }
-                  </Text>
+                  </Text> */}
                   {/* <SubscribeForm /> */}
                   {/* <Text
                     fontSize="sm"

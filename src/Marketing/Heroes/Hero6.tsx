@@ -1,5 +1,6 @@
 import {
   Button,
+  Center,
   Container,
   Heading,
   Image,
@@ -8,8 +9,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-export const HeroWithImageTop = () => (
+export const HeroWithImageTop = (props: any) => (
   <>
+    {/* 이미지나 영상 들어가는 곳 */}
     <Image
       alt="Placeholder Image"
       src="https://pro.chakra-ui.com/components/marketing/blog/post1.png"
@@ -18,10 +20,15 @@ export const HeroWithImageTop = () => (
       maxH={{ base: "sm", md: "lg" }}
       width="full"
     />
-    <Container py={{ base: "16", md: "24" }}>
-      <SimpleGrid columns={{ base: 1, md: 2 }} columnGap={16} rowGap={4}>
+    <Container py={{ base: "16", md: "10" }}>
+      <Center>
+        <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight={"bold"}>
+          핏트너와 함께 차이를 느껴보세요
+        </Text>
+      </Center>
+      {/* <SimpleGrid columns={{ base: 1, md: 2 }} columnGap={16} rowGap={4}>
         <Heading size={{ base: "md", md: "xl" }}>
-          Create your app remarkable fast
+        핏트너와 함께 차이를 느껴보세요
         </Heading>
         <Stack spacing={{ base: "6", md: "8" }} justifyContent="center">
           <Text fontSize={{ base: "lg", md: "xl" }} color="fg.muted">
@@ -35,7 +42,7 @@ export const HeroWithImageTop = () => (
             </Button>
           </Stack>
         </Stack>
-      </SimpleGrid>
+      </SimpleGrid> */}
     </Container>
   </>
 );
