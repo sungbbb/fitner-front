@@ -8,19 +8,32 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 
 export const HeroWithImageTop = (props: any) => (
   <>
     {/* 이미지나 영상 들어가는 곳 */}
-    <Image
-      alt="Placeholder Image"
-      src="https://pro.chakra-ui.com/components/marketing/blog/post1.png"
-      objectFit="cover"
-      objectPosition="center -140px"
-      maxH={{ base: "sm", md: "lg" }}
-      width="full"
-    />
-    <Container py={{ base: "16", md: "10" }}>
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{
+        ease: "easeInOut",
+        duration: 1,
+        delay: 0.1,
+        y: { duration: 1 },
+      }}
+    >
+      <Image
+        alt="Placeholder Image"
+        src="https://pro.chakra-ui.com/components/marketing/blog/post1.png"
+        objectFit="cover"
+        // objectPosition="center -140px"
+        maxH={{ base: "sm", md: "lg" }}
+        width="full"
+      />
+    </motion.div>
+    <Container py={{ base: "16", md: "24" }}>
       <Center>
         <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight={"bold"}>
           핏트너와 함께 차이를 느껴보세요

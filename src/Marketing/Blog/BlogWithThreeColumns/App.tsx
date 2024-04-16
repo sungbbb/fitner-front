@@ -78,11 +78,14 @@ export const BlogWithThreeColumns = (props: { onClick: () => void }) => {
               </Link>
             ))}
           </SimpleGrid>
-          <Center>
-            <Button size={{ base: "lg", md: "xl" }} onClick={props.onClick}>
-              무료로 내 맞춤 영양제 찾으러 가기
-            </Button>
-          </Center>
+          <Stack my="2" spacing="4" align={"center"}>
+            <Box>
+              <Button size="lg" fontSize="md" onClick={props.onClick}>
+                무료로 내 맞춤 영양제 찾으러 가기
+              </Button>
+            </Box>
+            <Text>영양제는 잘 골라야 합니다</Text>
+          </Stack>
 
           {/* {isMobile && <Button size="xl">Show all</Button>} */}
         </Stack>

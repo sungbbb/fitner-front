@@ -53,16 +53,16 @@ export const testimonials = [
     logo: Logo1,
     title: "Senior UI Designer",
     quote:
-      '리뷰 1',
+      "잘 사용하고 있어요!! 다이어트를 위해 처음 신청해봤는데 제게 필요한 성분, 안전성에 대해 자세히 소개해주시더라고요! 다이어트하면서 건강을 잃기 쉬운데 추천해주신 영양제 먹으면서 다이어트하면서도 건강해지는 게 느껴져요. 다음에는 부모님 영양제도 추가로 구매하려고요!",
   },
   {
     avatarUrl: "https://tinyurl.com/299apdk5",
     company: "ABC Inc",
-    name: "조**님",
+    name: "조**",
     logo: Logo2,
     title: "Lead Developer",
     quote:
-      '리뷰 2',
+      "평소 건강에 관심이 많았는데, 보통 구매하고자하면 어떤 영양제를 사야되는지 모르겠더라고요. 1대1로 약사분과 상담하면서 제게 필요한것이 무엇인지 알게 되었네요. 추천합니다!",
   },
   {
     avatarUrl:
@@ -72,6 +72,6 @@ export const testimonials = [
     logo: Logo1,
     title: "Chief Technology Officer",
     quote:
-      '리뷰 3',
+      "부모님께 영양제를 선물해드리고자 했는데 광고들을 보면 믿음직스럽지 못하더라고요.. 개인에 맞춰 영양제를 추천해주시기에 해당 제품을 구매하여 부모님을 드렸더니 매우 좋아하십니다. 꾸준히 이용하게 될거같아요.",
   },
 ];

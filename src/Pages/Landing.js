@@ -13,11 +13,13 @@ import { CheckboxCardGroupContainer } from "../Application/FormElements/Checkbox
 import { CTA1 } from "../Marketing/CallToActions/CTA1";
 import { BlogWithThreeColumns } from "../Marketing/Blog/BlogWithThreeColumns/App";
 import { PopupWithImage } from "../E-Commerce/ShopPopup.js/PopupWithImage/App";
+import { Navbar } from "../Marketing/Layouts/LayoutWithFullContentHeight/Navbar";
 
 function Landing(props) {
   const [popupOpen, setPopupOpen] = React.useState(false);
   return (
     <LayoutWithFullContentHeight>
+      <Navbar onClick={() => setPopupOpen(true)} />
       <WithImageBackground onClick={() => setPopupOpen(true)} />
       <LogoGridWithTitle />
       <HeroWithImageTop />

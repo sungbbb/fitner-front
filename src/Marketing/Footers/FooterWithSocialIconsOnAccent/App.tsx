@@ -14,8 +14,11 @@ export const FooterWithSocialIconsOnAccent = () => (
     <Container as="footer" role="contentinfo" py={{ base: "12", md: "16" }}>
       <Stack spacing={{ base: "4", md: "5" }}>
         <Stack justify="space-between" direction="row" align="center">
-          <Logo />
-          <ButtonGroup variant="tertiary.accent">
+          {/* <Logo /> */}
+          <Text fontWeight="bold" fontSize="2xl">
+            핏트너
+          </Text>
+          {/* <ButtonGroup variant="tertiary.accent">
             <IconButton
               as="a"
               href="#"
@@ -34,11 +37,10 @@ export const FooterWithSocialIconsOnAccent = () => (
               aria-label="Twitter"
               icon={<FaTwitter />}
             />
-          </ButtonGroup>
+          </ButtonGroup> */}
         </Stack>
         <Text fontSize="sm" color="fg.accent.subtle">
-          &copy; {new Date().getFullYear()} Chakra UI Pro, Inc. All rights
-          reserved.
+          &copy; {new Date().getFullYear()} FITNER Inc. All rights reserved.
         </Text>
       </Stack>
     </Container>

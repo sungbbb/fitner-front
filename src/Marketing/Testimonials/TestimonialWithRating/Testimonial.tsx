@@ -30,18 +30,19 @@ export const Testimonial = (props: TestiomonialProps) => {
       >
         <Stack spacing={{ base: "4", md: "5" }} direction={"row"}>
           <Avatar src={avatarUrl} boxSize="14" name={name} />
-          <Box>
-            <Text fontWeight="semibold">{name}</Text>
+          <Stack justify={"center"}>
+            <Text fontWeight="semibold">{name} 님</Text>
             <Rating />
             {/* <Text color="fg.muted">
               {title}, {company}
             </Text> */}
-          </Box>
+          </Stack>
         </Stack>
+
         {/* <Logo /> */}
       </Stack>
 
-      <Text textStyle={{ base: "lg", md: "xl" }} fontWeight="medium">
+      <Text textStyle={{ base: "sm", md: "md" }} fontWeight="medium">
         {quote}
       </Text>
     </Stack>

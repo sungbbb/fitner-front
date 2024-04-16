@@ -28,7 +28,7 @@ export const LogoGridWithTitle = () => (
         {logos.Logotitle.map((title) => (
           <Center key={title}>
             <Text
-              fontSize={{ base: "lg", md: "xl" }}
+              fontSize={{ base: "md", md: "xl" }}
               fontWeight="bold"
               color="fg.muted"
               textAlign="center"

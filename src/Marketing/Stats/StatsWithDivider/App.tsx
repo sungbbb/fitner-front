@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { Stat } from "./Stat";
 import { stats } from "./data";
+import { motion } from "framer-motion";
 
 export const StatsWithDivider = (props: { onClick: () => void }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -38,7 +39,7 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
           </Stack>
           <Stack
             spacing={{ base: "4", md: "5" }}
-            fontSize={{ base: "lg", md: "xl" }}
+            fontSize={{ md: "lg" }}
             color="fg.muted"
             maxW="3xl"
           >
