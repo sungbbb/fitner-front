@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { Stat } from "./Stat";
 import { stats } from "./data";
-import { motion } from "framer-motion";
 
 export const StatsWithDivider = (props: { onClick: () => void }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
