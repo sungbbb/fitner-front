@@ -47,7 +47,7 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
                 spacing="4"
               >
                 <Button
-                  colorScheme="blue"
+                  // colorScheme="blue"
                   px="8"
                   rounded="full"
                   size="lg"

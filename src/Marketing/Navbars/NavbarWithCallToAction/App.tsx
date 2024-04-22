@@ -36,9 +36,8 @@ export const NavbarWithCallToAction = ({ ...props }) => {
               height={"50px"}
               alt="logo"
             />
-            {isDesktop ? (
-              <HStack spacing="8">
-                {/* <ButtonGroup
+            <HStack spacing="8">
+              {/* <ButtonGroup
                   size="lg"
                   variant="text"
                   colorScheme="gray"
@@ -51,23 +50,10 @@ export const NavbarWithCallToAction = ({ ...props }) => {
                   )}
                 </ButtonGroup>
                 <Button>Sign Up</Button> */}
-                <Button size="lg" fontSize="md" onClick={props.onClick}>
-                  무료로 내 맞춤 영양제 찾으러 가기
-                </Button>
-              </HStack>
-            ) : (
-              <>
-                <ToggleButton
-                  onClick={mobileNavbar.onToggle}
-                  isOpen={mobileNavbar.isOpen}
-                  aria-label="Open Menu"
-                />
-                <MobileDrawer
-                  isOpen={mobileNavbar.isOpen}
-                  onClose={mobileNavbar.onClose}
-                />
-              </>
-            )}
+              <Button size="lg" fontSize="md" onClick={props.onClick}>
+                무료로 내 맞춤 영양제 찾으러 가기
+              </Button>
+            </HStack>
           </HStack>
         </Container>
       </Box>

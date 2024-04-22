@@ -1,5 +1,5 @@
-import { HStack, Icon, StackProps } from '@chakra-ui/react'
-import { BsFillStarFill } from 'react-icons/bs'
+import { HStack, Icon, StackProps } from "@chakra-ui/react";
+import { BsFillStarFill } from "react-icons/bs";
 
 export const Rating = (props: StackProps) => (
   <HStack spacing="1.5" {...props}>
@@ -10,9 +10,9 @@ export const Rating = (props: StackProps) => (
           key={index}
           as={BsFillStarFill}
           fontSize="xl"
-          color="blue.500"
-          _dark={{ color: 'blue.200' }}
+          color="teal.500"
+          _dark={{ color: "teal.200" }}
         />
       ))}
   </HStack>
-)
+);
