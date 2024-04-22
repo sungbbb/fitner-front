@@ -48,7 +48,9 @@ export const PopupWithImage = (props: any) => {
               display={{ base: "none", md: "flex" }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1587925358603-c2eea5305bbc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=470&h=622&q=80"
+                objectFit="cover"
+                src={require("../../../Assets/illust.jpg")}
+                // src="https://images.unsplash.com/photo-1587925358603-c2eea5305bbc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=470&h=622&q=80"
                 alt="Lovely Image"
                 fallback={<Skeleton />}
               />
@@ -89,7 +91,9 @@ export const PopupWithImage = (props: any) => {
 
                 <Stack spacing="7" mt="8">
                   <HStack>
-                    <Button>설문 시작하기</Button>
+                    <Button onClick={() => window.open("/survey")}>
+                      설문 시작하기
+                    </Button>
                     <Button variant="outline">건너뛰기</Button>
                   </HStack>
                   {/* <Text

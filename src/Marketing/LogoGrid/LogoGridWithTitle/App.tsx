@@ -12,10 +12,7 @@ export const LogoGridWithTitle = () => (
       >
         These and other companies trust us
       </Text> */}
-      <SimpleGrid
-        gap={{ base: "4", md: "8" }}
-        columns={{ base: 2, md: 3, lg: 4 }}
-      >
+      <SimpleGrid gap={{ base: "4", md: "8" }} columns={{ base: 2, lg: 4 }}>
         {/* {Object.entries(logos).map(([name, Logo]) => (
           <Center key={name}>
             <Logo

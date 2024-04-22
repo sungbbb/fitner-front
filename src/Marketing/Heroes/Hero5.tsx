@@ -18,10 +18,10 @@ export const HeroWithImage = (props: { onClick: () => void }) => (
     <SimpleGrid columns={{ base: 1, md: 2 }} gap={16}>
       <Stack spacing={{ base: "8", md: "12" }} justifyContent="center">
         <Stack spacing={{ base: "4", md: "6" }}>
-          <Heading size={{ base: "md", md: "md" }}>
+          <Heading size={{ base: "sm", md: "md" }}>
             핏트너는 당신의 문제를 해결합니다
           </Heading>
-          <Stack fontSize={{ base: "lg", md: "sm" }} color="fg.muted">
+          <Stack fontSize={{ base: "md", md: "lg" }} color="fg.muted">
             <Text>세상에 나와 똑같은 사람은 없습니다.</Text>
             <Text>내가 먹는 영양제도 그래야 합니다.</Text>
             <Text>
@@ -58,7 +58,8 @@ export const HeroWithImage = (props: { onClick: () => void }) => (
       <AspectRatio ratio={1}>
         <Image
           objectFit="cover"
-          src="https://tinyurl.com/yeyjvptc"
+          src={require("../../Assets/head.jpg")}
+          // src="https://tinyurl.com/yeyjvptc"
           alt="Lady at work"
         />
       </AspectRatio>
@@ -77,7 +78,16 @@ export const HeroWithImage = (props: { onClick: () => void }) => (
         <Button size="lg" fontSize="md" onClick={props.onClick}>
           무료로 내 맞춤 영양제 찾으러 가기
         </Button>
-        <Text>당신의 최고의 건강상태를 느껴보세요</Text>
+        <Text
+          fontSize={{ base: "lg", md: "xl" }}
+          textDecorationLine={"underline"}
+          textDecorationThickness={"10px"}
+          textUnderlineOffset={"-2px"}
+          textDecorationColor={"#BEE3F8"}
+          textDecorationStyle={"solid"}
+        >
+          당신의 최고의 건강상태를 느껴보세요
+        </Text>
       </Stack>
     </Stack>
   </Container>
@@ -89,17 +99,18 @@ export const HeroWithImageReverse = (props: { onClick: () => void }) => (
       <AspectRatio ratio={1}>
         <Image
           objectFit="cover"
-          src="https://tinyurl.com/yeyjvptc"
+          // src="https://tinyurl.com/yeyjvptc"
+          src={require("../../Assets/water.jpg")}
           alt="Lady at work"
         />
       </AspectRatio>
 
       <Stack spacing={{ base: "8", md: "12" }} justifyContent="center">
         <Stack spacing={{ base: "4", md: "6" }}>
-          <Heading size={{ base: "md", md: "md" }}>
+          <Heading size={{ base: "sm", md: "md" }}>
             당신의 영양제는 이것이 문제입니다.
           </Heading>
-          <Stack fontSize={{ base: "lg", md: "sm" }} color="fg.muted">
+          <Stack fontSize={{ base: "md", md: "lg" }} color="fg.muted">
             <Text>영양제를 드시고 더 건강해 지고 싶으신가요?</Text>
             <Text>하지만 무슨 영양제를 드셔야할지 모르시겠나요?</Text>
             <Text>

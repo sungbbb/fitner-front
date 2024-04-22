@@ -4,6 +4,7 @@ import {
   ButtonGroup,
   Container,
   HStack,
+  Image,
   Text,
   useBreakpointValue,
   useDisclosure,
@@ -16,19 +17,25 @@ export const NavbarWithCallToAction = ({ ...props }) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
   const mobileNavbar = useDisclosure();
   return (
-    <Box as="section">
+    <Box as="section" position={"sticky"} top={0} zIndex="docked">
       <Box
         borderBottomWidth="1px"
         bg="bg.surface"
         position="relative"
-        zIndex="tooltip"
+        // zIndex="tooltip"
       >
         <Container py="4">
           <HStack justify="space-between">
             {/* <Logo /> */}
-            <Text fontWeight="bold" fontSize="2xl">
+            {/* <Text fontWeight="bold" fontSize="2xl">
               핏트너
-            </Text>
+            </Text> */}
+            <Image
+              src={require("../../../Assets/logo.png")}
+              w={"50px"}
+              height={"50px"}
+              alt="logo"
+            />
             {isDesktop ? (
               <HStack spacing="8">
                 {/* <ButtonGroup

@@ -3,6 +3,7 @@ import {
   ButtonGroup,
   Container,
   IconButton,
+  Image,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -10,14 +11,20 @@ import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { Logo } from "./Logo";
 
 export const FooterWithSocialIconsOnAccent = () => (
-  <Box bg="bg.accent.default" color="fg.accent.default">
+  <Box bg="gray.100" color="fg.accent.default">
     <Container as="footer" role="contentinfo" py={{ base: "12", md: "16" }}>
       <Stack spacing={{ base: "4", md: "5" }}>
         <Stack justify="space-between" direction="row" align="center">
           {/* <Logo /> */}
-          <Text fontWeight="bold" fontSize="2xl">
+          {/* <Text fontWeight="bold" fontSize="2xl">
             핏트너
-          </Text>
+          </Text> */}
+          <Image
+            src={require("../../../Assets/logo.png")}
+            w={"100px"}
+            height={"100px"}
+            alt="logo"
+          />
           {/* <ButtonGroup variant="tertiary.accent">
             <IconButton
               as="a"
@@ -39,7 +46,7 @@ export const FooterWithSocialIconsOnAccent = () => (
             />
           </ButtonGroup> */}
         </Stack>
-        <Text fontSize="sm" color="fg.accent.subtle">
+        <Text fontSize="sm" color="accent">
           &copy; {new Date().getFullYear()} FITNER Inc. All rights reserved.
         </Text>
       </Stack>

@@ -89,7 +89,11 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => (
               핏트너가 당신의 건강을 바꾸는 8단계 비밀
             </Heading>
             {eightSecrets.map((secret) => (
-              <Text color="fg.muted" key={secret.id} fontSize={"sm"}>
+              <Text
+                color="fg.muted"
+                key={secret.id}
+                fontSize={{ base: "sm", md: "md" }}
+              >
                 {secret.id}. {secret.title} : {secret.description}
               </Text>
             ))}
@@ -100,7 +104,16 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => (
                 </Button>
               </Box>
 
-              <Text>당신의 최고의 건강상태를 느껴보세요</Text>
+              <Text
+                fontSize={{ base: "lg", md: "xl" }}
+                textDecorationLine={"underline"}
+                textDecorationThickness={"10px"}
+                textUnderlineOffset={"-2px"}
+                textDecorationColor={"#BEE3F8"}
+                textDecorationStyle={"solid"}
+              >
+                당신은 더 건강해질 수 있습니다
+              </Text>
             </Stack>
           </Stack>
         </Stack>
@@ -117,7 +130,8 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => (
           <Img
             boxSize="full"
             objectFit="cover"
-            src="https://tinyurl.com/yeyjvptc"
+            src={require("../../Assets/yellow.jpg")}
+            // src="https://tinyurl.com/yeyjvptc"
             alt="Lady at work"
           />
         </Box>

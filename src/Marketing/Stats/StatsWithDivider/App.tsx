@@ -45,7 +45,16 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
             <Button size={{ base: "lg", md: "xl" }} onClick={props.onClick}>
               무료로 내 맞춤 영양제 찾으러 가기
             </Button>
-            <Text>같은나이, 다른건강 지금 시작하세요</Text>
+            <Text
+              fontSize={{ base: "lg", md: "xl" }}
+              textDecorationLine={"underline"}
+              textDecorationThickness={"10px"}
+              textUnderlineOffset={"-2px"}
+              textDecorationColor={"#BEE3F8"}
+              textDecorationStyle={"solid"}
+            >
+              같은나이 다른건강 지금 시작하세요
+            </Text>
           </Stack>
         </Stack>
       </Container>

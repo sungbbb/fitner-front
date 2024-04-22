@@ -47,7 +47,8 @@ const Logo2 = () => (
 );
 export const testimonials = [
   {
-    avatarUrl: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
+    avatarUrl: require("../../../Assets/avartar1.jpg"),
+    // avatarUrl: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
     company: "Logoipsum",
     name: "손**",
     logo: Logo1,
@@ -56,7 +57,8 @@ export const testimonials = [
       "잘 사용하고 있어요!! 다이어트를 위해 처음 신청해봤는데 제게 필요한 성분, 안전성에 대해 자세히 소개해주시더라고요! 다이어트하면서 건강을 잃기 쉬운데 추천해주신 영양제 먹으면서 다이어트하면서도 건강해지는 게 느껴져요. 다음에는 부모님 영양제도 추가로 구매하려고요!",
   },
   {
-    avatarUrl: "https://tinyurl.com/299apdk5",
+    avatarUrl: require("../../../Assets/avartar2.jpg"),
+    // avatarUrl: "https://tinyurl.com/299apdk5",
     company: "ABC Inc",
     name: "조**",
     logo: Logo2,
@@ -65,8 +67,8 @@ export const testimonials = [
       "평소 건강에 관심이 많았는데, 보통 구매하고자하면 어떤 영양제를 사야되는지 모르겠더라고요. 1대1로 약사분과 상담하면서 제게 필요한것이 무엇인지 알게 되었네요. 추천합니다!",
   },
   {
-    avatarUrl:
-      "https://images.unsplash.com/photo-1547037579-f0fc020ac3be?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTI2fHxtYW4lMjBzbWlsaW5nfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    avatarUrl: require("../../../Assets/avartar3.jpg"),
+    // "https://images.unsplash.com/photo-1547037579-f0fc020ac3be?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTI2fHxtYW4lMjBzbWlsaW5nfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     company: "Plumtic HQ",
     name: "유**",
     logo: Logo1,

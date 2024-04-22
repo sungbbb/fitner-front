@@ -15,10 +15,11 @@ export const HeroWithImageTop = (props: any) => (
 
     <Image
       alt="Placeholder Image"
-      src="https://pro.chakra-ui.com/components/marketing/blog/post1.png"
+      src={require("../../Assets/gif.gif")}
+      // src="https://pro.chakra-ui.com/components/marketing/blog/post1.png"
       objectFit="cover"
       // objectPosition="center -140px"
-      maxH={{ base: "sm", md: "lg" }}
+      maxH={{ base: "lg", md: "xl" }}
       width="full"
     />
     <Container py={{ base: "16", md: "24" }}>

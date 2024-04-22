@@ -84,7 +84,16 @@ export const BlogWithThreeColumns = (props: { onClick: () => void }) => {
                 무료로 내 맞춤 영양제 찾으러 가기
               </Button>
             </Box>
-            <Text>영양제는 잘 골라야 합니다</Text>
+            <Text
+              fontSize={{ base: "lg", md: "xl" }}
+              textDecorationLine={"underline"}
+              textDecorationThickness={"10px"}
+              textUnderlineOffset={"-2px"}
+              textDecorationColor={"#BEE3F8"}
+              textDecorationStyle={"solid"}
+            >
+              영양제는 잘 골라야 합니다
+            </Text>
           </Stack>
 
           {/* {isMobile && <Button size="xl">Show all</Button>} */}
