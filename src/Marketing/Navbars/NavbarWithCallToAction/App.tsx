@@ -17,10 +17,10 @@ export const NavbarWithCallToAction = ({ ...props }) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
   const mobileNavbar = useDisclosure();
   return (
-    <Box as="section" position={"sticky"} top={0} zIndex="docked">
+    <Box as="section" position={"fixed"} top={0} w={"full"} zIndex="docked">
       <Box
-        borderBottomWidth="1px"
-        bg="bg.surface"
+        // borderBottomWidth="1px"
+        // bg="bg.surface"
         position="relative"
         // zIndex="tooltip"
       >
@@ -31,9 +31,9 @@ export const NavbarWithCallToAction = ({ ...props }) => {
               핏트너
             </Text> */}
             <Image
-              src={require("../../../Assets/logo.png")}
-              w={"50px"}
-              height={"50px"}
+              src={require("../../../Assets/Logo/Horizontal.png")}
+              w={"auto"}
+              height={"36px"}
               alt="logo"
             />
             <HStack spacing="8">
@@ -50,7 +50,13 @@ export const NavbarWithCallToAction = ({ ...props }) => {
                   )}
                 </ButtonGroup>
                 <Button>Sign Up</Button> */}
-              <Button size="lg" fontSize="md" onClick={props.onClick}>
+              <Button
+                borderRadius={"full"}
+                bgGradient={gradient}
+                size="lg"
+                fontSize="md"
+                onClick={props.onClick}
+              >
                 무료로 내 맞춤 영양제 찾으러 가기
               </Button>
             </HStack>
@@ -60,3 +66,5 @@ export const NavbarWithCallToAction = ({ ...props }) => {
     </Box>
   );
 };
+
+export const gradient = "linear-gradient(45deg, #015A68 0%, #319694 100%)";

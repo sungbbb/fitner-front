@@ -1,4 +1,11 @@
-import { Center, Container, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import {
+  Center,
+  Container,
+  Image,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import * as logos from "./Logos";
 
 export const LogoGridWithTitle = () => (
@@ -22,16 +29,19 @@ export const LogoGridWithTitle = () => (
             />
           </Center>
         ))} */}
-        {logos.Logotitle.map((title) => (
+        {logos.Logotitle.map(({ title, image }) => (
           <Center key={title}>
-            <Text
-              fontSize={{ base: "md", md: "xl" }}
-              fontWeight="bold"
-              color="fg.muted"
-              textAlign="center"
-            >
-              {title}
-            </Text>
+            <Stack align="center">
+              <Image src={image} alt={title} w={"64px"} h={"64px"} />
+              <Text
+                fontSize={{ base: "md", md: "xl" }}
+                fontWeight="bold"
+                color="fg.muted"
+                textAlign="center"
+              >
+                {title}
+              </Text>
+            </Stack>
           </Center>
         ))}
       </SimpleGrid>

@@ -14,9 +14,10 @@ export const Testimonial = (props: TestiomonialProps) => {
   const { avatarUrl, name, quote, title, company, logo: Logo } = props;
   return (
     <Stack
+      bgColor={"#EBFAF9"}
       spacing={{ base: "6", md: "8" }}
       flex={1}
-      border={"1px solid #d9d9d9"}
+      // border={"1px solid #d9d9d9"}
       borderRadius={"lg"}
       padding={"10"}
     >

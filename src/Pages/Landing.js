@@ -39,7 +39,7 @@ function Landing(props) {
       <Navbar onClick={() => setPopupOpen(true)} />
       <WithImageBackground onClick={() => setPopupOpen(true)} />
       <LogoGridWithTitle />
-      <HeroWithImageTop />
+      {/* <HeroWithImageTop /> */}
       <TestimonialWithRating />
       <StatsWithDivider onClick={() => setPopupOpen(true)} />
 

@@ -1,5 +1,7 @@
 // import { chakra, HTMLChakraProps } from "@chakra-ui/react";
 
+import { title } from "process";
+
 // export const Logo1 = (props: HTMLChakraProps<"svg">) => (
 //   <chakra.svg viewBox="0 0 168 41" fill="currentColor" {...props}>
 //     <path d="M49.2775 28.9524H61.2295V25.3524H53.5255V11.7924H49.2775V28.9524Z" />
@@ -138,8 +140,17 @@
 // );
 
 export const Logotitle = [
-  "내 건강상태 분석",
-  "근거중심 데이터 AI 분석",
-  "1:1 약사 상담",
-  "평생 책임 파트너",
+  {
+    title: "내 건강상태 분석",
+    image: require("../../../Assets/Icon/icon1.png"),
+  },
+  {
+    title: "근거중심 데이터 AI 분석",
+    image: require("../../../Assets/Icon/icon2.png"),
+  },
+  { title: "1:1 약사 상담", image: require("../../../Assets/Icon/icon3.png") },
+  {
+    title: "평생 책임 파트너",
+    image: require("../../../Assets/Icon/icon4.png"),
+  },
 ];
