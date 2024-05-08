@@ -4,11 +4,13 @@ import {
   Button,
   Center,
   CircularProgress,
+  CloseButton,
   Flex,
   FormControl,
   FormLabel,
   HStack,
   Heading,
+  IconButton,
   Image,
   Input,
   Link,
@@ -33,8 +35,12 @@ import { Logo } from "./Logo";
 import { SubscribeForm } from "./SubscribeForm";
 import { StepsWithCirclesAndText } from "../../../Application/ProgressSteps/StepsWithCirclesAndText/App";
 import { StepsWithCircles } from "../../../Application/ProgressSteps/StepsWithCircles/App";
-import { useEffect, useState } from "react";
-import { signAuth } from "../../../Firebase/firebase_func";
+import { useEffect, useRef, useState } from "react";
+import {
+  addDocument,
+  signAuth,
+  uploadFile,
+} from "../../../Firebase/firebase_func";
 import { auth, db } from "../../../Firebase/firebase_conf";
 import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import {
@@ -47,6 +53,9 @@ import {
   TossIcon,
 } from "../../../Assets/icons";
 import { BsCheckCircleFill } from "react-icons/bs";
+import { FiUpload, FiX } from "react-icons/fi";
+import { MdAdd } from "react-icons/md";
+import { onAuthStateChanged } from "firebase/auth";
 
 export const loginType = [
   {
@@ -91,11 +100,11 @@ export const loginType = [
   },
 ];
 export const PopupWithImage = (props: any) => {
+  const imageRef = useRef<HTMLInputElement>(null);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [step, setStep] = useState(0);
 
   const [certStep, setCertStep] = useState(0);
-
   const [formInput, setFormInput] = useState({
     organization: "0002",
     loginType: "5",
@@ -114,10 +123,10 @@ export const PopupWithImage = (props: any) => {
     organization: "0002",
     loginType: "5",
     id: auth?.currentUser?.uid + new Date().getTime().toString(),
-    identity: "19950630",
-    userName: "박수정",
+    identity: "",
+    userName: "",
     loginTypeLevel: "1",
-    phoneNo: "01091789973",
+    phoneNo: "",
     timeOut: "170",
     type: "0",
     drugImageYN: "0",
@@ -129,29 +138,68 @@ export const PopupWithImage = (props: any) => {
   const [certType, setCertType] = useState("health");
   const [healthData, setHealthData] = useState();
   const [medicineData, setMedicineData] = useState();
+  const [viewImageUpload, setViewImageUpload] = useState(false);
 
   useEffect(() => {
-    if (!auth?.currentUser?.uid) return;
-    console.log("uid", auth?.currentUser?.uid);
-    const q = query(
-      collection(db, "survey_result"),
-      where("uid", "==", auth?.currentUser?.uid)
-    );
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      let list: any[] = [];
-      querySnapshot.forEach((doc) => {
-        list.push(doc.data());
-      });
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const q = query(
+          collection(db, "survey_result"),
+          where("uid", "==", user.uid)
+        );
 
-      if (list.length > 0) {
-        setStep(1);
+        onSnapshot(q, (querySnapshot) => {
+          let list: any[] = [];
+          querySnapshot.forEach((doc) => {
+            console.log(list);
+            list.push(doc.data());
+          });
+
+          if (list.length > 0) {
+            setStep(1);
+          }
+        });
       }
     });
-
-    return () => {
-      unsubscribe();
-    };
   }, []);
+
+  useEffect(() => {
+    if (healthData && medicineData) {
+      setStep(2);
+    }
+  }, [healthData, medicineData]);
+
+  const [imageList, setImageList] = useState<any>([]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    if (files && files.length > 0) {
+      const firstFile = files[0];
+      console.log(firstFile);
+      uploadFile("medicine", firstFile).then(async (url) => {
+        setImageList([...imageList, url]);
+      });
+    }
+
+    if (imageRef.current) {
+      imageRef.current.value = "";
+    }
+  };
+
+  const handleSubmit = () => {
+    console.log(healthData, medicineData, imageList);
+
+    addDocument("codef_result", {
+      uid: auth?.currentUser?.uid,
+      health: healthData ? healthData : {},
+      medicine: medicineData ? medicineData : {},
+      image: imageList ? imageList : [],
+    }).then(async () => {
+      props.onClose();
+      setStep(0);
+    });
+  };
 
   const callCodef1 = async () => {
     console.log(auth?.currentUser?.uid);
@@ -449,9 +497,17 @@ export const PopupWithImage = (props: any) => {
                           </Button>
                         </HStack>
                       )}
-                      {step === 2 && <Button>먹는약 업로드하기</Button>}
+                      {step === 2 && (
+                        <Button onClick={() => setViewImageUpload(true)}>
+                          먹는약 업로드하기
+                        </Button>
+                      )}
                       {step === 3 && (
-                        <Button onClick={props.onClose}>
+                        <Button
+                          onClick={() => {
+                            handleSubmit();
+                          }}
+                        >
                           1:1 약사 상담하기
                         </Button>
                       )}
@@ -465,6 +521,7 @@ export const PopupWithImage = (props: any) => {
                         </Button>
                       )}
                     </Stack>
+
                     <Text
                       fontSize="sm"
                       color={useColorModeValue("gray.600", "gray.400")}
@@ -507,15 +564,22 @@ export const PopupWithImage = (props: any) => {
             {certStep !== 3 ? (
               <Stack spacing={"8"}>
                 {certStep === 0 && (
-                  <SimpleGrid gap="4" columns={{ base: 4, md: 6 }}>
+                  <SimpleGrid gap="4" columns={4}>
                     {loginType.map((type: any, index) => (
                       <Flex
-                        onClick={() =>
-                          setFormInput({
-                            ...formInput,
-                            loginTypeLevel: type.idx,
-                          })
-                        }
+                        onClick={() => {
+                          if (certType === "health") {
+                            setFormInput({
+                              ...formInput,
+                              loginTypeLevel: type.idx,
+                            });
+                          } else {
+                            setFormInput2({
+                              ...formInput2,
+                              loginTypeLevel: type.idx,
+                            });
+                          }
+                        }}
                         cursor={"pointer"}
                         aspectRatio={1}
                         border={"4px solid"}
@@ -551,12 +615,19 @@ export const PopupWithImage = (props: any) => {
                     <FormControl isRequired>
                       <FormLabel>이름</FormLabel>
                       <Input
-                        onChange={(e) =>
-                          setFormInput({
-                            ...formInput,
-                            userName: e.target.value,
-                          })
-                        }
+                        onChange={(e) => {
+                          if (certType === "health") {
+                            setFormInput({
+                              ...formInput,
+                              userName: e.target.value,
+                            });
+                          } else {
+                            setFormInput2({
+                              ...formInput2,
+                              userName: e.target.value,
+                            });
+                          }
+                        }}
                         focusBorderColor="teal"
                         placeholder="홍길동"
                       />
@@ -564,12 +635,20 @@ export const PopupWithImage = (props: any) => {
                     <FormControl isRequired>
                       <FormLabel>생년월일</FormLabel>
                       <Input
-                        onChange={(e) =>
-                          setFormInput({
-                            ...formInput,
-                            identity: e.target.value,
-                          })
-                        }
+                        type="number"
+                        onChange={(e) => {
+                          if (certType === "health") {
+                            setFormInput({
+                              ...formInput,
+                              identity: e.target.value,
+                            });
+                          } else {
+                            setFormInput2({
+                              ...formInput2,
+                              identity: e.target.value,
+                            });
+                          }
+                        }}
                         focusBorderColor="teal"
                         placeholder="YYYY/MM/DD"
                       />
@@ -577,12 +656,20 @@ export const PopupWithImage = (props: any) => {
                     <FormControl isRequired>
                       <FormLabel>휴대폰번호</FormLabel>
                       <Input
-                        onChange={(e) =>
-                          setFormInput({
-                            ...formInput,
-                            phoneNo: e.target.value,
-                          })
-                        }
+                        type="number"
+                        onChange={(e) => {
+                          if (certType === "health") {
+                            setFormInput({
+                              ...formInput,
+                              phoneNo: e.target.value,
+                            });
+                          } else {
+                            setFormInput2({
+                              ...formInput2,
+                              phoneNo: e.target.value,
+                            });
+                          }
+                        }}
                         focusBorderColor="teal"
                         placeholder="01012341234"
                       />
@@ -602,7 +689,7 @@ export const PopupWithImage = (props: any) => {
                 )}
               </Stack>
             ) : (
-              <Center h={"xl"}>
+              <Center h={{ base: "xl", md: "100px" }}>
                 <VStack>
                   <Text>정보 조회중....</Text>
                   <CircularProgress isIndeterminate color="teal.300" />
@@ -642,6 +729,85 @@ export const PopupWithImage = (props: any) => {
               }}
             >
               {certStep === 0 ? "다음" : certStep === 1 ? "확인" : "인증완료"}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal
+        size={{ base: "full", md: "md" }}
+        isCentered
+        isOpen={step === 2 && viewImageUpload}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <Stack>
+              <Text>지금 드시는 약의 사진을 업로드 해주세요.</Text>
+              <Text fontSize="sm" color="gray.500" fontWeight={"light"}>
+                사진은 성분명이 잘 나오도록 올려주세요.
+              </Text>
+            </Stack>
+          </ModalHeader>
+
+          <ModalCloseButton />
+          <ModalBody>
+            <SimpleGrid columns={{ base: 2, md: 3 }} gap={2}>
+              {imageList.map((url: any) => (
+                <Box key={url} aspectRatio={1}>
+                  <IconButton
+                    aria-label=""
+                    icon={<FiX />}
+                    position={"absolute"}
+                    mt={2}
+                    ml={2}
+                    variant={"solid"}
+                    colorScheme={"gray"}
+                    size={"sm"}
+                    zIndex={9999}
+                    onClick={() =>
+                      setImageList(imageList.filter((i: any) => i !== url))
+                    }
+                  />
+                  <AspectRatio key={url} ratio={1} cursor={"pointer"}>
+                    <Image
+                      src={url}
+                      objectFit="cover"
+                      rounded={"lg"}
+                      fallback={<Skeleton />}
+                    />
+                  </AspectRatio>
+                </Box>
+              ))}
+              <Center
+                cursor={"pointer"}
+                onClick={() => imageRef.current?.click()}
+                aspectRatio={1}
+                border={"3px dashed #d9d9d9"}
+                borderRadius={"lg"}
+              >
+                <MdAdd fontSize="100px" color="#d9d9d9" />
+                <Input
+                  type="file"
+                  display={"none"}
+                  ref={imageRef}
+                  accept="image/*"
+                  onChange={handleChange}
+                />
+              </Center>
+            </SimpleGrid>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              w={"full"}
+              colorScheme="teal"
+              onClick={() => {
+                setStep(step + 1);
+                onClose();
+              }}
+            >
+              완료
             </Button>
           </ModalFooter>
         </ModalContent>

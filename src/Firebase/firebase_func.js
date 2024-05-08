@@ -8,8 +8,9 @@ import {
   deleteDoc,
   orderBy,
 } from "firebase/firestore";
-import { auth, db } from "./firebase_conf";
+import { auth, db, storage } from "./firebase_conf";
 import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 export const getAllDoc = async (collectionName) => {
   const q = query(collection(db, collectionName), orderBy("index", "asc"));
   const docs = [];
@@ -51,3 +52,11 @@ onAuthStateChanged(auth, (user) => {
     signAuth();
   }
 });
+
+export const uploadFile = async (dir, file) => {
+  console.log(file);
+  const storageRef = ref(storage, dir + "/" + file.name);
+  const snapshot = await uploadBytes(storageRef, file);
+  const downloadURL = await getDownloadURL(snapshot.ref);
+  return downloadURL;
+};

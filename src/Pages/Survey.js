@@ -33,19 +33,23 @@ function Survey(props) {
     console.log("submitted", auth.currentUser.uid);
     e.preventDefault();
 
-    for (let i = 0; i < survey.length; i++) {
-      if (survey[i].required && !survey[i].answer) {
-        alert(survey[i].question);
-        setIndex(i);
-        return;
-      }
+    // for (let i = 0; i < survey.length; i++) {
+    //   if (survey[i].required && !survey[i].answer) {
+    //     alert(survey[i].question);
+    //     setIndex(i);
+    //     return;
+    //   }
 
-      if (!survey[i].required) {
-        survey[i].answer = "";
-      }
-    }
+    //   if (!survey[i].required) {
+    //     survey[i].answer = "";
+    //   }
+    // }
 
-    addDocument("survey_result", { uid: auth.currentUser.uid, answer: survey })
+    addDocument("survey_result", {
+      uid: auth.currentUser.uid,
+      answer: survey,
+      createdAt: new Date(),
+    })
       .then((data) => {
         console.log(data, " 설문이 제출되었습니다!");
         alert("설문이 제출되었습니다.");
