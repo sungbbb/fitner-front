@@ -27,20 +27,24 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
           <Heading size={{ base: "sm", md: "md" }} fontWeight={"extrabold"}>
             고객 만족도
           </Heading>
-          <Stack
-            direction={{ base: "column", md: "row" }}
-            width="full"
-            spacing={{ base: "8", md: "4" }}
-            bgColor={"#f8fafa"}
-            p={{ base: "6", md: "10" }}
-            rounded={8000}
-            {...(!isMobile ? { divider: <StackDivider /> } : {})}
-          >
-            {stats.map((stat, id) => (
-              <Stat key={id} flex="1" {...stat} />
-            ))}
+          <Stack w={{ base: "none", md: "full" }}>
+            <Stack
+              direction={{ base: "column", md: "row" }}
+              width="full"
+              spacing={{ base: "8", md: "4" }}
+              bgColor={"#f8fafa"}
+              p={{ base: "20", md: "10" }}
+              rounded={8000}
+              {...(!isMobile
+                ? { divider: <StackDivider /> }
+                : { divider: <StackDivider /> })}
+            >
+              {stats.map((stat, id) => (
+                <Stat key={id} flex="1" {...stat} />
+              ))}
+            </Stack>
           </Stack>
-          <Stack direction={{ base: "column", md: "row" }} my="2" spacing="4">
+          <Stack>
             <Button
               // colorScheme="blue"
               px="8"

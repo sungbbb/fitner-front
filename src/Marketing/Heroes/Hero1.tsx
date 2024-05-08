@@ -1,4 +1,5 @@
 import {
+  AspectRatio,
   Badge,
   Box,
   Button,
@@ -29,7 +30,7 @@ export const eightSecrets = [
     description:
       "SCI 논문 기반 설문과 건강검진 자료 분석으로 여러분의 정확한 건강상태를 정밀 진단합니다. 현재 복용하는 약물과 질환정보까지 꼭 확인합니다.",
     // icon: require("../../Assets/Icon/buttonicon1.png"),
-    image: require("../../Assets/Image/illust.png"),
+    image: require("../../Assets/Image/secret1.jpg"),
   },
   {
     id: 2,
@@ -37,6 +38,7 @@ export const eightSecrets = [
     description:
       "고객 맞춤 데이터, AI 분석 기술, 약사모니터링을 통해 당신에게 꼭 필요한 성분과 꼭 필요한 양을 분석합니다.",
     icon: require("../../Assets/Icon/buttonicon2.png"),
+    image: require("../../Assets/Image/secret2.jpg"),
   },
   {
     id: 3,
@@ -44,6 +46,7 @@ export const eightSecrets = [
     description:
       "분석 결과를 바탕으로 약사가 1대1 상담을 통해 고객에게 가장 이상적인 맞춤 영양제를 찾아냅니다.",
     icon: require("../../Assets/Icon/buttonicon3.png"),
+    image: require("../../Assets/Image/secret3.jpg"),
   },
   {
     id: 4,
@@ -51,6 +54,7 @@ export const eightSecrets = [
     description:
       "핏트너가 엄선한 영양제를 배송해드립니다. 복용법과 주의사항에 대한 자세한 설명도 함께 제공됩니다.",
     icon: require("../../Assets/Icon/buttonicon4.png"),
+    image: require("../../Assets/Image/secret4.jpg"),
   },
   {
     id: 5,
@@ -58,6 +62,7 @@ export const eightSecrets = [
     description:
       "핏트너의 서비스는 여기서 끝나지 않습니다. 주기적인 상담과 건강상태 피드백을 바탕으로 처방을 수정 및 발전시켜 나갑니다.",
     icon: require("../../Assets/Icon/buttonicon5.png"),
+    image: require("../../Assets/Image/secret5.jpg"),
   },
   {
     id: 6,
@@ -65,6 +70,7 @@ export const eightSecrets = [
     description:
       "고객 개개인의 정확한 데이터와 전문가 피드백을 지속 반영하여, 가장 완벽한 영양제 조합을 제공해 나갑니다.",
     icon: require("../../Assets/Icon/buttonicon6.png"),
+    image: require("../../Assets/Image/secret6.jpg"),
   },
   {
     id: 7,
@@ -72,6 +78,7 @@ export const eightSecrets = [
     description:
       "영양제뿐 아니라 운동, 식단, 생활습관 등 건강한 삶을 위한 라이프스타일을 만들어갑니다.",
     icon: require("../../Assets/Icon/buttonicon7.png"),
+    image: require("../../Assets/Image/secret7.jpg"),
   },
   {
     id: 8,
@@ -79,6 +86,7 @@ export const eightSecrets = [
     description:
       "핏트너의 완벽한 8단계 솔루션을 따라가면, 고객 여러분의 건강은 과거와 결별하고 새로운 차원으로 바뀔 수밖에 없습니다.",
     icon: require("../../Assets/Icon/buttonicon8.png"),
+    image: require("../../Assets/Image/secret8.jpg"),
   },
 ];
 
@@ -93,7 +101,11 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
         alignItems={"center"}
         spacing={{ base: "8", md: "12" }}
       >
-        <Heading size={{ base: "sm", md: "md" }} fontWeight="extrabold">
+        <Heading
+          size={{ base: "sm", md: "md" }}
+          fontWeight="extrabold"
+          textAlign={"center"}
+        >
           핏트너가 당신의 건강을 바꾸는 8단계 비밀
         </Heading>
         <Container>
@@ -126,6 +138,8 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
                       justify={"flex-start"}
                       gap={3}
                       align={"center"}
+                      fontSize={"xl"}
+                      fontWeight={"semibold"}
                     >
                       {<Image src={item.icon} />}
                       {item.title}
@@ -139,6 +153,7 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
                   <Tab
                     key={id}
                     borderRadius={"3xl"}
+                    fontSize={"sm"}
                     onClick={() => setSelected(item.id)}
                     bgColor={seleted === item.id ? "#004A56" : "gray.100"}
                     color={seleted === item.id ? "white" : "black"}
@@ -149,17 +164,18 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
               </TabList>
             )}
 
-            <TabPanels>
+            <TabPanels h={{ base: "auto", md: 608 }}>
               {eightSecrets.map((item, id) => (
                 <TabPanel key={id} p={0}>
-                  <Stack spacing={4} justify={"space-between"}>
-                    <Box w={"full"} bgColor={"gray"} borderRadius={"lg"}>
+                  <Stack spacing={4}>
+                    <AspectRatio ratio={16 / 10}>
                       <Image
-                        w={"full"}
+                        borderRadius={"xl"}
+                        h={"full"}
                         src={item.image}
-                        objectFit={"contain"}
+                        objectFit={"cover"}
                       />
-                    </Box>
+                    </AspectRatio>
                     <Box>
                       <Flex py={3} align={"center"} gap={3}>
                         <Image src={item.icon} />
@@ -170,8 +186,9 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
                           {item.title}
                         </Text>
                       </Flex>
-
-                      <Text>{item.description}</Text>
+                      <Text fontSize={{ base: "sm", md: "md" }}>
+                        {item.description}
+                      </Text>
                     </Box>
                   </Stack>
                 </TabPanel>
@@ -181,6 +198,7 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
           <Stack
             direction={{ base: "column", md: "row" }}
             justify={"center"}
+            mx={"16"}
             my="10"
             spacing="4"
           >

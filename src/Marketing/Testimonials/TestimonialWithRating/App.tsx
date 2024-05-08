@@ -1,6 +1,16 @@
-import { Box, Container, HStack, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Circle,
+  Container,
+  HStack,
+  Icon,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { testimonials } from "./data";
 import { Testimonial } from "./Testimonial";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export const TestimonialWithRating = () => (
   <Box as="section" py={{ base: "16", md: "24" }}>
@@ -25,14 +35,42 @@ export const TestimonialWithRating = () => (
       </Text>
     </Stack>
     <Container>
-      <Stack
-        direction={{ base: "column", lg: "row" }}
-        align={{ base: "center", lg: "stretch" }}
-        spacing="16"
-      >
-        {testimonials.map((testimonial, id) => (
-          <Testimonial key={id} {...testimonial} />
-        ))}
+      <HStack spacing={4}>
+        <Circle
+          bgColor={"white"}
+          size="12"
+          display={{ base: "none", lg: "flex" }}
+        >
+          <FaChevronLeft color="#015A68" />
+        </Circle>
+        <Stack
+          direction={{ base: "column", lg: "row" }}
+          align={{ base: "center", lg: "stretch" }}
+          spacing="16"
+        >
+          {testimonials.map((testimonial, id) => (
+            <Testimonial key={id} {...testimonial} />
+          ))}
+        </Stack>
+        <Circle
+          bgColor={"white"}
+          size="12"
+          display={{ base: "none", lg: "flex" }}
+        >
+          <FaChevronRight color="#015A68" />
+        </Circle>
+      </HStack>
+      <Stack my={10} align={"center"}>
+        <Button
+          size={"lg"}
+          rounded="full"
+          variant={"outline"}
+          px={16}
+          colorScheme="gray"
+          bgColor={"white"}
+        >
+          더보기
+        </Button>
       </Stack>
     </Container>
   </Box>

@@ -53,8 +53,8 @@ export const NavbarWithCallToAction = ({ ...props }) => {
               <Button
                 borderRadius={"full"}
                 bgGradient={gradient}
-                size="lg"
-                fontSize="md"
+                size={{ base: "md", md: "lg" }}
+                fontSize={{ base: "sm", md: "md" }}
                 onClick={props.onClick}
               >
                 무료로 내 맞춤 영양제 찾으러 가기

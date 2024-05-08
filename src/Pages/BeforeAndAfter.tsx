@@ -1,9 +1,11 @@
 import {
   AspectRatio,
+  Box,
   Card,
   CardBody,
   Center,
   Container,
+  HStack,
   Heading,
   Icon,
   Image,
@@ -12,12 +14,13 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { FaCheckCircle } from "react-icons/fa";
 import { MdArrowDownward, MdArrowForward } from "react-icons/md";
 
 export const BeforeAndAfter = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
-    <Container py={{ base: "16", md: "24" }}>
+    <Container py={{ base: "16", md: "24" }} px={{ base: "0", md: "12" }}>
       <Center w={"full"} h={{ base: "auto", md: "full" }}>
         <Stack
           w={"full"}
@@ -31,111 +34,168 @@ export const BeforeAndAfter = () => {
           <SimpleGrid
             columns={{ base: 1, md: 2 }}
             gap={0}
-            h={300}
+            w={"full"}
             borderRadius={"2xl"}
           >
-            <Stack overflow={"hidden"} h={{ base: "auto", md: "full" }}>
-              <Image
-                src={require("../Assets/Image/beforeImage.jpg")}
-                objectFit={"cover"}
-                alt="before"
-                borderLeftRadius={"2xl"}
-              />
-              <Card w={"full"} p={{ base: "4", md: "8" }} opacity={0.6}>
-                <CardBody>
-                  <Stack>
-                    <Text>핏트너 사용전</Text>
-
-                    <Text>광고, 지인소개로 영양제 섭취</Text>
-                    <Text>부작용, 독성에 노출</Text>
-                    <Text>언제까지 얼마나 섭취해야하는지 기준 없음</Text>
-                    <Text>생활습관 교정 어려움</Text>
-                    <Text>원하는 효과, 건강증진 어려움</Text>
-                    <Text>불안감</Text>
-                  </Stack>
-                </CardBody>
-              </Card>
-            </Stack>
-            <Stack overflow={"hidden"} h={{ base: "auto", md: "full" }}>
-              <Image
-                src={require("../Assets/Image/afterImage.jpg")}
-                objectFit={"cover"}
-                alt="after"
-                borderRightRadius={"2xl"}
-              />
-              <Card w={"full"} p={{ base: "4", md: "8" }} opacity={0.6}>
-                <CardBody>
-                  <Stack>
-                    <Text>핏트너 사용후</Text>
-
-                    <Text>확실한 근거 꼭 필요한 영양제 섭취</Text>
-                    <Text>부작용과 독성 관리</Text>
-                    <Text>영양제 섭취에 대한 정확한 가이드라인</Text>
-                    <Text>일대일 전담 생활습관 코칭</Text>
-                    <Text>원하는 효과 달성 확실한 건강증진</Text>
-                    <Text>건강을 관리받는 안도감</Text>
-                  </Stack>
-                </CardBody>
-              </Card>
-            </Stack>
+            <Box
+              borderLeftRadius={{ base: "none", md: "2xl" }}
+              bgSize={"cover"}
+              bgPosition={"center"}
+              bgRepeat={"no-repeat"}
+              bgImage={require("../Assets/Image/beforeImage.jpg")}
+            >
+              <Stack
+                direction={{ base: "column", md: "row" }}
+                justify={"space-between"}
+                px={8}
+                py={6}
+                h={{ base: "auto", md: "full" }}
+              >
+                <Box h={{ base: "120px", md: "full" }} />
+                <Card
+                  borderRadius={"2xl"}
+                  h={{ base: "auto", md: "full" }}
+                  // filter="blur(1px)"
+                  style={{ backdropFilter: "blur(5px)" }}
+                  bgColor={"rgba(255,255,255,0.5)"}
+                >
+                  <CardBody opacity={1}>
+                    <Stack spacing={4}>
+                      <Text
+                        fontSize={{ base: "xl", md: "2xl" }}
+                        fontWeight={"bold"}
+                        textAlign={{ base: "left", md: "center" }}
+                        my={"4"}
+                      >
+                        핏트너 사용전
+                      </Text>
+                      <Text>광고, 지인소개로 영양제 섭취</Text>
+                      <Text>부작용, 독성에 노출</Text>
+                      <Text>언제까지 얼마나 섭취해야하는지 기준 없음</Text>
+                      <Text>생활습관 교정 어려움</Text>
+                      <Text>원하는 효과, 건강증진 어려움</Text>
+                      <Text>불안감</Text>
+                    </Stack>
+                  </CardBody>
+                </Card>
+              </Stack>
+              {!isMobile ? (
+                <Box position={"relative"}>
+                  <Image
+                    position={"absolute"}
+                    bottom={150}
+                    right={-4}
+                    transform="rotate(-90deg)"
+                    src={require("../Assets/Icon/downArrow.png")}
+                  />
+                </Box>
+              ) : (
+                <Box position={"relative"}>
+                  <Image
+                    position={"absolute"}
+                    top={-4}
+                    right={"50%"}
+                    src={require("../Assets/Icon/downArrow.png")}
+                  />
+                </Box>
+              )}
+            </Box>
+            <Box
+              borderRightRadius={{ base: "none", md: "2xl" }}
+              bgSize={"cover"}
+              bgPosition={"center"}
+              bgRepeat={"no-repeat"}
+              bgImage={require("../Assets/Image/afterImage.jpg")}
+            >
+              <Stack
+                direction={{ base: "column", md: "row" }}
+                justify={"space-between"}
+                px={8}
+                py={6}
+              >
+                <Card
+                  borderRadius={"2xl"}
+                  h={{ base: "auto", md: "full" }}
+                  style={{ backdropFilter: "blur(5px)" }}
+                  bgColor={"rgba(255,255,255,0.5)"}
+                >
+                  <CardBody opacity={1}>
+                    <Stack spacing={4}>
+                      <Text
+                        fontSize={{ base: "xl", md: "2xl" }}
+                        fontWeight={"bold"}
+                        textAlign={{ base: "left", md: "center" }}
+                        my={"4"}
+                      >
+                        핏트너 사용후
+                      </Text>
+                      <HStack>
+                        <Icon
+                          fontSize={22}
+                          as={FaCheckCircle}
+                          color={"#27494E"}
+                        />
+                        <Text>
+                          확실한 근거 꼭 <strong>필요한 영양제 섭취</strong>
+                        </Text>
+                      </HStack>
+                      <HStack>
+                        <Icon
+                          fontSize={22}
+                          as={FaCheckCircle}
+                          color={"#27494E"}
+                        />
+                        <Text fontWeight={"bold"}>부작용과 독성 관리</Text>
+                      </HStack>
+                      <HStack>
+                        <Icon
+                          fontSize={22}
+                          as={FaCheckCircle}
+                          color={"#27494E"}
+                        />
+                        <Text>
+                          영양제 섭취에 대한 <strong>정확한 가이드라인</strong>
+                        </Text>
+                      </HStack>
+                      <HStack>
+                        <Icon
+                          fontSize={22}
+                          as={FaCheckCircle}
+                          color={"#27494E"}
+                        />
+                        <Text>
+                          일대일 전담 <strong>생활습관 코칭</strong>
+                        </Text>
+                      </HStack>
+                      <HStack>
+                        <Icon
+                          fontSize={22}
+                          as={FaCheckCircle}
+                          color={"#27494E"}
+                        />
+                        <Text>
+                          원하는 효과 달성 / 확실한 <strong>건강증진</strong>
+                        </Text>
+                      </HStack>
+                      <HStack>
+                        <Icon
+                          fontSize={22}
+                          as={FaCheckCircle}
+                          color={"#27494E"}
+                        />
+                        <Text>
+                          건강을 관리받는 <strong>안도감</strong>
+                        </Text>
+                      </HStack>
+                    </Stack>
+                  </CardBody>
+                </Card>
+                <Box h={{ base: "120px", md: "full" }} />
+              </Stack>
+            </Box>
           </SimpleGrid>
         </Stack>
       </Center>
     </Container>
   );
 };
-
-{
-  /* 
-<Card w={"full"} p={{ base: "4", md: "8" }}>
-              <CardBody>
-                <Stack
-                  spacing={{ base: "4", md: "6" }}
-                  opacity={0.6}
-                  fontSize={{ base: "sm", md: "md" }}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                >
-                  <Text>핏트너 사용전</Text>
-
-                  <Text>광고, 지인소개로 영양제 섭취</Text>
-                  <Text>부작용, 독성에 노출</Text>
-                  <Text>언제까지 얼마나 섭취해야하는지 기준 없음</Text>
-                  <Text>생활습관 교정 어려움</Text>
-                  <Text>원하는 효과, 건강증진 어려움</Text>
-                  <Text>불안감</Text>
-                </Stack>
-              </CardBody>
-            </Card>
-            <Card w={"full"} p={{ base: "4", md: "8" }}>
-              <CardBody>
-                <Stack
-                  spacing={{ base: "4", md: "6" }}
-                  fontSize={{ base: "md", md: "lg" }}
-                  fontWeight={"bold"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                >
-                  <Text
-                    fontSize={{ base: "lg", md: "xl" }}
-                    textDecorationLine={"underline"}
-                    textDecorationThickness={"10px"}
-                    textUnderlineOffset={"-2px"}
-                    textDecorationColor={"#BEE3F8"}
-                    textDecorationStyle={"solid"}
-                    color={"accent"}
-                  >
-                    핏트너 사용후
-                  </Text>
-
-                  <Text>확실한 근거 꼭 필요한 영양제 섭취</Text>
-                  <Text>부작용과 독성 관리</Text>
-                  <Text>영양제 섭취에 대한 정확한 가이드라인</Text>
-                  <Text>일대일 전담 생활습관 코칭</Text>
-                  <Text>원하는 효과 달성 확실한 건강증진</Text>
-                  <Text>건강을 관리받는 안도감</Text>
-                </Stack>
-              </CardBody>
-            </Card>
-*/
-}

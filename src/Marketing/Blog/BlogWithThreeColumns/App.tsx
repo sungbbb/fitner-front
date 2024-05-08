@@ -14,90 +14,96 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { posts } from "./data";
+import { MdArrowForward } from "react-icons/md";
+import { gradient } from "../../Navbars/NavbarWithCallToAction/App";
 
 export const BlogWithThreeColumns = (props: { onClick: () => void }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <Box bg="bg.surface">
       <Container py={{ base: "16", md: "24" }}>
-        <Stack spacing={{ base: "12", md: "16" }}>
-          <Stack direction="row" justify="space-between">
-            <Stack spacing={{ base: "4", md: "5" }}>
-              <Stack spacing="3">
-                {/* <Text
-                  color="accent"
-                  fontWeight="semibold"
-                  fontSize={{ base: "sm", md: "md" }}
-                >
-                  Our Blog
-                </Text> */}
-                <Heading size={{ base: "sm", md: "md" }} fontWeight="extrabold">
-                  핏트너와 함께라면 당신의 인생은 이렇게 바뀝니다
-                </Heading>
-              </Stack>
-              {/* <Text color="fg.muted" fontSize={{ base: "lg", md: "xl" }}>
-                Ice cream pudding dragée macaroon donut marzipan chocolate
-              </Text> */}
-            </Stack>
-
-            {/* {!isMobile && <Button size="xl">Show all</Button>} */}
-          </Stack>
-          <SimpleGrid
-            columns={{ base: 1, md: 2, lg: 3 }}
-            gap={{ base: "12", lg: "8" }}
-          >
-            {posts.map((post) => (
-              <Link key={post.id} _hover={{ textDecor: "none" }} role="group">
-                <Stack spacing="8">
-                  <Box overflow="hidden">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      width="full"
-                      height="15rem"
-                      objectFit="cover"
-                      transition="all 0.2s"
-                      _groupHover={{ transform: "scale(1.05)" }}
-                    />
-                  </Box>
-                  <Stack spacing="3">
-                    {/* <Text fontSize="sm" fontWeight="semibold" color="accent">
-                      {post.category}
-                    </Text> */}
-                    <Heading size="xs">{post.title}</Heading>
-                    <Text color="fg.muted">{post.excerpt}</Text>
-                  </Stack>
-                  {/* <HStack>
-                    <Avatar src={post.author.avatarUrl} boxSize="10" />
-                    <Box fontSize="sm">
-                      <Text fontWeight="medium">{post.author.name}</Text>
-                      <Text color="fg.muted">{post.publishedAt}</Text>
-                    </Box>
-                  </HStack> */}
-                </Stack>
-              </Link>
-            ))}
-          </SimpleGrid>
-          <Stack my="2" spacing="4" align={"center"}>
-            <Box>
-              <Button size="lg" fontSize="md" onClick={props.onClick}>
-                무료로 내 맞춤 영양제 찾으러 가기
-              </Button>
-            </Box>
-            <Text
-              fontSize={{ base: "lg", md: "xl" }}
-              textDecorationLine={"underline"}
-              textDecorationThickness={"10px"}
-              textUnderlineOffset={"-2px"}
-              textDecorationColor={"#BEE3F8"}
-              textDecorationStyle={"solid"}
+        {!isMobile ? (
+          <Stack>
+            <Center>
+              <Image
+                w={800}
+                src={require("../../../Assets/Image/myLife.jpg")}
+              />
+            </Center>
+            <Stack
+              direction={{ base: "column", md: "row" }}
+              justify={"center"}
+              my="10"
+              spacing="4"
             >
-              영양제는 잘 골라야 합니다
-            </Text>
+              <Button
+                // colorScheme="blue"
+                px="8"
+                rounded="full"
+                size="lg"
+                fontSize="md"
+                fontWeight="bold"
+                onClick={props.onClick}
+                rightIcon={<MdArrowForward />}
+                bgGradient={gradient}
+              >
+                나에게 꼭 맞는 영양제 찾기
+              </Button>
+            </Stack>
           </Stack>
-
-          {/* {isMobile && <Button size="xl">Show all</Button>} */}
-        </Stack>
+        ) : (
+          <Stack align={"center"} spacing={0}>
+            <Box px={"auto"}>
+              <Text fontSize={"md"} fontWeight={"semibold"} py={2}>
+                고민할 필요가 없는 최적의 영양제
+              </Text>
+              <Text fontSize={"sm"}>
+                핏트너는 당신의 건강상태, 먹는 약, 원하는 효과,
+                <br />
+                생활습관 뿐만 아니라 유전자와 마이크로바이옴까지
+                <br />
+                종합적으로 분석하여 의학적 근거에 기반한
+                <br />
+                최적의 영양제를 추천해 드립니다.
+              </Text>
+            </Box>
+            <Image src={require("../../../Assets/Image/mobileMyLIfe.jpg")} />
+            <HStack justify={"space-between"} mt={-8}>
+              <Box flex={1}>
+                <Text fontSize={"md"} fontWeight={"semibold"} py={2}>
+                  당신만의 주치 약사가 생깁니다.
+                </Text>
+                <Text fontSize={"sm"}>
+                  약을 먹는 분들께는 전문 약사가 1:1로 관리해 드리므로 부작용을
+                  최소화하고 효과를 극대화할 수 있습니다.
+                </Text>
+              </Box>
+              <Box flex={1} textAlign={"right"}>
+                <Text fontSize={"md"} fontWeight={"semibold"} py={2}>
+                  하루하루 더 건강해지는 삶
+                </Text>
+                <Text fontSize={"sm"}>
+                  우리 몸이 필요로 하는 영양소를 골고루 섭취하고, 건강한 생활
+                  습관을 실천하면서 전문가의 코칭을 받는다면 어제보다 더
+                  건강해질 수밖에 없습니다.
+                </Text>
+              </Box>
+            </HStack>
+            <Stack direction={{ base: "column", md: "row" }} my="10">
+              <Button
+                rounded="full"
+                size="lg"
+                fontSize="md"
+                fontWeight="bold"
+                onClick={props.onClick}
+                rightIcon={<MdArrowForward />}
+                bgGradient={gradient}
+              >
+                나에게 꼭 맞는 영양제 찾기
+              </Button>
+            </Stack>
+          </Stack>
+        )}
       </Container>
     </Box>
   );

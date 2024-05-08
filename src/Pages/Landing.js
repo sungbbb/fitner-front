@@ -21,9 +21,16 @@ function Landing(props) {
     <LayoutWithFullContentHeight>
       <Navbar onClick={() => setPopupOpen(true)} />
       <WithImageBackground onClick={() => setPopupOpen(true)} />
-      <LogoGridWithTitle />
+      <Box
+        bgImage={require("../Assets/Image/reviewbackground.png")}
+        bgSize={"cover"}
+        bgRepeat={"no-repeat"}
+        bgPosition={"start"}
+      >
+        <LogoGridWithTitle />
+        <TestimonialWithRating />
+      </Box>
       {/* <HeroWithImageTop /> */}
-      <TestimonialWithRating />
       <StatsWithDivider onClick={() => setPopupOpen(true)} />
       <Box bgColor={"white"}>
         <HeroWithImage onClick={() => setPopupOpen(true)} />
@@ -34,7 +41,7 @@ function Landing(props) {
       <HeroWithCropedImage onClick={() => setPopupOpen(true)} />
       <BeforeAndAfter />
       <BlogWithThreeColumns onClick={() => setPopupOpen(true)} />
-      <Features />
+      <Features onClick={() => setPopupOpen(true)} />
       <CTA1 onClick={() => setPopupOpen(true)} />
       <PopupWithImage isOpen={popupOpen} onClose={() => setPopupOpen(false)} />
     </LayoutWithFullContentHeight>
