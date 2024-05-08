@@ -7,4 +7,8 @@ export const stats = [
     value: '97%',
     label: '재구매율',
   },
+  {
+    value: '50만+',
+    label: '누적 사용자수',
+  }
 ]

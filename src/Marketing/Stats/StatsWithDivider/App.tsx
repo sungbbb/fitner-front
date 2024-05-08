@@ -9,8 +9,10 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { MdArrowForward } from "react-icons/md";
 import { Stat } from "./Stat";
 import { stats } from "./data";
+import { gradient } from "../../Navbars/NavbarWithCallToAction/App";
 
 export const StatsWithDivider = (props: { onClick: () => void }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -27,34 +29,31 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
           </Heading>
           <Stack
             direction={{ base: "column", md: "row" }}
-            maxW="3xl"
             width="full"
             spacing={{ base: "8", md: "4" }}
+            bgColor={"#f8fafa"}
+            p={{ base: "6", md: "10" }}
+            rounded={8000}
             {...(!isMobile ? { divider: <StackDivider /> } : {})}
           >
             {stats.map((stat, id) => (
               <Stat key={id} flex="1" {...stat} />
             ))}
           </Stack>
-          <Stack
-            spacing={{ base: "4", md: "5" }}
-            fontSize={{ md: "lg" }}
-            color="fg.muted"
-            maxW="3xl"
-          >
-            <Button size={{ base: "lg", md: "xl" }} onClick={props.onClick}>
-              무료로 내 맞춤 영양제 찾으러 가기
-            </Button>
-            <Text
-              fontSize={{ base: "lg", md: "xl" }}
-              textDecorationLine={"underline"}
-              textDecorationThickness={"10px"}
-              textUnderlineOffset={"-2px"}
-              textDecorationColor={"#BEE3F8"}
-              textDecorationStyle={"solid"}
+          <Stack direction={{ base: "column", md: "row" }} my="2" spacing="4">
+            <Button
+              // colorScheme="blue"
+              px="8"
+              rounded="full"
+              size="lg"
+              fontSize="md"
+              fontWeight="bold"
+              onClick={props.onClick}
+              rightIcon={<MdArrowForward />}
+              bgGradient={gradient}
             >
-              같은나이 다른건강 지금 시작하세요
-            </Text>
+              나에게 꼭 맞는 영양제 찾기
+            </Button>
           </Stack>
         </Stack>
       </Container>
