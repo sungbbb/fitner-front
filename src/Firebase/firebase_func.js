@@ -8,7 +8,8 @@ import {
   deleteDoc,
   orderBy,
 } from "firebase/firestore";
-import { db } from "./firebase_conf";
+import { auth, db } from "./firebase_conf";
+import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
 export const getAllDoc = async (collectionName) => {
   const q = query(collection(db, collectionName), orderBy("index", "asc"));
   const docs = [];
@@ -20,6 +21,33 @@ export const getAllDoc = async (collectionName) => {
 };
 
 export const addDocument = async (collectionName, data) => {
+  console.log(data);
   const docRef = await addDoc(collection(db, collectionName), data);
   return docRef.id;
 };
+
+export const signAuth = async () => {
+  signInAnonymously(auth)
+    .then(() => {
+      // Signed in..
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ...
+    });
+};
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    console.log(uid);
+    // ...
+  } else {
+    // User is signed out
+    // ...
+    signAuth();
+  }
+});

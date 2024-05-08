@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
+import { auth } from "../Firebase/firebase_conf";
 
 function Survey(props) {
   const [survey, setSurvey] = React.useState([]);
@@ -29,7 +30,7 @@ function Survey(props) {
   }, []);
 
   const onSubmit = (e) => {
-    console.log("submitted");
+    console.log("submitted", auth.currentUser.uid);
     e.preventDefault();
 
     for (let i = 0; i < survey.length; i++) {
@@ -44,7 +45,7 @@ function Survey(props) {
       }
     }
 
-    addDocument("survey_result", survey)
+    addDocument("survey_result", { uid: auth.currentUser.uid, answer: survey })
       .then((data) => {
         console.log(data, " 설문이 제출되었습니다!");
         alert("설문이 제출되었습니다.");
@@ -59,7 +60,7 @@ function Survey(props) {
     survey[index].answer = value;
     setSurvey([...survey]);
 
-    console.log(survey[index]);
+    // console.log(survey[index]);
   };
   return (
     <Container
