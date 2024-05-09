@@ -21,10 +21,26 @@ export const getAllDoc = async (collectionName) => {
   return docs;
 };
 
+export const getAllDoc2 = async (collectionName) => {
+  console.log("getAllDoc2", collectionName);
+  const q = query(collection(db, collectionName), orderBy("createdAt", "asc"));
+  const docs = [];
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    docs.push({ ...doc.data(), docId: doc.id });
+  });
+  return docs;
+};
+
 export const addDocument = async (collectionName, data) => {
   console.log(data);
   const docRef = await addDoc(collection(db, collectionName), data);
   return docRef.id;
+};
+
+export const updateDocument = async (collectionName, docId, data) => {
+  const docRef = doc(db, collectionName, docId);
+  await updateDoc(docRef, data);
 };
 
 export const signAuth = async () => {

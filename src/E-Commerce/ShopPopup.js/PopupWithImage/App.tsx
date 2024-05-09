@@ -193,8 +193,10 @@ export const PopupWithImage = (props: any) => {
     addDocument("codef_result", {
       uid: auth?.currentUser?.uid,
       health: healthData ? healthData : {},
-      medicine: medicineData ? medicineData : {},
+      medicine: medicineData ? medicineData : [],
       image: imageList ? imageList : [],
+      user: formInput,
+      createdAt: new Date(),
     }).then(async () => {
       props.onClose();
       setStep(0);
@@ -338,11 +340,11 @@ export const PopupWithImage = (props: any) => {
         isCentered
         size={{ base: "full", md: "5xl" }}
         // `trapFocus` and `blockScrollOnMount` are only switched off so that the preview works properly.
-        blockScrollOnMount={false}
-        trapFocus={false}
+        // blockScrollOnMount={false}
+        // trapFocus={false}
       >
         <ModalOverlay />
-        <ModalContent borderRadius="none" mx="4">
+        <ModalContent borderRadius="none">
           <ModalCloseButton size="lg" />
           <ModalBody padding="0">
             <Flex>
@@ -701,10 +703,16 @@ export const PopupWithImage = (props: any) => {
           <ModalFooter>
             <Button
               isDisabled={
-                certStep === 1 &&
-                (formInput.userName === "" ||
-                  formInput.phoneNo === "" ||
-                  formInput.identity === "")
+                (certStep === 1 &&
+                  certType === "health" &&
+                  (formInput.userName === "" ||
+                    formInput.phoneNo === "" ||
+                    formInput.identity === "")) ||
+                (certStep === 2 &&
+                  certType === "medicine" &&
+                  (formInput2.userName === "" ||
+                    formInput2.phoneNo === "" ||
+                    formInput2.identity === ""))
               }
               w={"full"}
               colorScheme="teal"

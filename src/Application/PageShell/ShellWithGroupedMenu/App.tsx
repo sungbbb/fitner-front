@@ -5,25 +5,21 @@ import {
   Stack,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
-import {
-  BiBuoy,
-  BiCog,
-  BiCommentAdd,
-  BiCreditCard,
-  BiEnvelope,
-  BiHome,
-  BiNews,
-  BiPurchaseTagAlt,
-  BiRecycle,
-  BiRedo,
-  BiUserCircle,
-  BiWallet,
-} from "react-icons/bi";
+import { BiBuoy, BiCog, BiNews } from "react-icons/bi";
 import { AccountSwitcher } from "./AccountSwitcher";
 import { NavGroup } from "./NavGroup";
 import { NavItem } from "./NavItem";
+import { RiSurveyFill } from "react-icons/ri";
+import { useEffect, useState } from "react";
+import { getAllDoc, getAllDoc2 } from "../../../Firebase/firebase_func";
+import { ListWithDraggableElements } from "../../List/ListWithDraggableElements/App";
+import { UserTable } from "../../Tables/UserTable/App";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../../Firebase/firebase_conf";
 
 export const ShellWithGroupedMenu = () => {
+  const [menu, setMenu] = useState(0);
+
   return (
     <Box height="100vh" overflow="hidden" position="relative">
       <Flex h="full" id="app-container">
@@ -31,31 +27,35 @@ export const ShellWithGroupedMenu = () => {
           <Flex h="full" direction="column" px="4" py="4">
             <AccountSwitcher />
             <Stack spacing="8" flex="1" overflow="auto" pt="8">
-              <Stack spacing="1">
+              {/* <Stack spacing="1">
                 <NavItem active icon={<BiHome />} label="Get Started" />
                 <NavItem icon={<BiCommentAdd />} label="Inbox" />
-              </Stack>
-              <NavGroup label="Your Business">
-                <NavItem icon={<BiCreditCard />} label="Transactions" />
-                <NavItem icon={<BiUserCircle />} label="Customers" />
-                <NavItem icon={<BiWallet />} label="Income" />
-                <NavItem icon={<BiRedo />} label="Transfer" />
+              </Stack> */}
+              <NavGroup label="개요">
+                <NavItem
+                  onClick={() => setMenu(0)}
+                  active={menu === 0}
+                  icon={<RiSurveyFill />}
+                  label="설문 관리"
+                />
               </NavGroup>
 
-              <NavGroup label="Seller Tools">
-                <NavItem icon={<BiNews />} label="Payment Pages" />
-                <NavItem icon={<BiEnvelope />} label="Invoices" />
-                <NavItem icon={<BiPurchaseTagAlt />} label="Plans" />
-                <NavItem icon={<BiRecycle />} label="Subscription" />
+              <NavGroup label="관리 페이지">
+                <NavItem
+                  onClick={() => setMenu(1)}
+                  active={menu === 1}
+                  icon={<BiNews />}
+                  label="상담 관리"
+                />
               </NavGroup>
             </Stack>
             <Box>
               <Stack spacing="1">
-                <NavItem subtle icon={<BiCog />} label="Settings" />
+                <NavItem subtle icon={<BiCog />} label="설정" />
                 <NavItem
                   subtle
                   icon={<BiBuoy />}
-                  label="Help & Support"
+                  label="개발 지원"
                   endElement={<Circle size="2" bg="blue.400" />}
                 />
               </Stack>
@@ -66,12 +66,49 @@ export const ShellWithGroupedMenu = () => {
           <Box
             w="full"
             h="full"
+            overflow={"scroll"}
             rounded="lg"
-            border="3px dashed currentColor"
-            color={mode("gray.200", "gray.700")}
-          />
+            border="3px dashed #d9d9d9"
+            // color={mode("gray.200", "gray.700")}
+          >
+            {menu === 0 ? <SurveyPage /> : <ConsultPage />}
+          </Box>
         </Box>
       </Flex>
     </Box>
   );
+};
+
+const SurveyPage = () => {
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    getAllDoc("survey").then((res: any) => {
+      setList(res);
+    });
+  }, []);
+  return <ListWithDraggableElements list={list} />;
+};
+
+const ConsultPage = () => {
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    let temp: any = [];
+    getAllDoc2("codef_result").then((res: any) => {
+      res.map(async (item: any) => {
+        console.log(item);
+        const q = query(
+          collection(db, "survey_result"),
+          where("uid", "==", item.uid)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc: any) => {
+          temp.push({ ...doc.data(), ...item });
+          console.log(doc.id, " => ", doc.data());
+
+          setList(temp);
+        });
+      });
+    });
+  }, []);
+  return <UserTable list={list} />;
 };

@@ -1,8 +1,15 @@
-import { Box, Flex, FlexProps, HStack, Img, useMenuButton } from '@chakra-ui/react'
-import { HiSelector } from 'react-icons/hi'
+import {
+  Box,
+  Flex,
+  FlexProps,
+  HStack,
+  Img,
+  useMenuButton,
+} from "@chakra-ui/react";
+import { HiSelector } from "react-icons/hi";
 
 export const AccountSwitcherButton = (props: FlexProps) => {
-  const buttonProps = useMenuButton(props)
+  const buttonProps = useMenuButton(props);
   return (
     <Flex
       as="button"
@@ -19,24 +26,26 @@ export const AccountSwitcherButton = (props: FlexProps) => {
       cursor="pointer"
       outline="0"
       transition="all 0.2s"
-      _active={{ bg: 'gray.600' }}
-      _focus={{ shadow: 'outline' }}
+      _active={{ bg: "gray.600" }}
+      _focus={{ shadow: "outline" }}
     >
       <HStack flex="1" spacing="3">
         <Img
           w="8"
           h="8"
+          p={1}
           rounded="md"
           objectFit="cover"
-          src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MzV8fG1hbiUyMHNpbWxpbmd8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=100"
+          src={require("../../../Assets/Icon/logo.png")}
           alt="Chakra UI"
+          bgColor={"white"}
         />
         <Box textAlign="start">
           <Box noOfLines={1} fontWeight="semibold">
-            Chakra UI
+            핏트너
           </Box>
           <Box fontSize="xs" color="gray.400">
-            ID 123343
+            ID 328196565784
           </Box>
         </Box>
       </HStack>
@@ -44,5 +53,5 @@ export const AccountSwitcherButton = (props: FlexProps) => {
         <HiSelector />
       </Box>
     </Flex>
-  )
-}
+  );
+};
