@@ -25,7 +25,8 @@ function Landing(props) {
         bgImage={require("../Assets/Image/reviewbackground.png")}
         bgSize={"cover"}
         bgRepeat={"no-repeat"}
-        bgPosition={"start"}
+        bgPosition={"center"}
+        bgColor={"rgba(245,245,245,0.5)"}
       >
         <LogoGridWithTitle />
         <TestimonialWithRating />

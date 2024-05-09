@@ -21,7 +21,7 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
   return (
     <Container py={{ base: "16", md: "24" }}>
       <Stack gap={{ base: "24", md: "0" }}>
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap={0}>
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={0} zIndex={111}>
           <Stack
             spacing={{ base: "8", md: "12" }}
             justifyContent="center"
@@ -57,21 +57,31 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
             />
           </AspectRatio>
         </SimpleGrid>
-        <Box h={{ base: "auto", md: "300px" }} position={"relative"}>
-          <Image
-            // display={{ base: "none", md: "block" }}
-            // w={"full"}
-            h={{ base: "auto", md: "500px" }}
-            src={require("../../Assets/Image/illust.png")}
-            transform={"scaleX(-1)"}
-            alt="illustration"
-            position={"absolute"}
-            bottom={{ base: -36, md: -3 }}
-            left={{ base: 0, md: "30%" }}
-            objectFit={"cover"}
-          />
-        </Box>
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap={0}>
+        <Center position={"relative"}>
+          <Box h={{ base: "auto", md: "300px" }}>
+            <Image
+              src={require("../../Assets/Image/illust2.png")}
+              w={{ base: "auto", md: "600px" }}
+              h={{ base: "auto", md: "500px" }}
+              alt="illustration"
+              position={"absolute"}
+              bottom={{ base: -36, md: -3 }}
+              right={{ base: 0, md: 0 }}
+              objectFit={"cover"}
+            />
+            <Image
+              src={require("../../Assets/Image/lilust1.png")}
+              h={{ base: "auto", md: "360px" }}
+              alt="illustration"
+              position={"absolute"}
+              bottom={{ base: -36, md: -3 }}
+              right={{ base: 0, md: 0 }}
+              objectFit={"cover"}
+              zIndex={111}
+            />
+          </Box>
+        </Center>
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={0} zIndex={999}>
           <AspectRatio ratio={{ base: 1, md: 2 }}>
             <Image
               borderTopLeftRadius={8000}

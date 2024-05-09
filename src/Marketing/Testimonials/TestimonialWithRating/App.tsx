@@ -47,6 +47,7 @@ export const TestimonialWithRating = () => (
           direction={{ base: "column", lg: "row" }}
           align={{ base: "center", lg: "stretch" }}
           spacing="16"
+          px={{ base: "8", lg: "0" }}
         >
           {testimonials.map((testimonial, id) => (
             <Testimonial key={id} {...testimonial} />
@@ -65,9 +66,10 @@ export const TestimonialWithRating = () => (
           size={"lg"}
           rounded="full"
           variant={"outline"}
-          px={16}
+          px={12}
           colorScheme="gray"
           bgColor={"white"}
+          border={"1px solid #d9d9d9"}
         >
           더보기
         </Button>
