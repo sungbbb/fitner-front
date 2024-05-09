@@ -24,9 +24,9 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
           textAlign="center"
           align="center"
         >
-          <Heading size={{ base: "sm", md: "md" }} fontWeight={"extrabold"}>
+          {/* <Heading size={{ base: "sm", md: "md" }} fontWeight={"extrabold"}>
             고객 만족도
-          </Heading>
+          </Heading> */}
           <Stack w={{ base: "none", md: "full" }}>
             <Stack
               direction={{ base: "column", md: "row" }}

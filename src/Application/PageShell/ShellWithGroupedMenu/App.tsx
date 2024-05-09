@@ -68,7 +68,7 @@ export const ShellWithGroupedMenu = () => {
             h="full"
             overflow={"scroll"}
             rounded="lg"
-            border="3px dashed #d9d9d9"
+            // border="3px dashed #d9d9d9"
             // color={mode("gray.200", "gray.700")}
           >
             {menu === 0 ? <SurveyPage /> : <ConsultPage />}

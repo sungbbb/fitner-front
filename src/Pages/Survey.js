@@ -15,12 +15,14 @@ import {
   Stack,
   Text,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { auth } from "../Firebase/firebase_conf";
 
 function Survey(props) {
+  const toast = useToast();
   const [survey, setSurvey] = React.useState([]);
   const [index, setIndex] = React.useState(0);
   useEffect(() => {
@@ -33,17 +35,25 @@ function Survey(props) {
     console.log("submitted", auth.currentUser.uid);
     e.preventDefault();
 
-    // for (let i = 0; i < survey.length; i++) {
-    //   if (survey[i].required && !survey[i].answer) {
-    //     alert(survey[i].question);
-    //     setIndex(i);
-    //     return;
-    //   }
+    for (let i = 0; i < survey.length; i++) {
+      if (survey[i].required && !survey[i].answer) {
+        toast({
+          title: survey[i].question,
+          // description: "도전하고 살펴보세요.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+        // alert(survey[i].question);
+        setIndex(i);
+        return;
+      }
 
-    //   if (!survey[i].required) {
-    //     survey[i].answer = "";
-    //   }
-    // }
+      if (!survey[i].required) {
+        survey[i].answer = "";
+      }
+    }
 
     addDocument("survey_result", {
       uid: auth.currentUser.uid,

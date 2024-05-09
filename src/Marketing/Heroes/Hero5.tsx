@@ -51,14 +51,17 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
               borderTopRightRadius={{ base: "none", md: 8000 }}
               borderBottomLeftRadius={{ base: 8000, md: "none" }}
               objectFit="cover"
-              src={require("../../Assets/head.jpg")}
+              src={require("../../Assets/head.png")}
               // src="https://tinyurl.com/yeyjvptc"
               alt="Lady at work"
             />
           </AspectRatio>
         </SimpleGrid>
         <Center position={"relative"}>
-          <Box h={{ base: "auto", md: "300px" }}>
+          <Box
+            h={{ base: "auto", md: "300px" }}
+            w={{ base: "auto", md: "600px" }}
+          >
             <Image
               src={require("../../Assets/Image/illust2.png")}
               w={{ base: "auto", md: "600px" }}
@@ -66,7 +69,7 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
               alt="illustration"
               position={"absolute"}
               bottom={{ base: -36, md: -3 }}
-              right={{ base: 0, md: 0 }}
+              // right={{ base: 0, md: 0 }}
               objectFit={"cover"}
             />
             <Image
@@ -75,7 +78,7 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
               alt="illustration"
               position={"absolute"}
               bottom={{ base: -36, md: -3 }}
-              right={{ base: 0, md: 0 }}
+              // right={{ base: 0, md: 0 }}
               objectFit={"cover"}
               zIndex={111}
             />
@@ -89,7 +92,7 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
               borderBottomLeftRadius={{ base: "none", md: 8000 }}
               objectFit="cover"
               // src="https://tinyurl.com/yeyjvptc"
-              src={require("../../Assets/water.jpg")}
+              src={require("../../Assets/water.png")}
               alt="Lady at work"
             />
           </AspectRatio>
@@ -148,7 +151,7 @@ export const HeroWithImageReverse = (props: { onClick: () => void }) => (
           borderLeftRadius={8000}
           objectFit="cover"
           // src="https://tinyurl.com/yeyjvptc"
-          src={require("../../Assets/water.jpg")}
+          src={require("../../Assets/water.png")}
           alt="Lady at work"
         />
       </AspectRatio>

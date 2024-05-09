@@ -550,7 +550,9 @@ export const PopupWithImage = (props: any) => {
         <ModalContent>
           <ModalHeader>
             <Stack>
-              <Text>본인확인서비스</Text>
+              <Text fontWeight={"bold"} fontSize="xl">
+                본인확인서비스
+              </Text>
               <Text fontSize="sm" color="gray.500" fontWeight={"light"}>
                 {certStep === 0
                   ? "사용할 인증수단을 선택해주세요."
@@ -691,7 +693,7 @@ export const PopupWithImage = (props: any) => {
                 )}
               </Stack>
             ) : (
-              <Center h={{ base: "xl", md: "100px" }}>
+              <Center h={{ base: "lg", md: "100px" }}>
                 <VStack>
                   <Text>정보 조회중....</Text>
                   <CircularProgress isIndeterminate color="teal.300" />
@@ -700,7 +702,7 @@ export const PopupWithImage = (props: any) => {
             )}
           </ModalBody>
 
-          <ModalFooter>
+          <ModalFooter mb={4}>
             <Button
               isDisabled={
                 (certStep === 1 &&
@@ -751,14 +753,16 @@ export const PopupWithImage = (props: any) => {
         <ModalContent>
           <ModalHeader>
             <Stack>
-              <Text>지금 드시는 약의 사진을 업로드 해주세요.</Text>
+              <Text fontWeight={"bold"} fontSize="xl">
+                지금 드시는 약의 사진을 업로드 해주세요.
+              </Text>
               <Text fontSize="sm" color="gray.500" fontWeight={"light"}>
                 사진은 성분명이 잘 나오도록 올려주세요.
               </Text>
             </Stack>
           </ModalHeader>
 
-          <ModalCloseButton />
+          <ModalCloseButton onClick={() => setViewImageUpload(false)} />
           <ModalBody>
             <SimpleGrid columns={{ base: 2, md: 3 }} gap={2}>
               {imageList.map((url: any) => (
@@ -806,7 +810,7 @@ export const PopupWithImage = (props: any) => {
             </SimpleGrid>
           </ModalBody>
 
-          <ModalFooter>
+          <ModalFooter mb={4}>
             <Button
               w={"full"}
               colorScheme="teal"

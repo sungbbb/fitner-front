@@ -23,9 +23,7 @@ import {
   SimpleGrid,
   Image,
 } from "@chakra-ui/react";
-import { FiEdit2, FiTrash2 } from "react-icons/fi";
-import { IoArrowDown } from "react-icons/io5";
-import { Naver } from "./Logo";
+
 import React from "react";
 import { updateDocument } from "../../../Firebase/firebase_func";
 // import { members } from "./data";

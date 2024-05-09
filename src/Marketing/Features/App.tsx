@@ -21,8 +21,11 @@ export const Features = (props: { onClick: () => void }) => {
     <Box as="section" bg="bg.surface">
       <Stack w={"full"} mx={"auto"} py={{ base: "0", md: "24" }}>
         {!isMobile ? (
-          <Stack direction={{ base: "column", md: "row" }}>
-            <Container flex={1}>
+          <Stack
+            direction={{ base: "column", md: "row" }}
+            ml={{ base: "0", md: "24" }}
+          >
+            <Container maxW={"container.xl"} p={{ base: "0", md: "24" }}>
               <Stack py={{ base: "3", md: "6" }}>
                 <Heading size={{ base: "xs", md: "sm" }}>
                   핏트너가 드리는 5가지 약속
@@ -79,7 +82,7 @@ export const Features = (props: { onClick: () => void }) => {
                 </Button>
               </Stack>
             </Container>
-            <Box flex={1}>
+            <Box>
               <Image
                 borderLeftRadius={"2xl"}
                 h={"full"}

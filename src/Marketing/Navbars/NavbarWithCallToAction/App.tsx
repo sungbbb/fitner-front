@@ -17,7 +17,7 @@ export const NavbarWithCallToAction = ({ ...props }) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
   const mobileNavbar = useDisclosure();
   return (
-    <Box as="section" position={"fixed"} top={0} w={"full"} zIndex="docked">
+    <Box as="section" position={"fixed"} top={0} w={"full"} zIndex="tooltip">
       <Box
         // borderBottomWidth="1px"
         // bg="bg.surface"
