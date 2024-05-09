@@ -205,13 +205,16 @@ export const PopupWithImage = (props: any) => {
 
   const callCodef1 = async () => {
     console.log(auth?.currentUser?.uid);
-    await fetch("http://localhost:3001/result", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formInput),
-    })
+    await fetch(
+      "https://port-0-fitner-17xco2nlszge3vt.sel5.cloudtype.app/result",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formInput),
+      }
+    )
       .then(async (res) => {
         return res.json();
       })
@@ -253,13 +256,16 @@ export const PopupWithImage = (props: any) => {
       twoWayInfo: extraInput,
     };
     console.log(param);
-    await fetch("http://localhost:3001/result", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(param),
-    })
+    await fetch(
+      "https://port-0-fitner-17xco2nlszge3vt.sel5.cloudtype.app/result",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(param),
+      }
+    )
       .then(async (res) => {
         return res.json();
       })
@@ -282,13 +288,16 @@ export const PopupWithImage = (props: any) => {
       endDate: endDate.toISOString().substring(0, 10).replaceAll("-", ""),
     };
     console.log(param);
-    await fetch("http://localhost:3001/information", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(param),
-    })
+    await fetch(
+      "https://port-0-fitner-17xco2nlszge3vt.sel5.cloudtype.app/information",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(param),
+      }
+    )
       .then(async (res) => {
         return res.json();
       })
@@ -312,13 +321,16 @@ export const PopupWithImage = (props: any) => {
       twoWayInfo: extraInput,
     };
     console.log(param);
-    await fetch("http://localhost:3001/information", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(param),
-    })
+    await fetch(
+      "https://port-0-fitner-17xco2nlszge3vt.sel5.cloudtype.app/information",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(param),
+      }
+    )
       .then(async (res) => {
         return res.json();
       })
