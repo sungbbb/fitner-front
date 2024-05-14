@@ -72,25 +72,27 @@ export const CTA1 = (props: { onClick: () => void }) => {
             <Text fontSize={"2xl"} fontWeight="extrabold" textAlign={"center"}>
               나에게 꼭 맞는 영양제 찾으러 가기
             </Text>
-            <Stack
-              direction={{ base: "column", md: "row" }}
-              spacing="4"
-              px={{ base: "16", md: "0" }}
-              zIndex={111}
-            >
-              <Button
-                // colorScheme="blue"
-                px="8"
-                rounded="full"
-                size="lg"
-                fontSize="md"
-                fontWeight="bold"
-                onClick={props.onClick}
-                rightIcon={<MdArrowForward />}
-                bgGradient={gradient}
+            <Stack align={"center"}>
+              <Stack
+                direction={{ base: "column", md: "row" }}
+                spacing="4"
+                px={{ base: "16", md: "0" }}
+                zIndex={111}
               >
-                신청서 작성하기
-              </Button>
+                <Button
+                  // colorScheme="blue"
+                  px="8"
+                  rounded="full"
+                  size="lg"
+                  fontSize="md"
+                  fontWeight="bold"
+                  onClick={props.onClick}
+                  rightIcon={<MdArrowForward />}
+                  bgGradient={gradient}
+                >
+                  신청서 작성하기
+                </Button>
+              </Stack>
             </Stack>
             <Box
               h={200}

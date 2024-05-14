@@ -21,7 +21,11 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
   return (
     <Container py={{ base: "16", md: "24" }}>
       <Stack gap={{ base: "24", md: "0" }}>
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap={0} zIndex={111}>
+        <Stack
+          spacing={0}
+          direction={{ base: "column", md: "row" }}
+          zIndex={111}
+        >
           <Stack
             spacing={{ base: "8", md: "12" }}
             justifyContent="center"
@@ -29,10 +33,15 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
             borderTopRightRadius={{ base: 8000, md: "none" }}
             borderBottomLeftRadius={{ base: "none", md: 8000 }}
             bgColor={"#f8f9f8"}
-            py={{ base: "12", md: "16" }}
-            px={{ base: "16", md: "24" }}
+            flex={1}
           >
-            <Stack spacing={"4"} zIndex={111} mt={{ base: "20", md: "0" }}>
+            <Stack
+              spacing={"4"}
+              zIndex={111}
+              p={16}
+              mt={{ base: 16, md: "0" }}
+              ml={{ base: 0, md: 12 }}
+            >
               <Text fontSize={{ base: "xl", md: "2xl" }} fontWeight={"bold"}>
                 당신의 영양제는 이것이 문제입니다.
               </Text>
@@ -45,23 +54,20 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
               </Text>
             </Stack>
           </Stack>
-          <AspectRatio ratio={{ base: 1, md: 2 }}>
+          <AspectRatio flex={1} ratio={{ base: 1, md: 2 }}>
             <Image
               borderBottomRightRadius={8000}
               borderTopRightRadius={{ base: "none", md: 8000 }}
               borderBottomLeftRadius={{ base: 8000, md: "none" }}
               objectFit="cover"
-              src={require("../../Assets/head.png")}
+              src={require("../../Assets/Image/pills1.png")}
               // src="https://tinyurl.com/yeyjvptc"
               alt="Lady at work"
             />
           </AspectRatio>
-        </SimpleGrid>
+        </Stack>
         <Center position={"relative"}>
-          <Box
-            h={{ base: "auto", md: "300px" }}
-            w={{ base: "auto", md: "600px" }}
-          >
+          <Box h={{ base: "auto", md: "300px" }}>
             <Image
               src={require("../../Assets/Image/illust2.png")}
               w={{ base: "auto", md: "600px" }}
@@ -69,7 +75,7 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
               alt="illustration"
               position={"absolute"}
               bottom={{ base: -36, md: -3 }}
-              // right={{ base: 0, md: 0 }}
+              right={{ base: 0, md: 0 }}
               objectFit={"cover"}
             />
             <Image
@@ -78,33 +84,38 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
               alt="illustration"
               position={"absolute"}
               bottom={{ base: -36, md: -3 }}
-              // right={{ base: 0, md: 0 }}
+              right={{ base: 0, md: 0 }}
               objectFit={"cover"}
-              zIndex={111}
+              zIndex={10}
             />
           </Box>
         </Center>
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap={0} zIndex={999}>
-          <AspectRatio ratio={{ base: 1, md: 2 }}>
+        <Stack
+          direction={{ base: "column-reverse", md: "row" }}
+          spacing={0}
+          zIndex={111}
+        >
+          <AspectRatio flex={1} ratio={{ base: 1, md: 2 }}>
             <Image
-              borderTopLeftRadius={8000}
-              borderTopRightRadius={{ base: 8000, md: "none" }}
-              borderBottomLeftRadius={{ base: "none", md: 8000 }}
+              borderBottomLeftRadius={8000}
+              borderBottomRightRadius={{ base: 8000, md: "none" }}
+              borderTopLeftRadius={{ base: "none", md: 8000 }}
               objectFit="cover"
               // src="https://tinyurl.com/yeyjvptc"
-              src={require("../../Assets/water.png")}
+              src={require("../../Assets/Image/pills2.png")}
               alt="Lady at work"
             />
           </AspectRatio>
           <Stack
+            flex={1}
             spacing={{ base: "8", md: "12" }}
             justifyContent="center"
-            borderBottomRightRadius={8000}
-            borderTopRightRadius={{ base: "none", md: 8000 }}
-            borderBottomLeftRadius={{ base: 8000, md: "none" }}
             bgColor={"#f8f9f8"}
+            borderTopRightRadius={8000}
+            borderBottomRightRadius={{ base: "none", md: 8000 }}
+            borderTopLeftRadius={{ base: 8000, md: "none" }}
           >
-            <Stack spacing={"4"} p={"16"} mb={{ base: "20", md: "0" }}>
+            <Stack spacing={"4"} p={16} mt={{ base: 16, md: "0" }}>
               <Text fontSize={{ base: "xl", md: "2xl" }} fontWeight={"bold"}>
                 핏트너는 당신의 문제를 해결합니다.
               </Text>
@@ -116,28 +127,22 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
               </Text>
             </Stack>
           </Stack>
-        </SimpleGrid>
+        </Stack>
       </Stack>
-      <Stack
-        direction={{ base: "column", md: "row" }}
-        justify={"center"}
-        my="10"
-        spacing="4"
-        px={{ base: "16", md: "0" }}
-      >
-        <Button
-          // colorScheme="blue"
-          px="8"
-          rounded="full"
-          size="lg"
-          fontSize="md"
-          fontWeight="bold"
-          onClick={props.onClick}
-          rightIcon={<MdArrowForward />}
-          bgGradient={gradient}
-        >
-          나에게 꼭 맞는 영양제 찾기
-        </Button>
+      <Stack align={"center"} spacing={0}>
+        <Stack direction={{ base: "column", md: "row" }} my="10">
+          <Button
+            rounded="full"
+            size="lg"
+            fontSize="md"
+            fontWeight="bold"
+            onClick={props.onClick}
+            rightIcon={<MdArrowForward />}
+            bgGradient={gradient}
+          >
+            나에게 꼭 맞는 영양제 찾기
+          </Button>
+        </Stack>
       </Stack>
     </Container>
   );
@@ -151,7 +156,7 @@ export const HeroWithImageReverse = (props: { onClick: () => void }) => (
           borderLeftRadius={8000}
           objectFit="cover"
           // src="https://tinyurl.com/yeyjvptc"
-          src={require("../../Assets/water.png")}
+          // src={require("../../Assets/water.jpg")}
           alt="Lady at work"
         />
       </AspectRatio>

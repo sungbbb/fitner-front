@@ -9,10 +9,14 @@ export const Stat = (props: StatProps) => {
   const { label, value, ...stackProps } = props;
   return (
     <Stack spacing="3" textAlign="center" {...stackProps}>
-      <Heading size={{ base: "lg", md: "xl" }} color="accent">
+      <Text
+        fontSize={{ base: "3xl", md: "4xl" }}
+        color="#015A68"
+        fontWeight={"600"}
+      >
         {value}
-      </Heading>
-      <Text fontSize="lg" fontWeight="medium" color="fg.muted">
+      </Text>
+      <Text fontSize="lg" fontWeight="600" color="fg.muted">
         {label}
       </Text>
     </Stack>

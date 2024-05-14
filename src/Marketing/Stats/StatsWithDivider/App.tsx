@@ -24,19 +24,19 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
           textAlign="center"
           align="center"
         >
-          {/* <Heading size={{ base: "sm", md: "md" }} fontWeight={"extrabold"}>
+          <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight={"extrabold"}>
             고객 만족도
-          </Heading> */}
+          </Text>
           <Stack w={{ base: "none", md: "full" }}>
             <Stack
               direction={{ base: "column", md: "row" }}
               width="full"
               spacing={{ base: "8", md: "4" }}
               bgColor={"#f8fafa"}
-              p={{ base: "20", md: "10" }}
+              p={{ base: "24", md: "12" }}
               rounded={8000}
               {...(!isMobile
-                ? { divider: <StackDivider /> }
+                ? { divider: <StackDivider borderColor={Gradientline} /> }
                 : { divider: <StackDivider /> })}
             >
               {stats.map((stat, id) => (
@@ -64,3 +64,6 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
     </Box>
   );
 };
+
+export const Gradientline =
+  "linear-gradient(to right, #015a68 0%, #015a68 100%, #015a68 50%)";

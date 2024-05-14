@@ -54,7 +54,7 @@ export const BlogWithThreeColumns = (props: { onClick: () => void }) => {
         ) : (
           <Stack align={"center"} spacing={0}>
             <Box px={"auto"}>
-              <Text fontSize={"md"} fontWeight={"semibold"} py={2}>
+              <Text fontSize={"md"} fontWeight={"600"} py={2}>
                 고민할 필요가 없는 최적의 영양제
               </Text>
               <Text fontSize={"sm"}>
@@ -70,7 +70,7 @@ export const BlogWithThreeColumns = (props: { onClick: () => void }) => {
             <Image src={require("../../../Assets/Image/mobileMyLIfe.jpg")} />
             <HStack justify={"space-between"} mt={-8}>
               <Box flex={1}>
-                <Text fontSize={"md"} fontWeight={"semibold"} py={2}>
+                <Text fontSize={"md"} fontWeight={"600"} py={2}>
                   당신만의 주치 약사가 생깁니다.
                 </Text>
                 <Text fontSize={"sm"}>
@@ -79,7 +79,7 @@ export const BlogWithThreeColumns = (props: { onClick: () => void }) => {
                 </Text>
               </Box>
               <Box flex={1} textAlign={"right"}>
-                <Text fontSize={"md"} fontWeight={"semibold"} py={2}>
+                <Text fontSize={"md"} fontWeight={"600"} py={2}>
                   하루하루 더 건강해지는 삶
                 </Text>
                 <Text fontSize={"sm"}>

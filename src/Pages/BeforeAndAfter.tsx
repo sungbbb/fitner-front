@@ -28,9 +28,9 @@ export const BeforeAndAfter = () => {
           alignItems={"center"}
           spacing={{ base: "8", md: "12" }}
         >
-          <Heading size={{ base: "sm", md: "md" }} fontWeight="extrabold">
+          <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="extrabold">
             이제 정확성의 힘을 경험하세요.
-          </Heading>
+          </Text>
           <SimpleGrid
             columns={{ base: 1, md: 2 }}
             gap={0}
@@ -56,8 +56,8 @@ export const BeforeAndAfter = () => {
                   borderRadius={"2xl"}
                   h={{ base: "auto", md: "full" }}
                   // filter="blur(1px)"
-                  style={{ backdropFilter: "blur(5px)" }}
-                  bgColor={"rgba(255,255,255,0.5)"}
+                  // style={{ backdropFilter: "blur(1px)" }}
+                  bgColor={"rgba(255,255,255,0.7)"}
                 >
                   <CardBody opacity={1}>
                     <Stack spacing={4}>
@@ -116,8 +116,8 @@ export const BeforeAndAfter = () => {
                 <Card
                   borderRadius={"2xl"}
                   h={{ base: "auto", md: "full" }}
-                  style={{ backdropFilter: "blur(5px)" }}
-                  bgColor={"rgba(255,255,255,0.5)"}
+                  // style={{ backdropFilter: "blur(1px)" }}
+                  bgColor={"rgba(255,255,255,0.7)"}
                 >
                   <CardBody opacity={1}>
                     <Stack spacing={4}>

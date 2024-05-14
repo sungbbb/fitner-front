@@ -22,7 +22,7 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
           <Box
             maxW={{ base: "xl", md: "7xl" }}
             mx="auto"
-            px={{ base: "6", md: "8" }}
+            px={{ base: "4", md: "8" }}
             h={{ base: "80vh", md: "100vh" }}
           >
             {/* <Stack fontSize={{ base: "sm", md: "lg" }} mt="4" maxW="lg">
@@ -41,7 +41,7 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
               >
                 <Heading
                   as="h1"
-                  size={{ base: "md", md: "3xl" }}
+                  size={{ base: "sm", md: "3xl" }}
                   fontWeight="extrabold"
                   fontFamily={"yg-jalnan"}
                   className="text-gradient"
@@ -144,4 +144,4 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
   );
 };
 
-export const bgGradient = "linear-gradient(45deg, #E1FAFF 0%, #E7FFDE 100%)";
+export const bgGradient = "linear-gradient(45deg, #9FF0FB 0%, #C4FEB0 100%)";

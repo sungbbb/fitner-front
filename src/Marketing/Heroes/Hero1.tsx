@@ -29,7 +29,8 @@ export const eightSecrets = [
     title: "당신의 이야기",
     description:
       "SCI 논문 기반 설문과 건강검진 자료 분석으로 여러분의 정확한 건강상태를 정밀 진단합니다. 현재 복용하는 약물과 질환정보까지 꼭 확인합니다.",
-    // icon: require("../../Assets/Icon/buttonicon1.png"),
+    icon: require("../../Assets/Icon/buttonicon1.png"),
+    whiteicon: require("../../Assets/Icon/buttoniconW1.png"),
     image: require("../../Assets/Image/secret1.jpg"),
   },
   {
@@ -38,6 +39,7 @@ export const eightSecrets = [
     description:
       "고객 맞춤 데이터, AI 분석 기술, 약사모니터링을 통해 당신에게 꼭 필요한 성분과 꼭 필요한 양을 분석합니다.",
     icon: require("../../Assets/Icon/buttonicon2.png"),
+    whiteicon: require("../../Assets/Icon/buttoniconW2.png"),
     image: require("../../Assets/Image/secret2.jpg"),
   },
   {
@@ -46,6 +48,7 @@ export const eightSecrets = [
     description:
       "분석 결과를 바탕으로 약사가 1대1 상담을 통해 고객에게 가장 이상적인 맞춤 영양제를 찾아냅니다.",
     icon: require("../../Assets/Icon/buttonicon3.png"),
+    whiteicon: require("../../Assets/Icon/buttoniconW3.png"),
     image: require("../../Assets/Image/secret3.jpg"),
   },
   {
@@ -54,6 +57,7 @@ export const eightSecrets = [
     description:
       "핏트너가 엄선한 영양제를 배송해드립니다. 복용법과 주의사항에 대한 자세한 설명도 함께 제공됩니다.",
     icon: require("../../Assets/Icon/buttonicon4.png"),
+    whiteicon: require("../../Assets/Icon/buttoniconW4.png"),
     image: require("../../Assets/Image/secret4.jpg"),
   },
   {
@@ -62,6 +66,7 @@ export const eightSecrets = [
     description:
       "핏트너의 서비스는 여기서 끝나지 않습니다. 주기적인 상담과 건강상태 피드백을 바탕으로 처방을 수정 및 발전시켜 나갑니다.",
     icon: require("../../Assets/Icon/buttonicon5.png"),
+    whiteicon: require("../../Assets/Icon/buttoniconW5.png"),
     image: require("../../Assets/Image/secret5.jpg"),
   },
   {
@@ -70,6 +75,7 @@ export const eightSecrets = [
     description:
       "고객 개개인의 정확한 데이터와 전문가 피드백을 지속 반영하여, 가장 완벽한 영양제 조합을 제공해 나갑니다.",
     icon: require("../../Assets/Icon/buttonicon6.png"),
+    whiteicon: require("../../Assets/Icon/buttoniconW6.png"),
     image: require("../../Assets/Image/secret6.jpg"),
   },
   {
@@ -78,6 +84,7 @@ export const eightSecrets = [
     description:
       "영양제뿐 아니라 운동, 식단, 생활습관 등 건강한 삶을 위한 라이프스타일을 만들어갑니다.",
     icon: require("../../Assets/Icon/buttonicon7.png"),
+    whiteicon: require("../../Assets/Icon/buttoniconW7.png"),
     image: require("../../Assets/Image/secret7.jpg"),
   },
   {
@@ -86,6 +93,7 @@ export const eightSecrets = [
     description:
       "핏트너의 완벽한 8단계 솔루션을 따라가면, 고객 여러분의 건강은 과거와 결별하고 새로운 차원으로 바뀔 수밖에 없습니다.",
     icon: require("../../Assets/Icon/buttonicon8.png"),
+    whiteicon: require("../../Assets/Icon/buttoniconW8.png"),
     image: require("../../Assets/Image/secret8.jpg"),
   },
 ];
@@ -101,13 +109,13 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
         alignItems={"center"}
         spacing={{ base: "8", md: "12" }}
       >
-        <Heading
-          size={{ base: "sm", md: "md" }}
+        <Text
+          fontSize={{ base: "2xl", md: "4xl" }}
           fontWeight="extrabold"
           textAlign={"center"}
         >
           핏트너가 당신의 건강을 바꾸는 8단계 비밀
-        </Heading>
+        </Text>
         <Container>
           <Tabs
             variant={"unstyled"}
@@ -139,9 +147,13 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
                       gap={3}
                       align={"center"}
                       fontSize={"xl"}
-                      fontWeight={"semibold"}
+                      fontWeight={600}
                     >
-                      {<Image src={item.icon} />}
+                      {
+                        <Image
+                          src={seleted === item.id ? item.whiteicon : item.icon}
+                        />
+                      }
                       {item.title}
                     </Flex>
                   </Tab>
@@ -181,7 +193,7 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
                         <Image src={item.icon} />
                         <Text
                           fontSize={{ base: "lg", md: "xl" }}
-                          fontWeight={"semibold"}
+                          fontWeight={"600"}
                         >
                           {item.title}
                         </Text>
@@ -195,26 +207,28 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
               ))}
             </TabPanels>
           </Tabs>
-          <Stack
-            direction={{ base: "column", md: "row" }}
-            justify={"center"}
-            mx={"16"}
-            my="10"
-            spacing="4"
-          >
-            <Button
-              // colorScheme="blue"
-              px="8"
-              rounded="full"
-              size="lg"
-              fontSize="md"
-              fontWeight="bold"
-              onClick={props.onClick}
-              rightIcon={<MdArrowForward />}
-              bgGradient={gradient}
+          <Stack align={"center"}>
+            <Stack
+              direction={{ base: "column", md: "row" }}
+              justify={"center"}
+              // mx={"16"}
+              my="10"
+              spacing="4"
             >
-              나에게 꼭 맞는 영양제 찾기
-            </Button>
+              <Button
+                // colorScheme="blue"
+                px="8"
+                rounded="full"
+                size="lg"
+                fontSize="md"
+                fontWeight="bold"
+                onClick={props.onClick}
+                rightIcon={<MdArrowForward />}
+                bgGradient={gradient}
+              >
+                나에게 꼭 맞는 영양제 찾기
+              </Button>
+            </Stack>
           </Stack>
         </Container>
       </Stack>

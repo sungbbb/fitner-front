@@ -17,7 +17,7 @@ export const NavbarWithCallToAction = ({ ...props }) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
   const mobileNavbar = useDisclosure();
   return (
-    <Box as="section" position={"fixed"} top={0} w={"full"} zIndex="tooltip">
+    <Box as="section" position={"fixed"} top={0} w={"full"} zIndex={999}>
       <Box
         // borderBottomWidth="1px"
         // bg="bg.surface"
@@ -35,6 +35,7 @@ export const NavbarWithCallToAction = ({ ...props }) => {
               w={"auto"}
               height={"36px"}
               alt="logo"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             />
             <HStack spacing="8">
               {/* <ButtonGroup
@@ -57,7 +58,7 @@ export const NavbarWithCallToAction = ({ ...props }) => {
                 fontSize={{ base: "sm", md: "md" }}
                 onClick={props.onClick}
               >
-                무료로 내 맞춤 영양제 찾으러 가기
+                나에게 꼭 맞는 영양제 찾기
               </Button>
             </HStack>
           </HStack>

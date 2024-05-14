@@ -21,15 +21,12 @@ export const Features = (props: { onClick: () => void }) => {
     <Box as="section" bg="bg.surface">
       <Stack w={"full"} mx={"auto"} py={{ base: "0", md: "24" }}>
         {!isMobile ? (
-          <Stack
-            direction={{ base: "column", md: "row" }}
-            ml={{ base: "0", md: "24" }}
-          >
-            <Container maxW={"container.xl"} p={{ base: "0", md: "24" }}>
+          <Stack direction={{ base: "column", md: "row" }}>
+            <Container flex={1}>
               <Stack py={{ base: "3", md: "6" }}>
-                <Heading size={{ base: "xs", md: "sm" }}>
+                <Text fontSize={{ base: "xl", md: "3xl" }} fontWeight={"600"}>
                   핏트너가 드리는 5가지 약속
-                </Heading>
+                </Text>
               </Stack>
               <SimpleGrid
                 columns={{ base: 1, md: 2 }}
@@ -49,7 +46,7 @@ export const Features = (props: { onClick: () => void }) => {
                     <Stack spacing={{ base: "1", md: "2" }} flex="1">
                       <Text
                         fontSize={{ base: "md", md: "lg" }}
-                        fontWeight={"semibold"}
+                        fontWeight={"600"}
                       >
                         {feature.name}
                       </Text>
@@ -82,7 +79,7 @@ export const Features = (props: { onClick: () => void }) => {
                 </Button>
               </Stack>
             </Container>
-            <Box>
+            <Box flex={1}>
               <Image
                 borderLeftRadius={"2xl"}
                 h={"full"}
@@ -94,19 +91,20 @@ export const Features = (props: { onClick: () => void }) => {
           </Stack>
         ) : (
           <Box
-            // bgImage={require("../../Assets/Image/promises.jpg")}
             bgSize="cover"
             bgPosition="center"
             bgRepeat="no-repeat"
-            p={16}
+            p={12}
             style={{
               backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url(${require("../../Assets/Image/promises.jpg")})`,
             }}
           >
-            <Stack py={{ base: "3", md: "6" }} align={"center"}>
-              <Heading size={"xs"}>핏트너가 드리는 5가지 약속</Heading>
+            <Stack py={6} align={"center"}>
+              <Text fontSize={"2xl"} fontWeight={"600"}>
+                핏트너가 드리는 5가지 약속
+              </Text>
             </Stack>
-            <SimpleGrid column={1} rowGap={4}>
+            <SimpleGrid column={1} rowGap={6}>
               {features.map((feature) => (
                 <Stack
                   key={feature.name}
@@ -120,7 +118,7 @@ export const Features = (props: { onClick: () => void }) => {
                   <Stack spacing={2} flex="1">
                     <Text
                       fontSize={{ base: "md", md: "lg" }}
-                      fontWeight={"semibold"}
+                      fontWeight={"600"}
                     >
                       {feature.name}
                     </Text>
@@ -131,18 +129,20 @@ export const Features = (props: { onClick: () => void }) => {
                 </Stack>
               ))}
             </SimpleGrid>
-            <Stack direction={{ base: "column", md: "row" }} my="10">
-              <Button
-                rounded="full"
-                size="lg"
-                fontSize="md"
-                fontWeight="bold"
-                onClick={props.onClick}
-                rightIcon={<MdArrowForward />}
-                bgGradient={gradient}
-              >
-                나에게 꼭 맞는 영양제 찾기
-              </Button>
+            <Stack align={"center"}>
+              <Stack direction={{ base: "column", md: "row" }} my="10">
+                <Button
+                  rounded="full"
+                  size="lg"
+                  fontSize="md"
+                  fontWeight="bold"
+                  onClick={props.onClick}
+                  rightIcon={<MdArrowForward />}
+                  bgGradient={gradient}
+                >
+                  나에게 꼭 맞는 영양제 찾기
+                </Button>
+              </Stack>
             </Stack>
           </Box>
         )}
