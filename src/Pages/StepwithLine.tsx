@@ -22,13 +22,13 @@ export const StepwithLine = () => {
           alignItems={"center"}
           spacing={{ base: "8", md: "12" }}
         >
-          <Heading
-            size={{ base: "xs", md: "md" }}
+          <Text
+            fontSize={{ base: "2xl", md: "4xl" }}
             fontWeight="extrabold"
             textAlign={"center"}
           >
             당신의 이야기를 들려주세요 나머지는 다 저희가 할게요
-          </Heading>
+          </Text>
           <Box p={{ base: "4", md: "12" }}>
             {!isMobile ? (
               <Image src={require("../Assets/Image/stepImage.png")} />

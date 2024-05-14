@@ -14,6 +14,7 @@ import { PopupWithImage } from "../E-Commerce/ShopPopup.js/PopupWithImage/App";
 import { Navbar } from "../Marketing/Layouts/LayoutWithFullContentHeight/Navbar";
 import { StepwithLine } from "./StepwithLine";
 import { BeforeAndAfter } from "./BeforeAndAfter";
+import { Footer } from "../Marketing/Layouts/LayoutWithFullContentHeight/Footer";
 
 function Landing(props) {
   const [popupOpen, setPopupOpen] = React.useState(false);
@@ -45,6 +46,7 @@ function Landing(props) {
       <Features onClick={() => setPopupOpen(true)} />
       <CTA1 onClick={() => setPopupOpen(true)} />
       <PopupWithImage isOpen={popupOpen} onClose={() => setPopupOpen(false)} />
+      <Footer onClick={() => setPopupOpen(true)} />
     </LayoutWithFullContentHeight>
   );
 }

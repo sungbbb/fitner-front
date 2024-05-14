@@ -25,7 +25,7 @@ import { Logo } from "./Logo";
 import { FiYoutube } from "react-icons/fi";
 import { gradient } from "../../Navbars/NavbarWithCallToAction/App";
 
-export const FooterWithSocialIconsOnAccent = () => {
+export const FooterWithSocialIconsOnAccent = ({ ...props }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <Box bg="#27494E" color="fg.accent.default">
@@ -68,7 +68,7 @@ export const FooterWithSocialIconsOnAccent = () => {
               <Text fontSize={"md"} color={"#d4d4d8"}>
                 대표전화
               </Text>
-              <Text fontSize={"lg"} fontWeight={"semibold"}>
+              <Text fontSize={"lg"} fontWeight={"600"}>
                 010-0000-0000
               </Text>
               <Text fontSize={"sm"} color={"#aaaaaa"}>
@@ -125,7 +125,7 @@ export const FooterWithSocialIconsOnAccent = () => {
                 <Text fontSize={"md"} color={"#d4d4d8"}>
                   대표전화
                 </Text>
-                <Text fontSize={"lg"} fontWeight={"semibold"}>
+                <Text fontSize={"lg"} fontWeight={"600"}>
                   010-0000-0000
                 </Text>
                 <Text fontSize={"sm"} color={"#aaaaaa"}>
@@ -175,6 +175,7 @@ export const FooterWithSocialIconsOnAccent = () => {
                 justifyContent={"center"}
                 alignItems={"center"}
                 _hover={{ transform: "scale(1.1)" }}
+                onClick={props.onClick}
               >
                 <Image
                   w={"20px"}
@@ -191,6 +192,7 @@ export const FooterWithSocialIconsOnAccent = () => {
                 justifyContent={"center"}
                 alignItems={"center"}
                 _hover={{ transform: "scale(1.1)" }}
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 <Icon fontSize={"xl"} as={FaArrowUp} />
               </Box>
