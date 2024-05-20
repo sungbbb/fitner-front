@@ -16,6 +16,7 @@ import { ListWithDraggableElements } from "../../List/ListWithDraggableElements/
 import { UserTable } from "../../Tables/UserTable/App";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../Firebase/firebase_conf";
+import ReorderableSurvey from "../../../Pages/ReorderbleSurvey";
 
 export const ShellWithGroupedMenu = () => {
   const [menu, setMenu] = useState(0);
@@ -86,28 +87,15 @@ const SurveyPage = () => {
       setList(res);
     });
   }, []);
-  return <ListWithDraggableElements list={list} />;
+  // return <ListWithDraggableElements list={list} />;
+  return <ReorderableSurvey list={list} />;
 };
 
 const ConsultPage = () => {
   const [list, setList] = useState([]);
   useEffect(() => {
-    let temp: any = [];
     getAllDoc2("codef_result").then((res: any) => {
-      res.map(async (item: any) => {
-        console.log(item);
-        const q = query(
-          collection(db, "survey_result"),
-          where("uid", "==", item.uid)
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc: any) => {
-          temp.push({ ...doc.data(), ...item });
-          console.log(doc.id, " => ", doc.data());
-
-          setList(temp);
-        });
-      });
+      setList(res);
     });
   }, []);
   return <UserTable list={list} />;

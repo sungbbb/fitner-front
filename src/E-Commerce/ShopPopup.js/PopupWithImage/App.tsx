@@ -114,7 +114,7 @@ export const PopupWithImage = (props: any) => {
     id: auth?.currentUser?.uid + new Date().getTime().toString(),
     identity: "",
     inquiryType: "0",
-    searchStartYear: (new Date().getFullYear() - 3).toString(),
+    searchStartYear: (new Date().getFullYear() - 10).toString(),
     searchEndYear: new Date().getFullYear().toString(),
     type: "1",
     telecom: "0",
@@ -136,8 +136,8 @@ export const PopupWithImage = (props: any) => {
   const [extraInput, setExtraInput] = useState();
   const toast = useToast();
   const [certType, setCertType] = useState("health");
-  const [healthData, setHealthData] = useState();
-  const [medicineData, setMedicineData] = useState();
+  const [healthData, setHealthData] = useState<any>();
+  const [medicineData, setMedicineData] = useState<any>();
   const [viewImageUpload, setViewImageUpload] = useState(false);
 
   useEffect(() => {
@@ -273,7 +273,7 @@ export const PopupWithImage = (props: any) => {
         // 파싱된 응답 데이터를 이용하여 처리합니다.
         console.log("서버로부터 받은 데이터:", data.data);
         setHealthData(data.data);
-        onClose();
+        // onClose();
       })
       .catch(async (err) => console.log(err));
   };
@@ -281,7 +281,7 @@ export const PopupWithImage = (props: any) => {
   const callCodef3 = async () => {
     let startDate = new Date();
     let endDate = new Date();
-    startDate.setFullYear(startDate.getFullYear() - 3);
+    startDate.setFullYear(startDate.getFullYear() - 10);
     const param = {
       ...formInput2,
       startDate: startDate.toISOString().substring(0, 10).replaceAll("-", ""),
@@ -476,10 +476,14 @@ export const PopupWithImage = (props: any) => {
                       {step === 1 && (
                         <HStack>
                           <Button
-                            w={"49%"}
+                            w={"full"}
                             isDisabled={healthData}
                             leftIcon={
-                              healthData ? <BsCheckCircleFill /> : <></>
+                              healthData && medicineData ? (
+                                <BsCheckCircleFill />
+                              ) : (
+                                <></>
+                              )
                             }
                             rightIcon={<></>}
                             onClick={() => {
@@ -489,10 +493,10 @@ export const PopupWithImage = (props: any) => {
                             }}
                           >
                             {healthData
-                              ? "건강검진자료 제출완료"
-                              : "건강검진자료 알려주기"}
+                              ? "건강검진자료 및 투약이력 제출완료"
+                              : "건강검진자료 및 투약이력 알려주기"}
                           </Button>
-                          <Button
+                          {/* <Button
                             w={"49%"}
                             isDisabled={medicineData}
                             leftIcon={
@@ -508,7 +512,7 @@ export const PopupWithImage = (props: any) => {
                             {medicineData
                               ? "투약이력 제출완료"
                               : "투약이력 알려주기"}
-                          </Button>
+                          </Button> */}
                         </HStack>
                       )}
                       {step === 2 && (
@@ -564,6 +568,7 @@ export const PopupWithImage = (props: any) => {
             <Stack>
               <Text fontWeight={"bold"} fontSize="xl">
                 본인확인서비스
+                {/* {certStep} */}
               </Text>
               <Text fontSize="sm" color="gray.500" fontWeight={"light"}>
                 {certStep === 0
@@ -577,141 +582,155 @@ export const PopupWithImage = (props: any) => {
 
           <ModalCloseButton />
           <ModalBody>
-            {certStep !== 3 ? (
-              <Stack spacing={"8"}>
-                {certStep === 0 && (
-                  <SimpleGrid gap="4" columns={4}>
-                    {loginType.map((type: any, index) => (
-                      <Flex
-                        onClick={() => {
-                          if (certType === "health") {
-                            setFormInput({
-                              ...formInput,
-                              loginTypeLevel: type.idx,
-                            });
-                          } else {
-                            setFormInput2({
-                              ...formInput2,
-                              loginTypeLevel: type.idx,
-                            });
-                          }
-                        }}
-                        cursor={"pointer"}
-                        aspectRatio={1}
-                        border={"4px solid"}
-                        borderColor={
-                          formInput.loginTypeLevel === type.idx
-                            ? "teal.500"
-                            : "gray.200"
-                        }
+            <Stack spacing={"8"}>
+              {certStep === 0 && (
+                <SimpleGrid gap="4" columns={4}>
+                  {loginType.map((type: any, index) => (
+                    <Flex
+                      onClick={() => {
+                        // if (certType === "health") {
+                        setFormInput({
+                          ...formInput,
+                          loginTypeLevel: type.idx,
+                        });
+                        // } else {
+                        setFormInput2({
+                          ...formInput2,
+                          loginTypeLevel: type.idx,
+                        });
+                        // }
+                      }}
+                      cursor={"pointer"}
+                      aspectRatio={1}
+                      border={"4px solid"}
+                      borderColor={
+                        formInput.loginTypeLevel === type.idx
+                          ? "teal.500"
+                          : "gray.200"
+                      }
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                      key={index}
+                      borderRadius={"lg"}
+                    >
+                      <Stack
                         alignItems={"center"}
                         justifyContent={"center"}
                         key={index}
-                        borderRadius={"lg"}
+                        p="1"
                       >
-                        <Stack
-                          alignItems={"center"}
-                          justifyContent={"center"}
-                          key={index}
-                          p="1"
-                        >
-                          <Box w={"12"} h={"12"}>
-                            {type.icon}
-                          </Box>
-                          <Text fontSize={"sm"} textAlign={"center"}>
-                            {type.title}
-                          </Text>
-                        </Stack>
-                      </Flex>
-                    ))}
-                  </SimpleGrid>
-                )}
-                {certStep === 1 && (
-                  <Stack>
-                    <FormControl isRequired>
-                      <FormLabel>이름</FormLabel>
-                      <Input
-                        onChange={(e) => {
-                          if (certType === "health") {
-                            setFormInput({
-                              ...formInput,
-                              userName: e.target.value,
-                            });
-                          } else {
-                            setFormInput2({
-                              ...formInput2,
-                              userName: e.target.value,
-                            });
-                          }
-                        }}
-                        focusBorderColor="teal"
-                        placeholder="홍길동"
-                      />
-                    </FormControl>
-                    <FormControl isRequired>
-                      <FormLabel>생년월일</FormLabel>
-                      <Input
-                        type="number"
-                        onChange={(e) => {
-                          if (certType === "health") {
-                            setFormInput({
-                              ...formInput,
-                              identity: e.target.value,
-                            });
-                          } else {
-                            setFormInput2({
-                              ...formInput2,
-                              identity: e.target.value,
-                            });
-                          }
-                        }}
-                        focusBorderColor="teal"
-                        placeholder="YYYY/MM/DD"
-                      />
-                    </FormControl>
-                    <FormControl isRequired>
-                      <FormLabel>휴대폰번호</FormLabel>
-                      <Input
-                        type="number"
-                        onChange={(e) => {
-                          if (certType === "health") {
-                            setFormInput({
-                              ...formInput,
-                              phoneNo: e.target.value,
-                            });
-                          } else {
-                            setFormInput2({
-                              ...formInput2,
-                              phoneNo: e.target.value,
-                            });
-                          }
-                        }}
-                        focusBorderColor="teal"
-                        placeholder="01012341234"
-                      />
-                    </FormControl>
-                  </Stack>
-                )}
-                {certStep === 2 && (
-                  <Stack>
-                    <Text fontSize={"2xl"} fontWeight={"bold"}>
-                      인증을 진행해주세요.
-                    </Text>
-                    <Text fontSize={"md"}>
-                      입력하신 휴대폰으로 인증 요청 메세지를 보냈습니다. 앱에서
-                      인증을 진행해주세요.
-                    </Text>
-                  </Stack>
-                )}
-              </Stack>
-            ) : (
-              <Center h={{ base: "lg", md: "100px" }}>
-                <VStack>
-                  <Text>정보 조회중....</Text>
-                  <CircularProgress isIndeterminate color="teal.300" />
-                </VStack>
-              </Center>
-            )}
+                        <Box w={"12"} h={"12"}>
+                          {type.icon}
+                        </Box>
+                        <Text fontSize={"10px"} textAlign={"center"}>
+                          {type.title}
+                        </Text>
+                      </Stack>
+                    </Flex>
+                  ))}
+                </SimpleGrid>
+              )}
+              {certStep === 1 && (
+                <Stack>
+                  <FormControl isRequired>
+                    <FormLabel>이름</FormLabel>
+                    <Input
+                      onChange={(e) => {
+                        // if (certType === "health") {
+                        setFormInput({
+                          ...formInput,
+                          userName: e.target.value,
+                        });
+                        // } else {
+                        setFormInput2({
+                          ...formInput2,
+                          userName: e.target.value,
+                        });
+                        // }
+                      }}
+                      focusBorderColor="teal"
+                      placeholder="홍길동"
+                    />
+                  </FormControl>
+                  <FormControl isRequired>
+                    <FormLabel>생년월일</FormLabel>
+                    <Input
+                      type="number"
+                      onChange={(e) => {
+                        // if (certType === "health") {
+                        setFormInput({
+                          ...formInput,
+                          identity: e.target.value,
+                        });
+                        // } else {
+                        setFormInput2({
+                          ...formInput2,
+                          identity: e.target.value,
+                        });
+                        // }
+                      }}
+                      focusBorderColor="teal"
+                      placeholder="YYYYMMDD"
+                    />
+                  </FormControl>
+                  <FormControl isRequired>
+                    <FormLabel>휴대폰번호</FormLabel>
+                    <Input
+                      type="number"
+                      onChange={(e) => {
+                        // if (certType === "health") {
+                        setFormInput({
+                          ...formInput,
+                          phoneNo: e.target.value,
+                        });
+                        // } else {
+                        setFormInput2({
+                          ...formInput2,
+                          phoneNo: e.target.value,
+                        });
+                        // }
+                      }}
+                      focusBorderColor="teal"
+                      placeholder="01012341234"
+                    />
+                  </FormControl>
+                </Stack>
+              )}
+              {(certStep === 2 || certStep === 4) && (
+                <Stack>
+                  <Text fontSize={"2xl"} fontWeight={"bold"}>
+                    인증을 진행해주세요.
+                  </Text>
+                  <Text fontSize={"md"}>
+                    입력하신 휴대폰으로 인증 요청 메세지를 보냈습니다. 앱에서
+                    인증을 진행한 후 아래 버튼을 클릭하세요.
+                  </Text>
+                </Stack>
+              )}
+              {(certStep === 3 || certStep === 5) && (
+                <Center h={{ base: "lg", md: "100px" }}>
+                  {(certStep === 3 || certStep === 5) &&
+                  (certStep === 3 ? !healthData : !medicineData) ? (
+                    <VStack>
+                      <Text>정보 조회중....</Text>
+                      <CircularProgress isIndeterminate color="teal.300" />
+                    </VStack>
+                  ) : (
+                    <VStack>
+                      <Text fontWeight={"bold"}>정보 조회 완료</Text>
+                      <Text>
+                        <strong>
+                          {certStep === 3
+                            ? healthData?.resResultList?.length
+                            : medicineData?.length}
+                        </strong>
+                        건의 정보가 조회되었습니다.
+                      </Text>
+                    </VStack>
+                  )}
+                </Center>
+              )}
+            </Stack>
           </ModalBody>
 
           <ModalFooter mb={4}>
@@ -731,26 +750,36 @@ export const PopupWithImage = (props: any) => {
               w={"full"}
               colorScheme="teal"
               onClick={() => {
-                if (certType === "health") {
-                  if (certStep === 1) {
-                    callCodef1();
-                  }
-                  if (certStep === 2) {
-                    callCodef2();
-                  }
+                // if (certType === "health") {
+                if (certStep === 1) {
+                  callCodef1();
                 }
-                if (certType === "medicine") {
-                  if (certStep === 1) {
-                    callCodef3();
-                  }
-                  if (certStep === 2) {
-                    callCodef4();
-                  }
+                if (certStep === 2) {
+                  callCodef2();
                 }
+                // }
+                // if (certType === "medicine") {
+                if (certStep === 3) {
+                  callCodef3();
+                }
+                if (certStep === 4) {
+                  callCodef4();
+                }
+                // }
                 setCertStep(certStep + 1);
               }}
             >
-              {certStep === 0 ? "다음" : certStep === 1 ? "확인" : "인증완료"}
+              {certStep === 0
+                ? "다음"
+                : certStep === 1
+                ? "확인"
+                : certStep === 2
+                ? "건강검진정보 가지고 오기"
+                : certStep === 3
+                ? "다음"
+                : certStep === 4
+                ? "투약정보 가지고 오기"
+                : "다음"}
             </Button>
           </ModalFooter>
         </ModalContent>

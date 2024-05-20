@@ -67,27 +67,32 @@ export const HeroWithImage = (props: { onClick: () => void }) => {
           </AspectRatio>
         </Stack>
         <Center position={"relative"}>
-          <Box h={{ base: "auto", md: "300px" }}>
-            <Image
-              src={require("../../Assets/Image/illust2.png")}
-              w={{ base: "auto", md: "600px" }}
-              h={{ base: "auto", md: "500px" }}
-              alt="illustration"
-              position={"absolute"}
-              bottom={{ base: -36, md: -3 }}
-              right={{ base: 0, md: 0 }}
-              objectFit={"cover"}
-            />
-            <Image
-              src={require("../../Assets/Image/lilust1.png")}
-              h={{ base: "auto", md: "360px" }}
-              alt="illustration"
-              position={"absolute"}
-              bottom={{ base: -36, md: -3 }}
-              right={{ base: 0, md: 0 }}
-              objectFit={"cover"}
-              zIndex={10}
-            />
+          <Box
+            w={{ base: "auto", md: "100%" }}
+            h={{ base: "auto", md: "300px" }}
+          >
+            <Center>
+              <Image
+                src={require("../../Assets/Image/illust2.png")}
+                w={{ base: "auto", md: "600px" }}
+                h={{ base: "auto", md: "500px" }}
+                alt="illustration"
+                position={"absolute"}
+                bottom={{ base: -36, md: -3 }}
+                // right={{ base: 0, md: 0 }}
+                objectFit={"cover"}
+              />
+              <Image
+                src={require("../../Assets/Image/lilust1.png")}
+                h={{ base: "auto", md: "360px" }}
+                alt="illustration"
+                position={"absolute"}
+                bottom={{ base: -36, md: -3 }}
+                // right={{ base: 0, md: 0 }}
+                objectFit={"cover"}
+                zIndex={111}
+              />
+            </Center>
           </Box>
         </Center>
         <Stack

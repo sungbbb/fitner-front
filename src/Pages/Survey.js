@@ -9,6 +9,7 @@ import {
   HStack,
   Image,
   Input,
+  Progress,
   Radio,
   RadioGroup,
   Select,
@@ -25,6 +26,7 @@ function Survey(props) {
   const toast = useToast();
   const [survey, setSurvey] = React.useState([]);
   const [index, setIndex] = React.useState(0);
+  const [percent, setPercent] = React.useState(0);
   useEffect(() => {
     getAllDoc("survey").then((data) => {
       setSurvey(data);
@@ -70,6 +72,22 @@ function Survey(props) {
       });
   };
 
+  function getPercent() {
+    let cnt = 0;
+
+    for (let i = 0; i < survey.length; i++) {
+      if (survey[i].answer) {
+        cnt++;
+      }
+    }
+    return (cnt / survey.length) * 100;
+  }
+
+  useEffect(() => {
+    let percent = getPercent();
+    setPercent(percent);
+  }, [index]);
+
   const onChange = (value) => {
     survey[index].answer = value;
     setSurvey([...survey]);
@@ -95,6 +113,7 @@ function Survey(props) {
         >
           제출하기
         </Text>
+        <Progress value={percent} />
         <Center>
           <Image src={require("../Assets/logo.png")} w={"150px"} h={"150px"} />
         </Center>
@@ -107,6 +126,7 @@ function Survey(props) {
             showStatus={false}
             showIndicators={false}
             selectedItem={index}
+            onChange={(i) => setIndex(i)}
           >
             {survey.map((content, index) => (
               <FormControl key={index} isRequired={content.required}>

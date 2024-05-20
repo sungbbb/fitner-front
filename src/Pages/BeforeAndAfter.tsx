@@ -69,12 +69,14 @@ export const BeforeAndAfter = () => {
                       >
                         핏트너 사용전
                       </Text>
-                      <Text>광고, 지인소개로 영양제 섭취</Text>
-                      <Text>부작용, 독성에 노출</Text>
-                      <Text>언제까지 얼마나 섭취해야하는지 기준 없음</Text>
-                      <Text>생활습관 교정 어려움</Text>
-                      <Text>원하는 효과, 건강증진 어려움</Text>
-                      <Text>불안감</Text>
+                      <Stack fontSize={{ base: "sm", md: "md" }}>
+                        <Text>광고, 지인소개로 영양제 섭취</Text>
+                        <Text>부작용, 독성에 노출</Text>
+                        <Text>언제까지 얼마나 섭취해야하는지 기준 없음</Text>
+                        <Text>생활습관 교정 어려움</Text>
+                        <Text>원하는 효과, 건강증진 어려움</Text>
+                        <Text>불안감</Text>
+                      </Stack>
                     </Stack>
                   </CardBody>
                 </Card>
@@ -120,7 +122,7 @@ export const BeforeAndAfter = () => {
                   bgColor={"rgba(255,255,255,0.7)"}
                 >
                   <CardBody opacity={1}>
-                    <Stack spacing={4}>
+                    <Stack spacing={4} fontSize={{ base: "sm", md: "md" }}>
                       <Text
                         fontSize={{ base: "xl", md: "2xl" }}
                         fontWeight={"bold"}

@@ -9,6 +9,7 @@ import {
   Img,
   Stack,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { HiChevronRight } from "react-icons/hi";
 import { MdArrowForward } from "react-icons/md";
@@ -23,7 +24,7 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
             maxW={{ base: "xl", md: "7xl" }}
             mx="auto"
             px={{ base: "4", md: "8" }}
-            h={{ base: "80vh", md: "100vh" }}
+            h={{ base: "100vh", md: "100vh" }}
           >
             {/* <Stack fontSize={{ base: "sm", md: "lg" }} mt="4" maxW="lg">
               <Text>
@@ -32,7 +33,7 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
               </Text>
               <Text>당신의 몸이 간절히 원하는 영양제는 따로 있습니다.</Text>
             </Stack> */}
-            <Center h={{ base: "80vh", md: "100vh" }}>
+            <Center h={{ base: "100vh", md: "100vh" }}>
               <Stack
                 mt={{ base: -48, md: 0 }}
                 w={"full"}
@@ -111,13 +112,16 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
       >
         <Box position="relative" w="full" h="full" overflow={"hidden"}>
           <Img
-            src={require("../../Assets/main.png")}
+            src={useBreakpointValue({
+              base: require("../../Assets/main2.png"),
+              lg: require("../../Assets/main.png"),
+            })}
             // src="https://images.unsplash.com/photo-1590650153855-d9e808231d41?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=2250&q=80"
             alt="Main Image"
             w="full"
             h="full"
             objectFit="cover"
-            objectPosition="top"
+            objectPosition="center center"
             position="absolute"
           />
           <Box

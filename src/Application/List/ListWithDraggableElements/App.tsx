@@ -24,6 +24,7 @@ import { FiSave, FiTrash2 } from "react-icons/fi";
 import { addDocument, updateDocument } from "../../../Firebase/firebase_func";
 import { MdAdd } from "react-icons/md";
 import { db } from "../../../Firebase/firebase_conf";
+import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 
 const List = chakra(Reorder.Group);
 const ListItem = chakra(Reorder.Item);
@@ -89,6 +90,27 @@ export const ListWithDraggableElements = (props: any) => {
     list[index].option.push(tempText);
   };
 
+  useEffect(() => {
+    console.log(list);
+  }, [list]);
+
+  const moveItem = (index: number, direction: string) => {
+    console.log("moveItem", index);
+    const newItems = [...order];
+    const [movedItem] = newItems.splice(index, 1);
+    if (direction === "up" && index > 0) {
+      newItems.splice(index - 1, 0, movedItem);
+    } else if (direction === "down" && index < newItems.length - 1) {
+      newItems.splice(index + 1, 0, movedItem);
+    } else if (direction === "top") {
+      newItems.unshift(movedItem);
+    } else if (direction === "bottom") {
+      newItems.push(movedItem);
+    }
+    console.log(newItems);
+    setOrder(newItems);
+  };
+
   return (
     <Center mx="auto" py={{ base: "4", md: "8" }}>
       <Stack spacing="5" flex="1">
@@ -136,7 +158,7 @@ export const ListWithDraggableElements = (props: any) => {
                     position="relative"
                     borderRadius="lg"
                     cursor="grab"
-                    whileTap={{ cursor: "grabbing", scale: 1.1 }}
+                    // whileTap={{ cursor: "grabbing", scale: 1.1 }}
                   >
                     <Stack shouldWrapChildren spacing="4">
                       <HStack justify="space-between">
@@ -205,10 +227,26 @@ export const ListWithDraggableElements = (props: any) => {
                       )}
                       <HStack justify={"end"} divider={<StackDivider />}>
                         <IconButton
+                          aria-label=""
+                          icon={<BiChevronUp />}
+                          onClick={() => moveItem(issue.index - 1, "top")}
+                        />
+                        <IconButton
+                          aria-label=""
+                          icon={<BiChevronDown />}
+                          onClick={() => moveItem(issue.index - 1, "bottom")}
+                        />
+                        <IconButton
                           onClick={() => {
-                            list.splice(issue.index - 1, 1);
-                            setOrder(list?.map((issue: any) => issue.index));
-                            deleteDoc(doc(db, "survey", issue.docId));
+                            if (window.confirm("문항을 삭제하시겠습니까?")) {
+                              list.splice(issue.index - 1, 1);
+                              setOrder(list?.map((issue: any) => issue.index));
+                              deleteDoc(doc(db, "survey", issue.docId)).then(
+                                async () => {
+                                  window.location.reload();
+                                }
+                              );
+                            }
                           }}
                           colorScheme="gray"
                           aria-label=""
