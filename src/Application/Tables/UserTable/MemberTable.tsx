@@ -25,6 +25,7 @@ import {
   Flex,
   Center,
   Wrap,
+  Box,
 } from "@chakra-ui/react";
 
 import React, { useEffect } from "react";
@@ -151,9 +152,16 @@ export const MemberTable = (props: any) => {
                   <Button
                     onClick={() => {
                       setType(2);
-                      setData(member.medicine);
-                      console.log(member.medicine);
-                      onOpen();
+                      try {
+                        member.medicine.map((item: any) => {
+                          console.log(item);
+                        });
+
+                        setData(member.medicine);
+                        onOpen();
+                      } catch (error) {
+                        alert("[TYPE ERROR] : 잘못된 데이터입니다.");
+                      }
                     }}
                     colorScheme="teal"
                     size={"xs"}
@@ -213,7 +221,7 @@ export const MemberTable = (props: any) => {
               <>
                 <Stack spacing={4}>
                   {data.answer?.map((answer: any) => (
-                    <Stack>
+                    <Stack key={answer.question}>
                       <Text>Q. {answer.question}</Text>
                       <Text>A. {answer.answer}</Text>
                     </Stack>
@@ -224,7 +232,7 @@ export const MemberTable = (props: any) => {
               <>
                 <Stack spacing={4}>
                   {data.health.resPreviewList?.map((health: any) => (
-                    <Card>
+                    <Card key={health.resId}>
                       <CardHeader fontSize={"lg"} fontWeight={"bold"}>
                         한눈에 보기
                       </CardHeader>
@@ -965,7 +973,7 @@ export const MemberTable = (props: any) => {
                   >
                     <Text>투약일수</Text>
                   </GridItem>
-                  {data.map((item: any, index: number) => (
+                  {data?.map((item: any, index: number) => (
                     <>
                       {item.resMediDetailList.length > 0 && (
                         <>
@@ -1031,28 +1039,6 @@ export const MemberTable = (props: any) => {
                             </>
                           ))}
                         </>
-                        // <Card p={2}>
-                        //   {item.resMediDetailList.map((detail: any) => (
-                        //     <>
-                        //       <Text fontWeight={"bold"}>
-                        //         진료/처방 일자 : {detail.resTreatDate}
-                        //       </Text>
-                        //       {/* <Text>약품이미지 : {detail.resDrugImageLink}</Text> */}
-                        //       <Text>
-                        //         처방약품효능 :{detail.resPrescribeDrugEffect}
-                        //       </Text>
-                        //       <Text>
-                        //         처방약품명 :{detail.resPrescribeDrugName}
-                        //       </Text>
-                        //       {/* <Text>처방횟수_상세 : {detail.resPrescribeCntDet}</Text>s */}
-                        //       <Text>
-                        //         {" "}
-                        //         진료형태_상세 : {detail.resTreatTypeDet}
-                        //       </Text>
-                        //       <Text> 투약일수 : {detail.resPrescribeDays}</Text>
-                        //     </>
-                        //   ))}
-                        // </Card>
                       )}
                     </>
                   ))}
@@ -1061,7 +1047,7 @@ export const MemberTable = (props: any) => {
             ) : (
               <>
                 <SimpleGrid columns={3} spacing={2}>
-                  {data.map((item: any) => (
+                  {data?.map((item: any) => (
                     <Image src={item} key={item} width={"100%"} />
                   ))}
                 </SimpleGrid>

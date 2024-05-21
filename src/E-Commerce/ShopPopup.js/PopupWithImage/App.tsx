@@ -171,6 +171,11 @@ export const PopupWithImage = (props: any) => {
 
   const [imageList, setImageList] = useState<any>([]);
 
+  function sleep(ms: number) {
+    const wakeUpTime = Date.now() + ms;
+    while (Date.now() < wakeUpTime) {}
+  }
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
 
@@ -238,11 +243,23 @@ export const PopupWithImage = (props: any) => {
             position: "top-right",
           });
         }
-        console.log("서버로부터 받은 데이터:", data, data.data);
+        console.log("callCodef1 서버로부터 받은 데이터:", data, data.data);
         setExtraInput(data.data);
       })
       .catch(async (err) => console.log(err));
   };
+
+  useEffect(() => {
+    if (extraInput && certStep === 2) {
+      console.log("인증요청을 했습니다.");
+      // callCodef2();
+    }
+
+    if (extraInput && certStep === 4) {
+      console.log("인증요청을 했습니다.");
+      // callCodef2();
+    }
+  }, [extraInput]);
 
   const callCodef2 = async () => {
     console.log("callCodef2", extraInput);
@@ -271,14 +288,40 @@ export const PopupWithImage = (props: any) => {
       })
       .then(async (data) => {
         // 파싱된 응답 데이터를 이용하여 처리합니다.
-        console.log("서버로부터 받은 데이터:", data.data);
+        console.log("callCodef2 서버로부터 받은 데이터:", data.data);
         setHealthData(data.data);
-        // onClose();
+
+        toast({
+          title:
+            data.data.resResultList.length +
+            "개의 건강검진 정보를 받아왔습니다.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
       })
-      .catch(async (err) => console.log(err));
+      .catch(async (err) =>
+        toast({
+          title: err,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        })
+      );
   };
 
+  useEffect(() => {
+    if (healthData && certStep === 3) {
+      console.log("건강정보를 받아왔습니다.");
+      callCodef3();
+      setCertStep(4);
+    }
+  }, [healthData]);
+
   const callCodef3 = async () => {
+    console.log("callCodef3", extraInput);
     let startDate = new Date();
     let endDate = new Date();
     startDate.setFullYear(startDate.getFullYear() - 10);
@@ -303,14 +346,33 @@ export const PopupWithImage = (props: any) => {
       })
       .then(async (data) => {
         // 파싱된 응답 데이터를 이용하여 처리합니다.
-        console.log("서버로부터 받은 데이터:", data.data);
+        console.log("callCodef3 서버로부터 받은 데이터:", data.data);
+        // setMedicineData({ ...data.data });
+        console.log(data.data);
+
         setExtraInput(data.data);
+
+        toast({
+          title: "인증을 진행해주세요!!",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
       })
-      .catch(async (err) => console.log(err));
+      .catch(async (err) =>
+        toast({
+          title: err,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        })
+      );
   };
 
   const callCodef4 = async () => {
-    console.log("callCodef2", extraInput);
+    console.log("callCodef4", extraInput);
     const param = {
       ...formInput2,
       signedData: "",
@@ -336,12 +398,35 @@ export const PopupWithImage = (props: any) => {
       })
       .then(async (data) => {
         // 파싱된 응답 데이터를 이용하여 처리합니다.
-        console.log("서버로부터 받은 데이터:", data.data);
+        console.log("callCodef4 서버로부터 받은 데이터:", data.data);
         setMedicineData(data.data);
-        onClose();
+
+        toast({
+          title: data.data.length + "개의 투약정보를 받아왔습니다.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+        // onClose();
       })
-      .catch(async (err) => console.log(err));
+      .catch(async (err) =>
+        toast({
+          title: err,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        })
+      );
   };
+
+  useEffect(() => {
+    if (medicineData) {
+      console.log(medicineData);
+      onClose();
+    }
+  }, [medicineData]);
 
   return (
     // <Box height="100vh" display={isOpen ? "initial" : "none"}>
@@ -710,7 +795,7 @@ export const PopupWithImage = (props: any) => {
               {(certStep === 3 || certStep === 5) && (
                 <Center h={{ base: "lg", md: "100px" }}>
                   {(certStep === 3 || certStep === 5) &&
-                  (certStep === 3 ? !healthData : !medicineData) ? (
+                  ((certStep === 3 && !healthData) || certStep === 5) ? (
                     <VStack>
                       <Text>정보 조회중....</Text>
                       <CircularProgress isIndeterminate color="teal.300" />
@@ -722,7 +807,9 @@ export const PopupWithImage = (props: any) => {
                         <strong>
                           {certStep === 3
                             ? healthData?.resResultList?.length
-                            : medicineData?.length}
+                            : medicineData?.length
+                            ? medicineData?.length
+                            : 0}
                         </strong>
                         건의 정보가 조회되었습니다.
                       </Text>
@@ -741,11 +828,8 @@ export const PopupWithImage = (props: any) => {
                   (formInput.userName === "" ||
                     formInput.phoneNo === "" ||
                     formInput.identity === "")) ||
-                (certStep === 2 &&
-                  certType === "medicine" &&
-                  (formInput2.userName === "" ||
-                    formInput2.phoneNo === "" ||
-                    formInput2.identity === ""))
+                (certStep === 3 && !healthData) ||
+                certStep === 5
               }
               w={"full"}
               colorScheme="teal"
