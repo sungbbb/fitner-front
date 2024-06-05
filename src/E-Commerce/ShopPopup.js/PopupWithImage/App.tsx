@@ -103,6 +103,7 @@ export const PopupWithImage = (props: any) => {
   const imageRef = useRef<HTMLInputElement>(null);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [step, setStep] = useState(0);
+  const [enableButton, setEnableButton] = useState(false);
 
   const [certStep, setCertStep] = useState(0);
   const [formInput, setFormInput] = useState({
@@ -245,6 +246,8 @@ export const PopupWithImage = (props: any) => {
         }
         console.log("callCodef1 서버로부터 받은 데이터:", data, data.data);
         setExtraInput(data.data);
+
+        setEnableButton(true);
       })
       .catch(async (err) => console.log(err));
   };
@@ -359,6 +362,8 @@ export const PopupWithImage = (props: any) => {
           isClosable: true,
           position: "top-right",
         });
+
+        setEnableButton(true);
       })
       .catch(async (err) =>
         toast({
@@ -445,20 +450,16 @@ export const PopupWithImage = (props: any) => {
           <ModalCloseButton size="lg" />
           <ModalBody padding="0">
             <Flex>
-              <AspectRatio
-                ratio={1}
-                width="50%"
-                maxW={{ lg: "md" }}
-                display={{ base: "none", md: "flex" }}
-              >
-                <Image
-                  objectFit="cover"
-                  src={require("../../../Assets/illust.jpg")}
-                  // src="https://images.unsplash.com/photo-1587925358603-c2eea5305bbc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=470&h=622&q=80"
-                  alt="Lovely Image"
-                  fallback={<Skeleton />}
-                />
-              </AspectRatio>
+              <Image
+                display={{ base: "none", md: "block" }}
+                w={"50%"}
+                objectFit={"cover"}
+                src={require("../../../Assets/Image/illust.png")}
+                // src={require("../../../Assets/illust.jpg")}
+                // src="https://images.unsplash.com/photo-1587925358603-c2eea5305bbc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=470&h=622&q=80"
+                alt="Lovely Image"
+                fallback={<Skeleton />}
+              />
 
               <Flex
                 direction="column"
@@ -479,6 +480,8 @@ export const PopupWithImage = (props: any) => {
                       <Heading
                         fontWeight="extrabold"
                         fontSize={{ base: "3xl", md: "4xl" }}
+                        bgClip="text"
+                        bgGradient="linear(to-r, teal.500, teal.300)"
                       >
                         내게 맞는 영양제 찾기
                       </Heading>
@@ -499,6 +502,8 @@ export const PopupWithImage = (props: any) => {
                       <Heading
                         fontWeight="extrabold"
                         fontSize={{ base: "3xl", md: "4xl" }}
+                        bgClip="text"
+                        bgGradient="linear(to-r, teal.500, teal.300)"
                       >
                         축하합니다!
                       </Heading>
@@ -516,6 +521,8 @@ export const PopupWithImage = (props: any) => {
                       <Heading
                         fontWeight="extrabold"
                         fontSize={{ base: "3xl", md: "4xl" }}
+                        bgClip="text"
+                        bgGradient="linear(to-r, teal.500, teal.300)"
                       >
                         이제 거의 다 됐습니다.
                       </Heading>
@@ -532,6 +539,8 @@ export const PopupWithImage = (props: any) => {
                       <Heading
                         fontWeight="extrabold"
                         fontSize={{ base: "3xl", md: "4xl" }}
+                        bgClip="text"
+                        bgGradient="linear(to-r, teal.500, teal.300)"
                       >
                         감사합니다.
                       </Heading>
@@ -828,6 +837,8 @@ export const PopupWithImage = (props: any) => {
                   (formInput.userName === "" ||
                     formInput.phoneNo === "" ||
                     formInput.identity === "")) ||
+                (certStep === 2 && !enableButton) ||
+                (certStep === 4 && !enableButton) ||
                 (certStep === 3 && !healthData) ||
                 certStep === 5
               }
@@ -837,6 +848,7 @@ export const PopupWithImage = (props: any) => {
                 // if (certType === "health") {
                 if (certStep === 1) {
                   callCodef1();
+                  setEnableButton(false);
                 }
                 if (certStep === 2) {
                   callCodef2();
@@ -845,6 +857,7 @@ export const PopupWithImage = (props: any) => {
                 // if (certType === "medicine") {
                 if (certStep === 3) {
                   callCodef3();
+                  setEnableButton(false);
                 }
                 if (certStep === 4) {
                   callCodef4();

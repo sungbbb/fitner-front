@@ -35,6 +35,7 @@ export const NavbarWithCallToAction = ({ ...props }) => {
               w={"auto"}
               height={"36px"}
               alt="logo"
+              cursor={"pointer"}
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             />
             <HStack spacing="8">

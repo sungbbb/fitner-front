@@ -25,7 +25,7 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
           align="center"
         >
           <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight={"extrabold"}>
-            고객 만족도
+            차이를 느껴보세요
           </Text>
           <Stack w={{ base: "none", md: "full" }}>
             <Stack
