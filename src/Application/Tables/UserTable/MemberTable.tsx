@@ -42,6 +42,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Grid, GridItem } from "@chakra-ui/react";
+import { BiChevronLeft } from "react-icons/bi";
 
 export const MemberTable = (props: any) => {
   const { list } = props;
@@ -50,6 +51,8 @@ export const MemberTable = (props: any) => {
   const [data, setData] = React.useState<any>({});
 
   const [newList, setNewList] = React.useState<any>([]);
+
+  const [detailItem, setDetailItem] = React.useState<any>({});
 
   useEffect(() => {
     list.map((member: any, index: number) => {
@@ -915,134 +918,324 @@ export const MemberTable = (props: any) => {
                 </Stack>
               </>
             ) : type === 2 ? (
-              <Stack spacing={2}>
-                <Grid templateColumns="repeat(8, 1fr)" bgColor={"white"} p={2}>
-                  <GridItem
-                    p={2}
-                    border={"1px solid #d9d9d9"}
-                    borderRight={"none"}
-                    bgColor={"gray.100"}
-                  >
-                    <Text>병의원(약국)명</Text>
-                  </GridItem>
-                  <GridItem
-                    p={2}
-                    border={"1px solid #d9d9d9"}
-                    borderRight={"none"}
-                    bgColor={"gray.100"}
-                  >
-                    <Text>진료(처방)일자</Text>
-                  </GridItem>
-                  <GridItem
-                    p={2}
-                    border={"1px solid #d9d9d9"}
-                    borderRight={"none"}
-                    bgColor={"gray.100"}
-                  >
-                    <Text>진료형태</Text>
-                  </GridItem>
-                  <GridItem
-                    p={2}
-                    border={"1px solid #d9d9d9"}
-                    borderRight={"none"}
-                    bgColor={"gray.100"}
-                  >
-                    <Text>처방회수</Text>
-                  </GridItem>
-                  <GridItem
-                    colSpan={2}
-                    p={2}
-                    border={"1px solid #d9d9d9"}
-                    borderRight={"none"}
-                    bgColor={"gray.100"}
-                  >
-                    <Text>처방약품명</Text>
-                  </GridItem>
-                  <GridItem
-                    p={2}
-                    border={"1px solid #d9d9d9"}
-                    borderRight={"none"}
-                    bgColor={"gray.100"}
-                  >
-                    <Text>처방약품효능</Text>
-                  </GridItem>
-                  <GridItem
-                    p={2}
-                    border={"1px solid #d9d9d9"}
-                    bgColor={"gray.100"}
-                  >
-                    <Text>투약일수</Text>
-                  </GridItem>
-                  {data?.map((item: any, index: number) => (
-                    <>
-                      {item.resMediDetailList.length > 0 && (
+              <Stack>
+                {!detailItem && (
+                  <Stack spacing={2}>
+                    <Grid
+                      templateColumns="repeat(8, 1fr)"
+                      bgColor={"white"}
+                      p={2}
+                    >
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>번호</Text>
+                      </GridItem>
+                      <GridItem
+                        colSpan={2}
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>병의원(약국)명</Text>
+                      </GridItem>
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>진료개시일</Text>
+                      </GridItem>
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>진료형태</Text>
+                      </GridItem>
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>방문(입원)일수</Text>
+                      </GridItem>
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>처방회수</Text>
+                      </GridItem>
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>투약(요양)회수</Text>
+                      </GridItem>
+                      {data?.map((item: any, index: number) => (
                         <>
-                          {item.resMediDetailList.map((detail: any) => (
-                            <>
-                              <GridItem
-                                p={2}
-                                border={"1px solid #d9d9d9"}
-                                borderRight={"none"}
-                                borderTop={"none"}
-                              >
-                                <Text>{item.resHospitalName}</Text>
-                              </GridItem>
-                              <GridItem
-                                p={2}
-                                border={"1px solid #d9d9d9"}
-                                borderRight={"none"}
-                                borderTop={"none"}
-                              >
-                                <Text> {detail.resTreatDate}</Text>
-                              </GridItem>
-                              <GridItem
-                                p={2}
-                                border={"1px solid #d9d9d9"}
-                                borderRight={"none"}
-                                borderTop={"none"}
-                              >
-                                <Text> {detail.resTreatTypeDet}</Text>
-                              </GridItem>
-                              <GridItem
-                                p={2}
-                                border={"1px solid #d9d9d9"}
-                                borderRight={"none"}
-                                borderTop={"none"}
-                              >
-                                <Text> {detail.resPrescribeCntDet}</Text>
-                              </GridItem>
-                              <GridItem
-                                colSpan={2}
-                                p={2}
-                                border={"1px solid #d9d9d9"}
-                                borderRight={"none"}
-                                borderTop={"none"}
-                              >
-                                <Text> {detail.resPrescribeDrugName}</Text>
-                              </GridItem>
-                              <GridItem
-                                p={2}
-                                border={"1px solid #d9d9d9"}
-                                borderRight={"none"}
-                                borderTop={"none"}
-                              >
-                                <Text> {detail.resPrescribeDrugEffect}</Text>
-                              </GridItem>
-                              <GridItem
-                                p={2}
-                                border={"1px solid #d9d9d9"}
-                                // borderRight={"none"}
-                                borderTop={"none"}
-                              >
-                                <Text> {detail.resPrescribeDays}</Text>
-                              </GridItem>
-                            </>
-                          ))}
+                          <GridItem
+                            p={2}
+                            border={"1px solid #d9d9d9"}
+                            borderRight={"none"}
+                            borderTop={"none"}
+                          >
+                            <Text>{index + 1}</Text>
+                          </GridItem>
+                          <GridItem
+                            colSpan={2}
+                            p={2}
+                            border={"1px solid #d9d9d9"}
+                            borderRight={"none"}
+                            borderTop={"none"}
+                          >
+                            <Text
+                              color={"red.500"}
+                              fontWeight={"bold"}
+                              textDecoration={"underline"}
+                              cursor={"pointer"}
+                              onClick={() => {
+                                setDetailItem(item);
+                              }}
+                            >
+                              {item.resHospitalName}
+                            </Text>
+                          </GridItem>
+                          <GridItem
+                            p={2}
+                            border={"1px solid #d9d9d9"}
+                            borderRight={"none"}
+                            borderTop={"none"}
+                          >
+                            <Text>
+                              {" "}
+                              {item.resTreatStartDate.slice(0, 4) +
+                                "-" +
+                                item.resTreatStartDate.slice(4, 6) +
+                                "-" +
+                                item.resTreatStartDate.slice(6, 8)}
+                            </Text>
+                          </GridItem>
+                          <GridItem
+                            p={2}
+                            border={"1px solid #d9d9d9"}
+                            borderRight={"none"}
+                            borderTop={"none"}
+                          >
+                            <Text> {item.resTreatType}</Text>
+                          </GridItem>
+                          <GridItem
+                            p={2}
+                            border={"1px solid #d9d9d9"}
+                            borderRight={"none"}
+                            borderTop={"none"}
+                          >
+                            <Text> {item.resVisitDays}</Text>
+                          </GridItem>
+                          <GridItem
+                            p={2}
+                            border={"1px solid #d9d9d9"}
+                            borderRight={"none"}
+                            borderTop={"none"}
+                          >
+                            <Text> {item.resMedicationCnt}</Text>
+                          </GridItem>
+                          <GridItem
+                            p={2}
+                            border={"1px solid #d9d9d9"}
+                            // borderRight={"none"}
+                            borderTop={"none"}
+                          >
+                            <Text> {item.resPrescribeCnt}</Text>
+                          </GridItem>
                         </>
-                      )}
-                    </>
-                  ))}
-                </Grid>
+                      ))}
+                    </Grid>
+                  </Stack>
+                )}
+
+                {detailItem && (
+                  <Stack spacing={2}>
+                    <Flex>
+                      <Button
+                        variant={"outline"}
+                        aria-label="go back"
+                        leftIcon={<BiChevronLeft />}
+                        onClick={() => setDetailItem(null)}
+                      >
+                        목록
+                      </Button>
+                    </Flex>
+                    <HStack
+                      spacing={4}
+                      p={4}
+                      border={"1px solid #d9d9d9"}
+                      bgColor={"white"}
+                    >
+                      <Text fontWeight={"bold"} opacity={0.8}>
+                        병(의)원 약국 명
+                      </Text>
+                      <Text fontWeight={"bold"}>
+                        {detailItem.resHospitalName}
+                      </Text>
+                    </HStack>
+                    <Grid
+                      templateColumns="repeat(8, 1fr)"
+                      bgColor={"white"}
+                      p={2}
+                    >
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>번호</Text>
+                      </GridItem>
+
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>진료(처방)일자</Text>
+                      </GridItem>
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>진료형태</Text>
+                      </GridItem>
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>처방회수</Text>
+                      </GridItem>
+                      <GridItem
+                        colSpan={2}
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>처방약품명</Text>
+                      </GridItem>
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        borderRight={"none"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>처방약품효능</Text>
+                      </GridItem>
+                      <GridItem
+                        p={2}
+                        border={"1px solid #d9d9d9"}
+                        bgColor={"gray.100"}
+                      >
+                        <Text>투약일수</Text>
+                      </GridItem>
+                      {/* {data?.map((item: any, index: number) => ( */}
+                      <>
+                        {detailItem?.resMediDetailList?.length > 0 && (
+                          <>
+                            {detailItem.resMediDetailList.map(
+                              (detail: any, index: number) => (
+                                <>
+                                  <GridItem
+                                    p={2}
+                                    border={"1px solid #d9d9d9"}
+                                    borderRight={"none"}
+                                    borderTop={"none"}
+                                  >
+                                    <Text>{index + 1}</Text>
+                                  </GridItem>
+
+                                  <GridItem
+                                    p={2}
+                                    border={"1px solid #d9d9d9"}
+                                    borderRight={"none"}
+                                    borderTop={"none"}
+                                  >
+                                    <Text> {detail.resTreatDate}</Text>
+                                  </GridItem>
+                                  <GridItem
+                                    p={2}
+                                    border={"1px solid #d9d9d9"}
+                                    borderRight={"none"}
+                                    borderTop={"none"}
+                                  >
+                                    <Text> {detail.resTreatTypeDet}</Text>
+                                  </GridItem>
+                                  <GridItem
+                                    p={2}
+                                    border={"1px solid #d9d9d9"}
+                                    borderRight={"none"}
+                                    borderTop={"none"}
+                                  >
+                                    <Text> {detail.resPrescribeCntDet}</Text>
+                                  </GridItem>
+                                  <GridItem
+                                    colSpan={2}
+                                    p={2}
+                                    border={"1px solid #d9d9d9"}
+                                    borderRight={"none"}
+                                    borderTop={"none"}
+                                  >
+                                    <Text> {detail.resPrescribeDrugName}</Text>
+                                  </GridItem>
+                                  <GridItem
+                                    p={2}
+                                    border={"1px solid #d9d9d9"}
+                                    borderRight={"none"}
+                                    borderTop={"none"}
+                                  >
+                                    <Text>
+                                      {" "}
+                                      {detail.resPrescribeDrugEffect}
+                                    </Text>
+                                  </GridItem>
+                                  <GridItem
+                                    p={2}
+                                    border={"1px solid #d9d9d9"}
+                                    // borderRight={"none"}
+                                    borderTop={"none"}
+                                  >
+                                    <Text> {detail.resPrescribeDays}</Text>
+                                  </GridItem>
+                                </>
+                              )
+                            )}
+                          </>
+                        )}
+                        {detailItem?.resMediDetailList?.length === 0 && (
+                          <GridItem colSpan={8} p={8}>
+                            <Text w={"100%"} textAlign={"center"}>
+                              검색 결과가 존재하지 않습니다.
+                            </Text>
+                          </GridItem>
+                        )}
+                      </>
+                      {/* ))} */}
+                    </Grid>
+                  </Stack>
+                )}
               </Stack>
             ) : (
               <>
