@@ -105,6 +105,8 @@ export const PopupWithImage = (props: any) => {
   const [step, setStep] = useState(0);
   const [enableButton, setEnableButton] = useState(false);
 
+  const [sessionId, setSessionId] = useState(new Date().getTime().toString());
+
   const [certStep, setCertStep] = useState(0);
   const [formInput, setFormInput] = useState({
     organization: "0002",
@@ -112,7 +114,6 @@ export const PopupWithImage = (props: any) => {
     loginTypeLevel: "1",
     userName: "",
     phoneNo: "",
-    id: auth?.currentUser?.uid + new Date().getTime().toString(),
     identity: "",
     inquiryType: "0",
     searchStartYear: (new Date().getFullYear() - 10).toString(),
@@ -123,7 +124,6 @@ export const PopupWithImage = (props: any) => {
   const [formInput2, setFormInput2] = useState({
     organization: "0002",
     loginType: "5",
-    id: auth?.currentUser?.uid + new Date().getTime().toString(),
     identity: "",
     userName: "",
     loginTypeLevel: "1",
@@ -209,9 +209,7 @@ export const PopupWithImage = (props: any) => {
     });
   };
 
-  const callCodef1 = async () => {
-    console.log(auth?.currentUser?.uid);
-    formInput.id = auth?.currentUser?.uid + new Date().getTime().toString();
+  const callCodef = async () => {
     await fetch(
       "https://port-0-fitner-17xco2nlszge3vt.sel5.cloudtype.app/result",
       {
@@ -219,7 +217,7 @@ export const PopupWithImage = (props: any) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formInput),
+        body: JSON.stringify({ id: sessionId, ...formInput }),
       }
     )
       .then(async (res) => {
@@ -227,47 +225,58 @@ export const PopupWithImage = (props: any) => {
       })
       .then(async (data) => {
         // 파싱된 응답 데이터를 이용하여 처리합니다.
-
-        if (data.result.code !== "CF-03002") {
-          toast({
-            title: data.result.message,
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-            position: "top-right",
-          });
-        } else {
-          toast({
-            title: "인증을 진행해주세요!",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-            position: "top-right",
-          });
-        }
-        console.log("callCodef1 서버로부터 받은 데이터:", data, data.data);
+        console.log("1", data);
         setExtraInput(data.data);
-
         setEnableButton(true);
       })
-      .catch(async (err) => console.log(err));
+      .catch((error) => {
+        console.log(error);
+      });
+
+    let startDate = new Date();
+    let endDate = new Date();
+    startDate.setFullYear(startDate.getFullYear() - 10);
+    const param = {
+      id: sessionId,
+      ...formInput2,
+      startDate: startDate.toISOString().substring(0, 10).replaceAll("-", ""),
+      endDate: endDate.toISOString().substring(0, 10).replaceAll("-", ""),
+    };
+
+    await fetch(
+      "https://port-0-fitner-17xco2nlszge3vt.sel5.cloudtype.app/information",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(param),
+      }
+    )
+      .then(async (res) => {
+        return res.json();
+      })
+      .then(async (data) => {
+        console.log("2", data);
+        setMedicineData(data.data);
+        setEnableButton(true);
+
+        toast({
+          title: "건강검진 및 투약정보를 가져왔습니다.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  useEffect(() => {
-    if (extraInput && certStep === 2) {
-      console.log("인증요청을 했습니다.");
-      // callCodef2();
-    }
-
-    if (extraInput && certStep === 4) {
-      console.log("인증요청을 했습니다.");
-      // callCodef2();
-    }
-  }, [extraInput]);
-
-  const callCodef2 = async () => {
-    console.log("callCodef2", extraInput);
+  const callResult = async () => {
     const param = {
+      id: sessionId,
       ...formInput,
       signedData: "",
       simpleAuth: "1",
@@ -291,181 +300,37 @@ export const PopupWithImage = (props: any) => {
         return res.json();
       })
       .then(async (data) => {
-        // 파싱된 응답 데이터를 이용하여 처리합니다.
-        console.log("callCodef2 서버로부터 받은 데이터:", data.data);
-
-        if (!data.data.resResultList) {
-          toast({
-            title: "인증되지 않았습니다! 인증을 다시 진행해주세요.",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-            position: "top-right",
-          });
-          callCodef1();
-          setCertStep(2);
-          return;
-        }
-
-        if (data.data.resResultList?.length === 0) {
-          toast({
-            title: "건강검진 정보가 없습니다.",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-            position: "top-right",
-          });
-        } else {
-          toast({
-            title:
-              data.data.resResultList?.length +
-              "개의 건강검진 정보를 받아왔습니다.",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-            position: "top-right",
-          });
-        }
-
+        console.log(data);
         setHealthData(data.data);
       })
-      .catch(async (err) =>
-        toast({
-          title: err,
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-          position: "top-right",
-        })
-      );
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
-    if (healthData && certStep === 3) {
+    if (extraInput && certStep === 1) {
+      toast({
+        title: "인증을 진행해주세요!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  }, [extraInput]);
+
+  useEffect(() => {
+    if (healthData) {
       console.log("건강정보를 받아왔습니다.");
-      callCodef3();
-      setCertStep(4);
     }
   }, [healthData]);
 
-  const callCodef3 = async () => {
-    console.log("callCodef3", extraInput);
-    formInput2.id = auth?.currentUser?.uid + new Date().getTime().toString();
-    let startDate = new Date();
-    let endDate = new Date();
-    startDate.setFullYear(startDate.getFullYear() - 10);
-    const param = {
-      ...formInput2,
-      startDate: startDate.toISOString().substring(0, 10).replaceAll("-", ""),
-      endDate: endDate.toISOString().substring(0, 10).replaceAll("-", ""),
-    };
-    console.log(param);
-    await fetch(
-      "https://port-0-fitner-17xco2nlszge3vt.sel5.cloudtype.app/information",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(param),
-      }
-    )
-      .then(async (res) => {
-        return res.json();
-      })
-      .then(async (data) => {
-        // 파싱된 응답 데이터를 이용하여 처리합니다.
-        console.log("callCodef3 서버로부터 받은 데이터:", data.data);
-        // setMedicineData({ ...data.data });
-        console.log(data.data);
-
-        setExtraInput(data.data);
-
-        if (data.data.length > 0) {
-          toast({
-            title: data.data.length + "개의 투약정보를 받아왔습니다.",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-            position: "top-right",
-          });
-          setMedicineData(data.data);
-          return;
-        }
-
-        toast({
-          title: "인증을 진행해주세요!!",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-          position: "top-right",
-        });
-
-        setEnableButton(true);
-      })
-      .catch(async (err) =>
-        toast({
-          title: err,
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-          position: "top-right",
-        })
-      );
-  };
-
-  const callCodef4 = async () => {
-    console.log("callCodef4", extraInput);
-    const param = {
-      ...formInput2,
-      signedData: "",
-      simpleAuth: "1",
-      secureNo: "",
-      secureNoRefresh: "",
-      is2Way: true,
-      twoWayInfo: extraInput,
-    };
-    console.log(param);
-    await fetch(
-      "https://port-0-fitner-17xco2nlszge3vt.sel5.cloudtype.app/information",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(param),
-      }
-    )
-      .then(async (res) => {
-        return res.json();
-      })
-      .then(async (data) => {
-        // 파싱된 응답 데이터를 이용하여 처리합니다.
-        console.log("callCodef4 서버로부터 받은 데이터:", data.data);
-
-        if (!data.data.length) {
-          toast({
-            title: "인증을 진행해주세요!!",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-            position: "top-right",
-          });
-          callCodef3();
-          setCertStep(4);
-        }
-        setMedicineData(data.data);
-      })
-      .catch(async (err) =>
-        toast({
-          title: err,
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-          position: "top-right",
-        })
-      );
-  };
+  useEffect(() => {
+    if (medicineData) {
+      console.log("투약정보를 받아왔습니다.");
+    }
+  }, [medicineData]);
 
   useEffect(() => {
     if (medicineData) {
@@ -834,7 +699,7 @@ export const PopupWithImage = (props: any) => {
                   </FormControl>
                 </Stack>
               )}
-              {(certStep === 2 || certStep === 4) && (
+              {certStep === 2 && (
                 <Stack>
                   <Text fontSize={"2xl"} fontWeight={"bold"}>
                     인증을 진행해주세요.
@@ -845,29 +710,13 @@ export const PopupWithImage = (props: any) => {
                   </Text>
                 </Stack>
               )}
-              {(certStep === 3 || certStep === 5) && (
+              {certStep === 3 && (
                 <Center h={{ base: "lg", md: "100px" }}>
-                  {(certStep === 3 || certStep === 5) &&
-                  ((certStep === 3 && !healthData) || certStep === 5) ? (
-                    <VStack>
-                      <Text>정보 조회중....</Text>
-                      <CircularProgress isIndeterminate color="teal.300" />
-                    </VStack>
-                  ) : (
-                    <VStack>
-                      <Text fontWeight={"bold"}>정보 조회 완료</Text>
-                      <Text>
-                        <strong>
-                          {certStep === 3
-                            ? healthData?.resResultList?.length
-                            : medicineData?.length
-                            ? medicineData?.length
-                            : 0}
-                        </strong>
-                        건의 정보가 조회되었습니다.
-                      </Text>
-                    </VStack>
-                  )}
+                  <VStack>
+                    <Text>정보 조회중....</Text>
+                    <CircularProgress isIndeterminate color="teal.300" />
+                    <Text>환경에 따라 1~2분 정도 소요될 수 있습니다.</Text>
+                  </VStack>
                 </Center>
               )}
             </Stack>
@@ -889,24 +738,15 @@ export const PopupWithImage = (props: any) => {
               w={"full"}
               colorScheme="teal"
               onClick={() => {
-                // if (certType === "health") {
                 if (certStep === 1) {
-                  callCodef1();
+                  callCodef();
+
                   setEnableButton(false);
                 }
                 if (certStep === 2) {
-                  callCodef2();
-                }
-                // }
-                // if (certType === "medicine") {
-                if (certStep === 3) {
-                  callCodef3();
+                  callResult();
                   setEnableButton(false);
                 }
-                if (certStep === 4) {
-                  callCodef4();
-                }
-                // }
                 setCertStep(certStep + 1);
               }}
             >
