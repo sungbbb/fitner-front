@@ -231,6 +231,14 @@ export const PopupWithImage = (props: any) => {
       })
       .catch((error) => {
         console.log(error);
+        toast({
+          title: "인증에 실패하였습니다.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+        onClose();
       });
 
     let startDate = new Date();
@@ -264,13 +272,21 @@ export const PopupWithImage = (props: any) => {
         toast({
           title: "건강검진 및 투약정보를 가져왔습니다.",
           status: "success",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
           position: "top-right",
         });
       })
       .catch((error) => {
+        toast({
+          title: "인증에 실패하였습니다.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
         console.log(error);
+        onClose();
       });
   };
 
@@ -305,6 +321,14 @@ export const PopupWithImage = (props: any) => {
       })
       .catch((error) => {
         console.log(error);
+        toast({
+          title: "인증에 실패하였습니다.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+        onClose();
       });
   };
 
@@ -730,10 +754,7 @@ export const PopupWithImage = (props: any) => {
                   (formInput.userName === "" ||
                     formInput.phoneNo === "" ||
                     formInput.identity === "")) ||
-                (certStep === 2 && !enableButton) ||
-                (certStep === 4 && !enableButton) ||
-                (certStep === 3 && !healthData) ||
-                certStep === 5
+                (certStep === 2 && !enableButton)
               }
               w={"full"}
               colorScheme="teal"
@@ -747,6 +768,10 @@ export const PopupWithImage = (props: any) => {
                   callResult();
                   setEnableButton(false);
                 }
+
+                if (certStep >= 3) {
+                  onClose();
+                }
                 setCertStep(certStep + 1);
               }}
             >
@@ -755,12 +780,10 @@ export const PopupWithImage = (props: any) => {
                 : certStep === 1
                 ? "확인"
                 : certStep === 2
-                ? "건강검진정보 가지고 오기"
+                ? "확인"
                 : certStep === 3
-                ? "다음"
-                : certStep === 4
-                ? "투약정보 가지고 오기"
-                : "다음"}
+                ? "제출"
+                : "완료"}
             </Button>
           </ModalFooter>
         </ModalContent>
