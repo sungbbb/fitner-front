@@ -211,7 +211,7 @@ export const PopupWithImage = (props: any) => {
 
   const callCodef = async () => {
     await fetch(
-      "https://port-0-fitner-17xco2nlszge3vt.sel5.cloudtype.app/result",
+      "https://port-0-fitner-lxu0mkd6748b546f.sel5.cloudtype.app/result",
       {
         method: "POST",
         headers: {
@@ -252,7 +252,7 @@ export const PopupWithImage = (props: any) => {
     };
 
     await fetch(
-      "https://port-0-fitner-17xco2nlszge3vt.sel5.cloudtype.app/information",
+      "https://port-0-fitner-lxu0mkd6748b546f.sel5.cloudtype.app/information",
       {
         method: "POST",
         headers: {
@@ -303,7 +303,7 @@ export const PopupWithImage = (props: any) => {
     };
     console.log(param);
     await fetch(
-      "https://port-0-fitner-17xco2nlszge3vt.sel5.cloudtype.app/result",
+      "https://port-0-fitner-lxu0mkd6748b546f.sel5.cloudtype.app/result",
       {
         method: "POST",
         headers: {
