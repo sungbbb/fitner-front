@@ -177,6 +177,31 @@ export const PopupWithImage = (props: any) => {
     while (Date.now() < wakeUpTime) {}
   }
 
+  useEffect(() => {
+    if (enableButton) {
+      // 사용자 에이전트를 통해 모바일 기기와 안드로이드를 구분합니다.
+      var isMobile = /Mobi|Android/i.test(navigator.userAgent);
+      var isAndroid = /Android/i.test(navigator.userAgent);
+
+      console.log(isMobile, isAndroid);
+
+      if (certStep === 2) {
+        if (formInput.loginTypeLevel === "1" && isMobile) {
+          window.location.href = "kakaotalk://launch";
+        }
+
+        if (formInput.loginTypeLevel === "6" && isMobile) {
+          if (isAndroid) {
+            window.location.href =
+              "http://naverapp.naver.com/default/?version=5";
+          } else {
+            window.location.href = "naversearchapp://default?version=1";
+          }
+        }
+      }
+    }
+  }, [enableButton]);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
 
@@ -231,44 +256,45 @@ export const PopupWithImage = (props: any) => {
       })
       .catch((error) => {
         console.log(error);
-        toast({
-          title: "인증에 실패하였습니다.",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-          position: "top-right",
-        });
-        onClose();
+        // toast({
+        //   title: "인증에 실패하였습니다.",
+        //   status: "error",
+        //   duration: 3000,
+        //   isClosable: true,
+        //   position: "top-right",
+        // });
+        // onClose();
       });
+  };
 
+  const callResult = async () => {
     let startDate = new Date();
     let endDate = new Date();
     startDate.setFullYear(startDate.getFullYear() - 10);
-    const param = {
+    const param1 = {
       id: sessionId,
       ...formInput2,
       startDate: startDate.toISOString().substring(0, 10).replaceAll("-", ""),
       endDate: endDate.toISOString().substring(0, 10).replaceAll("-", ""),
     };
 
-    await fetch(
+    fetch(
       "https://port-0-fitner-lxu0mkd6748b546f.sel5.cloudtype.app/information",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(param),
+        body: JSON.stringify(param1),
       }
     )
       .then(async (res) => {
         return res.json();
       })
       .then(async (data) => {
-        console.log("2", data);
+        console.log("3", data);
         setMedicineData(data.data);
         setEnableButton(true);
-
         toast({
           title: "건강검진 및 투약정보를 가져왔습니다.",
           status: "success",
@@ -278,19 +304,17 @@ export const PopupWithImage = (props: any) => {
         });
       })
       .catch((error) => {
-        toast({
-          title: "인증에 실패하였습니다.",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-          position: "top-right",
-        });
         console.log(error);
-        onClose();
+        // toast({
+        //   title: "인증에 실패하였습니다.",
+        //   status: "error",
+        //   duration: 3000,
+        //   isClosable: true,
+        //   position: "top-right",
+        // });
+        // onClose();
       });
-  };
 
-  const callResult = async () => {
     const param = {
       id: sessionId,
       ...formInput,
@@ -302,33 +326,30 @@ export const PopupWithImage = (props: any) => {
       twoWayInfo: extraInput,
     };
     console.log(param);
-    await fetch(
-      "https://port-0-fitner-lxu0mkd6748b546f.sel5.cloudtype.app/result",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(param),
-      }
-    )
+    fetch("https://port-0-fitner-lxu0mkd6748b546f.sel5.cloudtype.app/result", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(param),
+    })
       .then(async (res) => {
         return res.json();
       })
       .then(async (data) => {
-        console.log(data);
+        console.log("2", data);
         setHealthData(data.data);
       })
       .catch((error) => {
         console.log(error);
-        toast({
-          title: "인증에 실패하였습니다.",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-          position: "top-right",
-        });
-        onClose();
+        // toast({
+        //   title: "인증에 실패하였습니다.",
+        //   status: "error",
+        //   duration: 3000,
+        //   isClosable: true,
+        //   position: "top-right",
+        // });
+        // onClose();
       });
   };
 
@@ -346,13 +367,30 @@ export const PopupWithImage = (props: any) => {
 
   useEffect(() => {
     if (healthData) {
-      console.log("건강정보를 받아왔습니다.");
+      console.log(
+        healthData.resResultList.length,
+        "개의 건강정보를 받아왔습니다."
+      );
+      toast({
+        title: "건강정보를 받아왔습니다.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
     }
   }, [healthData]);
 
   useEffect(() => {
     if (medicineData) {
       console.log("투약정보를 받아왔습니다.");
+      toast({
+        title: "투약정보를 받아왔습니다.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
     }
   }, [medicineData]);
 
@@ -748,6 +786,7 @@ export const PopupWithImage = (props: any) => {
 
           <ModalFooter mb={4}>
             <Button
+              display={certStep === 3 ? "none" : "block"}
               isDisabled={
                 (certStep === 1 &&
                   certType === "health" &&
