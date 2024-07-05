@@ -4,6 +4,7 @@ import {
   Button,
   Center,
   CircularProgress,
+  CircularProgressLabel,
   CloseButton,
   Flex,
   FormControl,
@@ -229,7 +230,7 @@ export const PopupWithImage = (props: any) => {
       user: formInput,
       createdAt: new Date(),
     }).then(async () => {
-      props.onClose();
+      // props.onClose();
       setStep(0);
     });
   };
@@ -251,11 +252,27 @@ export const PopupWithImage = (props: any) => {
       .then(async (data) => {
         // 파싱된 응답 데이터를 이용하여 처리합니다.
         console.log("1", data);
+        if (data.result.code !== "CF-03002") {
+          // alert("정보를 다시 입력해주세요.");
+          toast({
+            title: "정보를 다시 입력해주세요.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "top-right",
+          });
+          setMedicineData(null);
+          setHealthData(null);
+          return;
+        }
         setExtraInput(data.data);
         setEnableButton(true);
+        setCertStep(certStep + 1);
       })
       .catch((error) => {
         console.log(error);
+        setMedicineData(null);
+        setHealthData(null);
         // toast({
         //   title: "인증에 실패하였습니다.",
         //   status: "error",
@@ -293,8 +310,19 @@ export const PopupWithImage = (props: any) => {
       })
       .then(async (data) => {
         console.log("3", data);
+        if (data.result.code !== "CF-03002") {
+          toast({
+            title: data.result.message,
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "top-right",
+          });
+          return;
+        }
         setMedicineData(data.data);
         setEnableButton(true);
+        setCertStep(certStep + 1);
         toast({
           title: "건강검진 및 투약정보를 가져왔습니다.",
           status: "success",
@@ -305,6 +333,8 @@ export const PopupWithImage = (props: any) => {
       })
       .catch((error) => {
         console.log(error);
+        setMedicineData(null);
+        setHealthData(null);
         // toast({
         //   title: "인증에 실패하였습니다.",
         //   status: "error",
@@ -338,6 +368,21 @@ export const PopupWithImage = (props: any) => {
       })
       .then(async (data) => {
         console.log("2", data);
+        if (data.result.code === "CF-00000") {
+          setCertStep(certStep + 1);
+        }
+        if (data.result.code !== "CF-03002") {
+          toast({
+            title: data.result.message,
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "top-right",
+          });
+          setCertStep(certStep - 1);
+          setSessionId(new Date().getTime().toString());
+          return;
+        }
         setHealthData(data.data);
       })
       .catch((error) => {
@@ -367,17 +412,31 @@ export const PopupWithImage = (props: any) => {
 
   useEffect(() => {
     if (healthData) {
-      console.log(
-        healthData.resResultList.length,
-        "개의 건강정보를 받아왔습니다."
-      );
-      toast({
-        title: "건강정보를 받아왔습니다.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "top-right",
-      });
+      try {
+        console.log(
+          healthData.resResultList.length,
+          "개의 건강정보를 받아왔습니다."
+        );
+        toast({
+          title: "건강정보를 받아왔습니다.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+      } catch (e) {
+        console.log(e);
+        toast({
+          title: "인증에 실패하였습니다.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+        setMedicineData(null);
+        setHealthData(null);
+        setEnableButton(true);
+      }
     }
   }, [healthData]);
 
@@ -397,9 +456,8 @@ export const PopupWithImage = (props: any) => {
   useEffect(() => {
     if (medicineData) {
       console.log(medicineData);
-      // onClose();
       if (medicineData.length > 0) {
-        onClose();
+        // onClose();
       }
     }
   }, [medicineData]);
@@ -776,17 +834,21 @@ export const PopupWithImage = (props: any) => {
                 <Center h={{ base: "lg", md: "100px" }}>
                   <VStack>
                     <Text>정보 조회중....</Text>
-                    <CircularProgress isIndeterminate color="teal.300" />
-                    <Text>환경에 따라 1~2분 정도 소요될 수 있습니다.</Text>
+                    <CounterWithCircularProgress completed={medicineData} />
+                    {!medicineData && (
+                      <Text>환경에 따라 1~2분 정도 소요될 수 있습니다.</Text>
+                    )}
                   </VStack>
                 </Center>
               )}
             </Stack>
           </ModalBody>
 
-          <ModalFooter mb={4}>
+          <ModalFooter py={4}>
             <Button
-              display={certStep === 3 ? "none" : "block"}
+              display={
+                certStep === 3 ? (medicineData ? "block" : "none") : "block"
+              }
               isDisabled={
                 (certStep === 1 &&
                   certType === "health" &&
@@ -798,9 +860,12 @@ export const PopupWithImage = (props: any) => {
               w={"full"}
               colorScheme="teal"
               onClick={() => {
+                if (certStep === 0) {
+                  setCertStep(1);
+                  setEnableButton(false);
+                }
                 if (certStep === 1) {
                   callCodef();
-
                   setEnableButton(false);
                 }
                 if (certStep === 2) {
@@ -811,7 +876,6 @@ export const PopupWithImage = (props: any) => {
                 if (certStep >= 3) {
                   onClose();
                 }
-                setCertStep(certStep + 1);
               }}
             >
               {certStep === 0
@@ -821,7 +885,7 @@ export const PopupWithImage = (props: any) => {
                 : certStep === 2
                 ? "확인"
                 : certStep === 3
-                ? "제출"
+                ? "완료"
                 : "완료"}
             </Button>
           </ModalFooter>
@@ -910,5 +974,30 @@ export const PopupWithImage = (props: any) => {
       </Modal>
     </>
     // </Box>
+  );
+};
+
+const CounterWithCircularProgress = ({ completed = false }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!completed) {
+      const interval = setInterval(() => {
+        setCount((prevCount) => (prevCount >= 99 ? 99 : prevCount + 1));
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [completed]);
+
+  // 카운터가 완료된 상태일 때 100%로 고정
+  const progressValue = completed ? 100 : count;
+
+  return (
+    <Box>
+      <CircularProgress value={progressValue} size="100px" color="teal.500">
+        <CircularProgressLabel>{progressValue}%</CircularProgressLabel>
+      </CircularProgress>
+    </Box>
   );
 };
