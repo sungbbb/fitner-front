@@ -61,9 +61,18 @@ function Find(props) {
   const handleSubmit = () => {
     addDocument("codef_result", {
       uid: auth?.currentUser?.uid,
-      health: location.state.healthData ? location.state.healthData : {},
-      medicine: location.state.medicineData ? location.state.medicineData : [],
-      user: location.state.formInput,
+      health:
+        location.state && location.state.healthData
+          ? location.state.healthData
+          : {},
+      medicine:
+        location.state && location.state.medicineData
+          ? location.state.medicineData
+          : [],
+      user:
+        location.state && location.state.formInput
+          ? location.state.formInput
+          : {},
       createdAt: new Date(),
       image: imageList ? imageList : [],
     }).then(async () => {
@@ -201,7 +210,7 @@ function Find(props) {
               <Stack spacing="7" mt="8" w={"100%"}>
                 <Stack direction={{ base: "column", md: "row" }} w={"100%"}>
                   {step === 0 && (
-                    <Button onClick={() => window.open("/survey")}>
+                    <Button onClick={() => navigate("/survey")}>
                       설문 시작하기
                     </Button>
                   )}
@@ -210,7 +219,7 @@ function Find(props) {
                       <Button
                         w={"full"}
                         onClick={() => {
-                          window.open("/cert");
+                          navigate("/cert");
                         }}
                       >
                         건강검진자료 및 투약이력 알려주기
@@ -327,7 +336,7 @@ function Find(props) {
                   w={"full"}
                   colorScheme="teal"
                   onClick={() => {
-                    navigate(`/find/${step + 1})`);
+                    navigate(`/find/${step + 1}`);
                     onClose();
                   }}
                 >
