@@ -21,8 +21,10 @@ import {
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { auth } from "../Firebase/firebase_conf";
+import { useNavigate } from "react-router-dom";
 
 function Survey(props) {
+  const navigate = useNavigate();
   const toast = useToast();
   const [survey, setSurvey] = React.useState([]);
   const [index, setIndex] = React.useState(0);
@@ -65,6 +67,7 @@ function Survey(props) {
       .then((data) => {
         console.log(data, " 설문이 제출되었습니다!");
         alert("설문이 제출되었습니다.");
+        navigate("/find/1", { state: { isSurvey: true } });
       })
       .catch((err) => {
         console.log(err);

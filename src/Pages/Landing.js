@@ -16,47 +16,16 @@ import { StepwithLine } from "./StepwithLine";
 import { BeforeAndAfter } from "./BeforeAndAfter";
 import { Footer } from "../Marketing/Layouts/LayoutWithFullContentHeight/Footer";
 import useCustomBack from "./useCustomBack";
+import { useNavigate } from "react-router-dom";
 
 function Landing(props) {
-  const preventGoBack = () => {
-    window.history.pushState(null, "", window.location.href);
-  };
-
-  // 브라우저에 렌더링 시 한 번만 실행하는 코드
-  useEffect(() => {
-    (() => {
-      window.history.pushState(null, "", window.location.href);
-      window.addEventListener("popstate", preventGoBack);
-    })();
-
-    return () => {
-      window.removeEventListener("popstate", preventGoBack);
-    };
-  }, []);
-
-  // 새로고침 막기 변수
-  const preventClose = (e) => {
-    console.log("preventClose");
-    e.preventDefault();
-    e.returnValue = ""; // chrome에서는 설정이 필요해서 넣은 코드
-  };
-
-  // 브라우저에 렌더링 시 한 번만 실행하는 코드
-  useEffect(() => {
-    (() => {
-      window.addEventListener("beforeunload", preventClose);
-    })();
-
-    return () => {
-      window.removeEventListener("beforeunload", preventClose);
-    };
-  }, []);
-
+  const navigation = useNavigate();
   const [popupOpen, setPopupOpen] = React.useState(false);
+
   return (
     <LayoutWithFullContentHeight>
-      <Navbar onClick={() => setPopupOpen(true)} />
-      <WithImageBackground onClick={() => setPopupOpen(true)} />
+      <Navbar onClick={() => navigation("/find/0")} />
+      <WithImageBackground onClick={() => navigation("/find/0")} />
       <Box
         bgImage={require("../Assets/Image/reviewbackground.png")}
         bgSize={"cover"}
@@ -68,20 +37,20 @@ function Landing(props) {
         <TestimonialWithRating />
       </Box>
       {/* <HeroWithImageTop /> */}
-      <StatsWithDivider onClick={() => setPopupOpen(true)} />
+      <StatsWithDivider onClick={() => navigation("/find/0")} />
       <Box bgColor={"white"}>
-        <HeroWithImage onClick={() => setPopupOpen(true)} />
+        <HeroWithImage onClick={() => navigation("/find/0")} />
       </Box>
       <Box bgColor={"#f3faf8"}>
         <StepwithLine />
       </Box>
-      <HeroWithCropedImage onClick={() => setPopupOpen(true)} />
+      <HeroWithCropedImage onClick={() => navigation("/find/0")} />
       <BeforeAndAfter />
-      <BlogWithThreeColumns onClick={() => setPopupOpen(true)} />
-      <Features onClick={() => setPopupOpen(true)} />
-      <CTA1 onClick={() => setPopupOpen(true)} />
-      <PopupWithImage isOpen={popupOpen} onClose={() => setPopupOpen(false)} />
-      <Footer onClick={() => setPopupOpen(true)} />
+      <BlogWithThreeColumns onClick={() => navigation("/find/0")} />
+      <Features onClick={() => navigation("/find/0")} />
+      <CTA1 onClick={() => navigation("/find/0")} />
+      {/* <PopupWithImage isOpen={popupOpen} onClose={() => setPopupOpen(false)} /> */}
+      <Footer onClick={() => navigation("/find/0")} />
     </LayoutWithFullContentHeight>
   );
 }
