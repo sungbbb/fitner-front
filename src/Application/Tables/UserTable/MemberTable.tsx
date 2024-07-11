@@ -56,19 +56,21 @@ export const MemberTable = (props: any) => {
 
   useEffect(() => {
     list.map((member: any, index: number) => {
-      console.log(member.uid);
+      // console.log(member.uid);
       getAllDoc2("survey_result").then((data) => {
         const result = data.filter((item: any) => item.uid === member.uid);
 
         list[index] = { ...list[index], answer: result?.[0] };
-
-        console.log(list[index]);
         // setData(data);
 
         setNewList(list);
       });
     });
   }, [list]);
+
+  useEffect(() => {
+    console.log(newList);
+  }, [newList]);
 
   return (
     <>
@@ -179,7 +181,7 @@ export const MemberTable = (props: any) => {
                 )}
               </Td>
               <Td textAlign={"center"}>
-                {member.image.length > 0 ? (
+                {member?.image?.length > 0 ? (
                   <Button
                     onClick={() => {
                       setType(3);
