@@ -55,22 +55,29 @@ export const MemberTable = (props: any) => {
   const [detailItem, setDetailItem] = React.useState<any>({});
 
   useEffect(() => {
-    list.map((member: any, index: number) => {
-      // console.log(member.uid);
-      getAllDoc2("survey_result").then((data) => {
-        const result = data.filter((item: any) => item.uid === member.uid);
+    const fetchData = async () => {
+      // list의 모든 데이터를 비동기적으로 처리
+      const updatedList = await Promise.all(
+        list.map(async (member: any) => {
+          // 각 member의 결과를 가져옴
+          const data = await getAllDoc2("survey_result");
+          const result = data.filter((item: any) => item.docId === member.docId);
+          return { ...member, answer: result?.[0] };
+        })
+      );
 
-        list[index] = { ...list[index], answer: result?.[0] };
-        // setData(data);
-
-        setNewList(list);
+      // 업데이트된 리스트를 날짜 기준으로 오름차순 정렬
+      const sortedList = updatedList.sort((a: any, b: any) => {
+        const dateA = a.createdAt.toDate();
+        const dateB = b.createdAt.toDate();
+        return dateB.getTime() - dateA.getTime(); // 내림차순 정렬
       });
-    });
-  }, [list]);
 
-  useEffect(() => {
-    console.log(newList);
-  }, [newList]);
+      setNewList(sortedList);
+    };
+
+    fetchData();
+  }, [list]);
 
   return (
     <>
@@ -105,7 +112,7 @@ export const MemberTable = (props: any) => {
         </Thead>
         <Tbody>
           {newList.map((member: any) => (
-            <Tr key={member.uid}>
+            <Tr key={member.docId}>
               <Td textAlign={"center"}>{member.user.userName}</Td>
               <Td textAlign={"center"}>{member.user.identity}</Td>
               <Td textAlign={"center"}>{member.user.phoneNo}</Td>
@@ -159,7 +166,7 @@ export const MemberTable = (props: any) => {
                       setType(2);
                       try {
                         member.medicine.map((item: any) => {
-                          console.log(item);
+                          console.log("22",item);
                         });
 
                         setData(member.medicine);
