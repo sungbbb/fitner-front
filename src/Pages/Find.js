@@ -43,12 +43,15 @@ function Find(props) {
   const [imageList, setImageList] = useState([]);
   const imageRef = useRef(null);
 
+  const [data, setData] = useState({});
+
   useEffect(() => {
     if (location.state) {
       if (location.state.isSurvey) {
         navigate(`/find/1`);
       }
       if (location.state.healthData && location.state.medicineData) {
+        setData(location.state);
         navigate(`/find/2`);
       }
     }
@@ -59,20 +62,12 @@ function Find(props) {
   }, [window.location.pathname]);
 
   const handleSubmit = () => {
+    console.log(data, imageList);
     addDocument("codef_result", {
       uid: auth?.currentUser?.uid,
-      health:
-        location.state && location.state.healthData
-          ? location.state.healthData
-          : {},
-      medicine:
-        location.state && location.state.medicineData
-          ? location.state.medicineData
-          : [],
-      user:
-        location.state && location.state.formInput
-          ? location.state.formInput
-          : {},
+      health: data?.healthData ? data?.healthData : {},
+      medicine: data?.medicineData ? data?.medicineData : [],
+      user: data?.formInput ? data?.formInput : {},
       createdAt: new Date(),
       image: imageList ? imageList : [],
     }).then(async () => {
@@ -258,7 +253,7 @@ function Find(props) {
                   {step === 0
                     ? "설문이 어렵다면 건너뛰셔도 됩니다. 다만 더 정확한 분석을 위해 꼭 설문을 부탁드려요"
                     : step === 1 &&
-                      "건강검진, 투약자료 알려주기가 어렵다면 건너뛰기를 눌러주세요. 다만 더 정확한 분석을 위해 꼭 알려주기를 부탁드려요"}
+                    "건강검진, 투약자료 알려주기가 어렵다면 건너뛰기를 눌러주세요. 다만 더 정확한 분석을 위해 꼭 알려주기를 부탁드려요"}
                 </Text>
               </Stack>
             </Box>
