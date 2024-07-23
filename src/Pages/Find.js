@@ -23,6 +23,7 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
+  Spinner
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { StepsWithCircles } from "../Application/ProgressSteps/StepsWithCircles/App";
@@ -44,6 +45,7 @@ function Find(props) {
   const imageRef = useRef(null);
 
   const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
 
   useEffect(() => {
     if (location.state) {
@@ -83,8 +85,10 @@ function Find(props) {
     if (files && files.length > 0) {
       const firstFile = files[0];
       console.log(firstFile);
+      setIsLoading(true); // 업로드 시작 시 로딩 상태 설정
       uploadFile("medicine", firstFile).then(async (url) => {
         setImageList([...imageList, url]);
+        setIsLoading(false); // 업로드 완료 시 로딩 상태 해제
       });
     }
 
@@ -281,50 +285,56 @@ function Find(props) {
 
               <ModalCloseButton onClick={() => setViewImageUpload(false)} />
               <ModalBody>
-                <SimpleGrid columns={{ base: 2, md: 3 }} gap={2}>
-                  {imageList.map((url) => (
-                    <Box key={url} aspectRatio={1}>
-                      <IconButton
-                        aria-label=""
-                        icon={<FiX />}
-                        position={"absolute"}
-                        mt={2}
-                        ml={2}
-                        variant={"solid"}
-                        colorScheme={"gray"}
-                        size={"sm"}
-                        zIndex={9999}
-                        onClick={() =>
-                          setImageList(imageList.filter((i) => i !== url))
-                        }
-                      />
-                      <AspectRatio key={url} ratio={1} cursor={"pointer"}>
-                        <Image
-                          src={url}
-                          objectFit="cover"
-                          rounded={"lg"}
-                          fallback={<Skeleton />}
-                        />
-                      </AspectRatio>
-                    </Box>
-                  ))}
-                  <Center
-                    cursor={"pointer"}
-                    onClick={() => imageRef.current?.click()}
-                    aspectRatio={1}
-                    border={"3px dashed #d9d9d9"}
-                    borderRadius={"lg"}
-                  >
-                    <MdAdd fontSize="100px" color="#d9d9d9" />
-                    <Input
-                      type="file"
-                      display={"none"}
-                      ref={imageRef}
-                      accept="image/*"
-                      onChange={handleChange}
-                    />
+                {isLoading ? (
+                  <Center h="200px">
+                    <Spinner size="xl" />
                   </Center>
-                </SimpleGrid>
+                ) : (
+                  <SimpleGrid columns={{ base: 2, md: 3 }} gap={2}>
+                    {imageList.map((url) => (
+                      <Box key={url} position="relative" aspectRatio={1}>
+                        <IconButton
+                          aria-label=""
+                          icon={<FiX />}
+                          position={"absolute"}
+                          mt={2}
+                          ml={2}
+                          variant={"solid"}
+                          colorScheme={"gray"}
+                          size={"sm"}
+                          zIndex={9999}
+                          onClick={() =>
+                            setImageList(imageList.filter((i) => i !== url))
+                          }
+                        />
+                        <AspectRatio ratio={1} cursor={"pointer"}>
+                          <Image
+                            src={url}
+                            objectFit="cover"
+                            rounded={"lg"}
+                            fallback={<Skeleton />}
+                          />
+                        </AspectRatio>
+                      </Box>
+                    ))}
+                    <Center
+                      cursor={"pointer"}
+                      onClick={() => imageRef.current?.click()}
+                      aspectRatio={1}
+                      border={"3px dashed #d9d9d9"}
+                      borderRadius={"lg"}
+                    >
+                      <MdAdd fontSize="100px" color="#d9d9d9" />
+                      <Input
+                        type="file"
+                        display={"none"}
+                        ref={imageRef}
+                        accept="image/*"
+                        onChange={handleChange}
+                      />
+                    </Center>
+                  </SimpleGrid>
+                )}
               </ModalBody>
 
               <ModalFooter mb={4}>
@@ -332,6 +342,7 @@ function Find(props) {
                   w={"full"}
                   colorScheme="teal"
                   onClick={() => {
+                    setIsLoading(true); // 로딩 시작
                     navigate(`/find/${step + 1}`);
                     onClose();
                   }}
