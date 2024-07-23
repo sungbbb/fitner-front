@@ -72,6 +72,7 @@ function Find(props) {
       image: imageList ? imageList : [],
     }).then(async () => {
       console.log("저장완료");
+      window.open("https://pf.kakao.com/_GxgdpG", "_blank");
       navigate("/");
     });
   };
