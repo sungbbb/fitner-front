@@ -29,7 +29,9 @@ import {
 } from "@chakra-ui/react";
 
 import React, { useEffect } from "react";
+import ReactPaginate from 'react-paginate';
 import { getAllDoc2, updateDocument } from "../../../Firebase/firebase_func";
+import './MemberTable.css'
 // import { members } from "./data";
 import {
   Modal,
@@ -51,8 +53,19 @@ export const MemberTable = (props: any) => {
   const [data, setData] = React.useState<any>({});
 
   const [newList, setNewList] = React.useState<any>([]);
+  const [currentPage, setCurrentPage] = React.useState(0);
 
   const [detailItem, setDetailItem] = React.useState<any>({});
+
+  const itemsPerPage = 30;
+  
+  const style: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column', // 올바른 문자열 값을 사용합니다.
+    justifyContent: 'center',
+    listStyle: 'none',
+    padding: 0,
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,6 +85,7 @@ export const MemberTable = (props: any) => {
         const dateB = b.createdAt.toDate();
         return dateB.getTime() - dateA.getTime(); // 내림차순 정렬
       });
+      console.log("@@@", sortedList)
 
       setNewList(sortedList);
     };
@@ -79,40 +93,36 @@ export const MemberTable = (props: any) => {
     fetchData();
   }, [list]);
 
+  const currentData = () => {
+    const start = currentPage * itemsPerPage;
+    const end = start + itemsPerPage;
+    return newList.slice(start, end);
+  };
+
+  const handlePageClick = (event: any) => {
+    setCurrentPage(event.selected);
+  };
+
   return (
     <>
       <Table {...props} size={"sm"}>
         <Thead>
           <Tr>
-            <Th textAlign={"center"} minW={"100px"}>
-              이름
-            </Th>
-            <Th textAlign={"center"} minW={"100px"}>
-              생년월일
-            </Th>
-            <Th textAlign={"center"} minW={"100px"}>
-              전화번호
-            </Th>
-            <Th textAlign={"center"} minW={"100px"}>
-              제출일
-            </Th>
-            <Th textAlign={"center"} minW={"100px"}>
-              설문조사
-            </Th>
-            <Th textAlign={"center"} minW={"100px"}>
-              건강검진
-            </Th>
-            <Th textAlign={"center"} minW={"100px"}>
-              진료&투약
-            </Th>
-            <Th textAlign={"center"} minW={"100px"}>
-              먹는약
-            </Th>
+            <Th textAlign={"center"} minW={"50px"}>No</Th>
+            <Th textAlign={"center"} minW={"100px"}>이름</Th>
+            <Th textAlign={"center"} minW={"100px"}>생년월일</Th>
+            <Th textAlign={"center"} minW={"100px"}>전화번호</Th>
+            <Th textAlign={"center"} minW={"100px"}>제출일</Th>
+            <Th textAlign={"center"} minW={"100px"}>설문조사</Th>
+            <Th textAlign={"center"} minW={"100px"}>건강검진</Th>
+            <Th textAlign={"center"} minW={"100px"}>진료&투약</Th>
+            <Th textAlign={"center"} minW={"100px"}>먹는약</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {newList.map((member: any) => (
+          {currentData().map((member: any, index: any) => (
             <Tr key={member.docId}>
+              <Td textAlign={"center"}>{currentPage * itemsPerPage + index + 1}</Td>
               <Td textAlign={"center"}>{member.user.userName}</Td>
               <Td textAlign={"center"}>{member.user.identity}</Td>
               <Td textAlign={"center"}>{member.user.phoneNo}</Td>
@@ -211,6 +221,27 @@ export const MemberTable = (props: any) => {
           ))}
         </Tbody>
       </Table>
+      
+        <ReactPaginate className="pagination-container"
+          previousLabel={<span>&larr;</span>}
+          nextLabel={<span>&rarr;</span>}
+          breakLabel={null}
+          pageCount={Math.ceil(newList.length / itemsPerPage)}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          activeClassName={"active"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          renderOnZeroPageCount={null}
+        />
       <Modal
         size={{ base: "full", md: "5xl" }}
         isOpen={isOpen}
