@@ -8,7 +8,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Heading,
   Image,
   Input,
   SimpleGrid,
@@ -24,18 +23,14 @@ import {
   NaverIcon,
   PassIcon,
   PaycoIcon,
-  SinhanIcon,
+  SinhanIcon, 
   TossIcon,
 } from "../Assets/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addDocument } from "../Firebase/firebase_func";
 import { auth } from "../Firebase/firebase_conf";
 
-const host_url =
-  //   window.location.hostname === "localhost"
-  //     ? "http://localhost:3001"
-  //     :
-  "https://port-0-fitner-lxu0mkd6748b546f.sel5.cloudtype.app";
+const host_url = "https://port-0-fitner-lxu0mkd6748b546f.sel5.cloudtype.app";
 export const loginType = [
   {
     idx: "1",
@@ -96,11 +91,7 @@ export function Cert(props) {
   });
   return (
     <Container maxW="container.sm">
-      <Stack
-        minH={window.innerHeight}
-        py={"4"}
-        justifyContent={"space-between"}
-      >
+      <Stack minH={window.innerHeight} py={"4"} justifyContent={"space-between"}>
         <Stack spacing={"4"}>
           <Text fontSize="xl" fontWeight="bold">
             본인확인 서비스
@@ -111,35 +102,25 @@ export function Cert(props) {
           <SimpleGrid gap="4" columns={4}>
             {loginType.map((type, index) => (
               <Flex
-                onClick={() => {
-                  setFormInput({
-                    ...formInput,
-                    loginTypeLevel: type.idx,
-                  });
-                }}
-                cursor={"pointer"}
-                aspectRatio={1}
-                border={"4px solid"}
-                borderColor={
-                  formInput.loginTypeLevel === type.idx
-                    ? "teal.500"
-                    : "gray.200"
-                }
-                alignItems={"center"}
-                justifyContent={"center"}
                 key={index}
-                borderRadius={"lg"}
+                onClick={() => 
+                  setFormInput({ ...formInput, loginTypeLevel: type.idx })
+                }
+                cursor="pointer"
+                aspectRatio={1}
+                border="4px solid"
+                borderColor={
+                  formInput.loginTypeLevel === type.idx ? "teal.500" : "gray.200"
+                }
+                alignItems="center"
+                justifyContent="center"
+                borderRadius="lg"
               >
-                <Stack
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  key={index}
-                  p="1"
-                >
-                  <Box w={"12"} h={"12"}>
+                <Stack alignItems="center" justifyContent="center" p={1}>
+                  <Box w={12} h={12}>
                     {type.icon}
                   </Box>
-                  <Text fontSize={"11px"} textAlign={"center"}>
+                  <Text fontSize="11px" textAlign="center">
                     {type.title}
                   </Text>
                 </Stack>
@@ -147,11 +128,7 @@ export function Cert(props) {
             ))}
           </SimpleGrid>
         </Stack>
-        <Button
-          onClick={() => {
-            navigate("/info", { state: formInput });
-          }}
-        >
+        <Button onClick={() => { navigate("/info", { state: formInput })}}>
           다음
         </Button>
       </Stack>
@@ -187,7 +164,6 @@ export function Info(props) {
         return await res.json();
       })
       .then(async (data) => {
-        console.log(data);
         if (data.result.code === "CF-03002") {
           toast({
             title: "추가 인증을 진행해주세요!",
@@ -200,8 +176,7 @@ export function Info(props) {
           navigate("/confirm", {
             state: { param: data, formInput: { id: session, ...formInput } },
           });
-        } else if (data.result.code === "CF-00000") {
-          // 성공
+        } else if (data.result.code === "CF-00000") {// 성공
         } else {
           toast({
             title: "인증에 실패하였습니다. 인증을 다시 시도해주세요.",
@@ -289,6 +264,7 @@ export const Confirm = (props) => {
   const [formInput, setFormInput] = useState({});
   const [step, setStep] = useState(0);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [healthData, setHealthData] = useState();
   const [medicineData, setMedicineData] = useState();
 
@@ -297,6 +273,7 @@ export const Confirm = (props) => {
   }, [location.state]);
 
   const handleCallData = () => {
+    setIsLoading(true)
     let startDate = new Date();
     let endDate = new Date();
     startDate.setFullYear(startDate.getFullYear() - 10);
@@ -312,8 +289,6 @@ export const Confirm = (props) => {
       is2Way: true,
       twoWayInfo: location.state.param.data,
     };
-
-    console.log(infoParam);
 
     fetch(`${host_url}/information`, {
       method: "POST",
@@ -334,21 +309,16 @@ export const Confirm = (props) => {
             isClosable: true,
             position: "top-right",
           });
+          setIsLoading(false)
         } else if (data.result.code !== "CF-00000") {
-          //   toast({
-          //     title: "인증에 실패하였습니다. 인증을 다시 시도해주세요.",
-          //     status: "error",
-          //     duration: 3000,
-          //     isClosable: true,
-          //     position: "top-right",
-          //   });
         } else {
           // 전송 성공
-          console.log("투약정보", data);
+          setIsLoading(false)
           setMedicineData(data.data);
         }
       })
       .catch((err) => {
+        setIsLoading(false)
         console.log(err);
       });
 
@@ -371,8 +341,8 @@ export const Confirm = (props) => {
             isClosable: true,
             position: "top-right",
           });
+          setIsLoading(false)
         } else if (data.result.code !== "CF-00000") {
-          console.log(data);
           toast({
             title: "인증에 실패하였습니다. 인증을 다시 시도해주세요.",
             status: "error",
@@ -380,15 +350,17 @@ export const Confirm = (props) => {
             isClosable: true,
             position: "top-right",
           });
+          setIsLoading(false)
           navigate("/cert");
         } else {
           // 전송 성공
-          console.log("건강정보", data);
+          setIsLoading(false)
           setHealthData(data.data);
           setStep(1);
         }
       })
       .catch((err) => {
+        setIsLoading(false)
         console.log(err);
       });
   };
@@ -441,7 +413,11 @@ export const Confirm = (props) => {
             </Center>
           )}
         </Stack>
-        {step === 0 && <Button onClick={handleCallData}>인증하기</Button>}
+        {step === 0 && (
+          <Button onClick={handleCallData} isLoading={isLoading} isDisabled={isLoading}>
+            인증하기
+          </Button>
+        )}
         {step === 1 && (
           <Button isDisabled={!medicineData} onClick={handleSubmit}>
             완료하기
