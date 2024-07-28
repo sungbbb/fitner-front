@@ -47,15 +47,16 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import { BiChevronLeft } from "react-icons/bi";
 
 export const MemberTable = (props: any) => {
-  const { list } = props;
+  const { list, targetUserName, ...rest } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [type, setType] = React.useState(0);
   const [data, setData] = React.useState<any>({});
-
   const [newList, setNewList] = React.useState<any>([]);
   const [currentPage, setCurrentPage] = React.useState(0);
+  const [totalPages, setTotalPages] = React.useState(0);
 
   const [detailItem, setDetailItem] = React.useState<any>({});
+  const [searchQuery, setSearchQuery] = React.useState<string>("");
 
   const itemsPerPage = 30;
   
@@ -67,37 +68,40 @@ export const MemberTable = (props: any) => {
     padding: 0,
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      // list의 모든 데이터를 비동기적으로 처리
-      const updatedList = await Promise.all(
-        list.map(async (member: any) => {
-          // 각 member의 결과를 가져옴
-          const data = await getAllDoc2("survey_result");
-          const result = data.filter((item: any) => item.docId === member.docId);
-          return { ...member, answer: result?.[0] };
-        })
-      );
 
-      // 업데이트된 리스트를 날짜 기준으로 오름차순 정렬
-      const sortedList = updatedList.sort((a: any, b: any) => {
-        const dateA = a.createdAt.toDate();
-        const dateB = b.createdAt.toDate();
-        return dateB.getTime() - dateA.getTime(); // 내림차순 정렬
-      });
-      console.log("@@@", sortedList)
+  const fetchData = async (page: number) => {
+    // 전체 리스트에서 userName을 포함하는 요소를 필터링
+    const filteredList = targetUserName
+      ? list.filter((member: any) => member.user?.userName?.includes(targetUserName))
+      : list.filter((member: any) => member.user);
 
-      setNewList(sortedList);
-    };
+    // 현재 페이지에 해당하는 데이터만 조회
+    const startIdx = page * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    const paginatedList = filteredList.slice(startIdx, endIdx);
 
-    fetchData();
-  }, [list]);
+    const updatedList = await Promise.all(
+      paginatedList.map(async (member: any) => {
+        const data = await getAllDoc2("survey_result");
+        const result = data.filter((item: any) => item.docId === member.docId);
+        return { ...member, answer: result?.[0] };
+      })
+    );
 
-  const currentData = () => {
-    const start = currentPage * itemsPerPage;
-    const end = start + itemsPerPage;
-    return newList.slice(start, end);
+    // 업데이트된 리스트를 날짜 기준으로 내림차순 정렬
+    const sortedList = updatedList.sort((a: any, b: any) => {
+      const dateA = a.createdAt.toDate();
+      const dateB = b.createdAt.toDate();
+      return dateB.getTime() - dateA.getTime(); // 내림차순 정렬
+    });
+
+    setNewList(sortedList);
+    setTotalPages(Math.ceil(filteredList.length / itemsPerPage));
   };
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [list, currentPage, targetUserName]);
 
   const handlePageClick = (event: any) => {
     setCurrentPage(event.selected);
@@ -105,7 +109,7 @@ export const MemberTable = (props: any) => {
 
   return (
     <>
-      <Table {...props} size={"sm"}>
+      <Table {...rest} size={"sm"}>
         <Thead>
           <Tr>
             <Th textAlign={"center"} minW={"50px"}>No</Th>
@@ -120,7 +124,7 @@ export const MemberTable = (props: any) => {
           </Tr>
         </Thead>
         <Tbody>
-          {currentData().map((member: any, index: any) => (
+          {newList.map((member: any, index: any) => (
             <Tr key={member.docId}>
               <Td textAlign={"center"}>{currentPage * itemsPerPage + index + 1}</Td>
               <Td textAlign={"center"}>{member.user.userName}</Td>
@@ -176,7 +180,6 @@ export const MemberTable = (props: any) => {
                       setType(2);
                       try {
                         member.medicine.map((item: any) => {
-                          console.log("22",item);
                         });
 
                         setData(member.medicine);
@@ -226,7 +229,7 @@ export const MemberTable = (props: any) => {
           previousLabel={<span>&larr;</span>}
           nextLabel={<span>&rarr;</span>}
           breakLabel={null}
-          pageCount={Math.ceil(newList.length / itemsPerPage)}
+          pageCount={totalPages}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
           onPageChange={handlePageClick}

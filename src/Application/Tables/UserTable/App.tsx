@@ -9,6 +9,7 @@ import {
   InputGroup,
   InputLeftElement,
   Stack,
+  Flex,
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
@@ -17,8 +18,24 @@ import { MemberTable } from "./MemberTable";
 import React from "react";
 
 export const UserTable = (props: any) => {
-  const [startIndex, setStartIndex] = React.useState(0);
+  const [searchQuery, setSearchQuery] = React.useState<string>("");
+  const [targetUserName, setTargetUserName] = React.useState("");
   const isMobile = useBreakpointValue({ base: true, md: false });
+
+  const handleSearchIconClick = () => {
+    setTargetUserName(searchQuery);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearchIconClick();
+    }
+  };
+
   return (
     // <Container py={{ base: "4", md: "8" }} px={{ base: "0", md: 8 }}>
     <Box
@@ -28,9 +45,10 @@ export const UserTable = (props: any) => {
     >
       <Stack spacing="5">
         <Box px={{ base: "4", md: "6" }} pt="5">
-          <Stack
+          <Flex
             direction={{ base: "column", md: "row" }}
             justify="space-between"
+            align="center"
           >
             <Stack>
               <Text textStyle="lg" fontWeight="medium">
@@ -40,16 +58,26 @@ export const UserTable = (props: any) => {
                 {`설문 내용을 열람하고, 고객 정보를 확인할 수 있습니다.`}
               </Text>
             </Stack>
-            {/* <InputGroup maxW="xs">
-              <InputLeftElement pointerEvents="none">
-                <Icon as={FiSearch} color="fg.muted" boxSize="5" />
+            <InputGroup maxW="xs" w="200px" h="25px">
+              <InputLeftElement
+                pointerEvents="auto"
+                onClick={handleSearchIconClick}
+                cursor="pointer"
+              >
+                <Icon as={FiSearch} color="fg.muted" boxSize="4" />
               </InputLeftElement>
-              <Input placeholder="검색" />
-            </InputGroup> */}
-          </Stack>
+              <Input
+                placeholder="검색"
+                size="sm"
+                value={searchQuery}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+              />
+            </InputGroup>
+          </Flex>
         </Box>
         <Box overflowX="auto">
-          <MemberTable {...props} />
+          <MemberTable {...props} targetUserName={targetUserName} />
         </Box>
         <Box px={{ base: "4", md: "6" }} pb="5">
           <HStack spacing="3" justify="space-between">
