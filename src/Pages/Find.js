@@ -64,7 +64,6 @@ function Find(props) {
   }, [window.location.pathname]);
 
   const handleSubmit = () => {
-    console.log(data, imageList);
     addDocument("codef_result", {
       uid: auth?.currentUser?.uid,
       health: data?.healthData ? data?.healthData : {},
@@ -73,7 +72,6 @@ function Find(props) {
       createdAt: new Date(),
       image: imageList ? imageList : [],
     }).then(async () => {
-      console.log("저장완료");
       window.open("https://pf.kakao.com/_GxgdpG/chat", "_blank");
       navigate("/");
     });
@@ -84,7 +82,6 @@ function Find(props) {
 
     if (files && files.length > 0) {
       const firstFile = files[0];
-      console.log(firstFile);
       setIsLoading(true); // 업로드 시작 시 로딩 상태 설정
       uploadFile("medicine", firstFile).then(async (url) => {
         setImageList([...imageList, url]);
