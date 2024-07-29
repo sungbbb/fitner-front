@@ -85,8 +85,6 @@ const ReorderableSurvey = (props) => {
       const updatedQuestions = questions.filter((_, i) => i !== index);
       setQuestions(updatedQuestions);
 
-      console.log("docId", docId);
-
       if (docId) {
         deleteDoc(doc(db, "survey", docId)).then(
           () => {
@@ -124,7 +122,7 @@ const ReorderableSurvey = (props) => {
           ...item,
           index: index,
         }).then(async () => {
-          // console.log("업데이트 성공");
+          window.location.reload();
         });
       } else {
         addDocument("survey", {

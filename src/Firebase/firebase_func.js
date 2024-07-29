@@ -6,7 +6,7 @@ import {
   updateDoc,
   doc,
   deleteDoc,
-  orderBy,
+  orderBy, getDoc
 } from "firebase/firestore";
 import { auth, db, storage } from "./firebase_conf";
 import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
@@ -33,9 +33,32 @@ export const getAllDoc2 = async (collectionName) => {
 };
 
 export const addDocument = async (collectionName, data) => {
-  console.log(data);
-  const docRef = await addDoc(collection(db, collectionName), data);
-  return docRef.id;
+  const collectionRef = collection(db, collectionName);
+
+  try {
+    // 문서 추가
+    const docRef = await addDoc(collectionRef, data);
+
+    // 방금 추가된 문서의 ID
+    const documentId = docRef.id;
+
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // 중복 체크를 위해 추가된 문서 조회
+    const addedDocRef = doc(collectionRef, documentId);
+    const docSnap = await getDoc(addedDocRef);
+
+    if (!docSnap.exists()) {
+      console.warn(`Document with ID ${documentId} does not exist.`);
+      return null; // 문서가 존재하지 않는 경우
+    }
+
+    // 문서가 존재하는 경우, ID 반환
+    return documentId;
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    throw error; // 오류를 상위로 전달
+  }
 };
 
 export const updateDocument = async (collectionName, docId, data) => {

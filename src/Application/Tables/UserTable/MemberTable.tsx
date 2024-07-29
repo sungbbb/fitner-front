@@ -81,9 +81,9 @@ export const MemberTable = (props: any) => {
     const paginatedList = filteredList.slice(startIdx, endIdx);
 
     const updatedList = await Promise.all(
-      paginatedList.map(async (member: any) => {
+      paginatedList.map(async (member: any, index: number) => {
         const data = await getAllDoc2("survey_result");
-        const result = data.filter((item: any) => item.docId === member.docId);
+        const result = data.filter((item: any) => item.uid === member.uid);
         return { ...member, answer: result?.[0] };
       })
     );
@@ -125,7 +125,7 @@ export const MemberTable = (props: any) => {
         </Thead>
         <Tbody>
           {newList.map((member: any, index: any) => (
-            <Tr key={member.docId}>
+            <Tr key={member.uid}>
               <Td textAlign={"center"}>{currentPage * itemsPerPage + index + 1}</Td>
               <Td textAlign={"center"}>{member.user.userName}</Td>
               <Td textAlign={"center"}>{member.user.identity}</Td>
