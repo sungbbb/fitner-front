@@ -82,7 +82,6 @@ function Find(props) {
 
     if (files && files.length > 0) {
       const firstFile = files[0];
-      setIsLoading(true); // 업로드 시작 시 로딩 상태 설정
       uploadFile("medicine", firstFile).then(async (url) => {
         setImageList([...imageList, url]);
         setIsLoading(false); // 업로드 완료 시 로딩 상태 해제
@@ -93,6 +92,12 @@ function Find(props) {
       imageRef.current.value = "";
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setIsLoading(false); // 컴포넌트 언마운트 시 로딩 상태 해제
+    };
+  }, [navigate]);
 
   return (
     <Container maxW="container.xl">

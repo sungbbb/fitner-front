@@ -251,7 +251,6 @@ export const PopupWithImage = (props: any) => {
       })
       .then(async (data) => {
         // 파싱된 응답 데이터를 이용하여 처리합니다.
-        console.log("1", data);
         if (data.result.code !== "CF-03002") {
           // alert("정보를 다시 입력해주세요.");
           toast({
