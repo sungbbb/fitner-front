@@ -54,9 +54,9 @@ function Survey(props) {
         return;
       }
 
-      if (!survey[i].required) {
-        survey[i].answer = "";
-      }
+      // if (!survey[i].required) {
+      //   survey[i].answer = "";
+      // }
     }
 
     addDocument("survey_result", {

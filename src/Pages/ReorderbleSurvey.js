@@ -122,7 +122,7 @@ const ReorderableSurvey = (props) => {
           ...item,
           index: index,
         }).then(async () => {
-          window.location.reload();
+          // window.location.reload();
         });
       } else {
         addDocument("survey", {

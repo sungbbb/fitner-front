@@ -22,7 +22,6 @@ export const getAllDoc = async (collectionName) => {
 };
 
 export const getAllDoc2 = async (collectionName) => {
-  // console.log("getAllDoc2", collectionName);
   const q = query(collection(db, collectionName));
   const docs = [];
   const querySnapshot = await getDocs(q);
@@ -42,7 +41,7 @@ export const addDocument = async (collectionName, data) => {
     // 방금 추가된 문서의 ID
     const documentId = docRef.id;
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 200));
 
     // 중복 체크를 위해 추가된 문서 조회
     const addedDocRef = doc(collectionRef, documentId);
