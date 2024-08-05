@@ -48,11 +48,14 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
                   className="text-gradient"
                   py={4}
                 >
-                  건강한 삶을 원하시나요?
+                  나 그리고 AI + 약사
                 </Heading>
                 <Stack fontSize={{ base: "sm", md: "lg" }} mt="4" maxW="lg">
-                  <Text fontWeight="bold" className="text-gradient">
-                    핏트너가 당신에게 꼭 맞는 영양제를 찾아드려요
+                  <Text color="#505050">
+                    나에게 꼭 필요한 것만<br />
+                    나에게 꼭 필요한 만큼<br />
+                    차원이 다른 1:1 개인 맞춤 영양제의 시작<br />
+                    지금 바로 더 건강해지세요.
                   </Text>
 
                   {/* <Text>
@@ -113,10 +116,9 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
         <Box position="relative" w="full" h="full" overflow={"hidden"}>
           <Img
             src={useBreakpointValue({
-              base: require("../../Assets/main2.png"),
-              lg: require("../../Assets/main.png"),
+              base: require("../../Assets/new_main.png"),
+              lg: require("../../Assets/new_main.png"),
             })}
-            // src="https://images.unsplash.com/photo-1590650153855-d9e808231d41?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=2250&q=80"
             alt="Main Image"
             w="full"
             h="full"
@@ -125,7 +127,7 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
             position="absolute"
           />
           <Box
-            bgGradient={bgGradient}
+            // bgGradient={bgGradient}
             opacity={0.7}
             position="absolute"
             w="full"
