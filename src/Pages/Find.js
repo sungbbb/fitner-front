@@ -64,22 +64,34 @@ function Find(props) {
   }, [window.location.pathname]);
 
   const handleSubmit = () => {
-    addDocument("codef_result", {
+    const documentData = {
       uid: auth?.currentUser?.uid,
       health: data?.healthData ? data?.healthData : {},
       medicine: data?.medicineData ? data?.medicineData : [],
       user: data?.formInput ? data?.formInput : {},
       createdAt: new Date(),
       image: imageList ? imageList : [],
-    }).then(async () => {
-      window.open("https://pf.kakao.com/_GxgdpG/chat", "_blank");
+    };
+    addDocument("codef_result", documentData).then(async (docRef) => {
+      const userName = documentData.user?.userName || "unknown";
+
+      // URL에 user 이름을 동적으로 삽입
+      const url = `https://plus.kakao.com/talk/bot/@핏트너/${encodeURIComponent(userName)}님의%20약상담%20요청입니다.`;
+
+      // 새 창 열기
+      window.open(url, "_blank");
+
+      // 페이지 이동
       navigate("/");
+    }).catch((error) => {
+      console.error("Error adding document: ", error);
     });
   };
 
+
   const handleChange = (event) => {
     const files = event.target.files;
-
+    setIsLoading(true); // 업로드 시작 시 로딩 상태 설정
     if (files && files.length > 0) {
       const firstFile = files[0];
       uploadFile("medicine", firstFile).then(async (url) => {
