@@ -28,8 +28,14 @@ export const BeforeAndAfter = () => {
           alignItems={"center"}
           spacing={{ base: "8", md: "12" }}
         >
-          <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="extrabold">
-            이제 정확성의 힘을 경험하세요.
+          <Text
+            fontSize={{ base: "2xl", md: "4xl" }}
+            fontWeight="extrabold"
+            fontFamily={"Cafe24 Ssurround"}
+            color="#345459"
+          >
+            이제 정확성의 힘을 경험하세요
+            <Box h={6} w={"full"} mt={-8} rounded="full" bg="#BFF6F6"></Box>
           </Text>
           <SimpleGrid
             columns={{ base: 1, md: 2 }}

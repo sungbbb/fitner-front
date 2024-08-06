@@ -114,8 +114,11 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
           fontWeight="extrabold"
           textAlign={"center"}
           whiteSpace={{ base: "pre-wrap", md: "nowrap" }}
+          fontFamily={"Cafe24 Ssurround"}
+          color="#345459"
         >
           {"핏트너가 당신의 건강을 바꾸는\n8단계 비밀"}
+          <Box h={6} w={"full"} mt={-8} rounded="full" bg="#BFF6F6"></Box>
         </Text>
         <Container>
           <Tabs

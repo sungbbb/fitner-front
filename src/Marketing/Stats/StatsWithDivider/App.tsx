@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { MdArrowForward } from "react-icons/md";
 import { Stat } from "./Stat";
-import { stats } from "./data";
 import { gradient } from "../../Navbars/NavbarWithCallToAction/App";
 
 export const StatsWithDivider = (props: { onClick: () => void }) => {
@@ -23,30 +22,50 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
           spacing={{ base: "12", md: "16" }}
           textAlign="center"
           align="center"
+          bgImage={require("../../../Assets/Icon/graphArrow.png")}
+          backgroundPosition="center calc(100% + 1px)"
+          backgroundRepeat="no-repeat"
+          backgroundSize="contain"
         >
-          <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight={"extrabold"}>
-            차이를 느껴보세요
+          <Text
+            fontSize={{ base: "2xl", md: "4xl" }}
+            fontWeight={"extrabold"}
+            fontFamily={"Cafe24 Ssurround"}
+            color="#345459"
+          >
+            이제 차이를 느껴보세요!
+            <Box h={6} w={"full"} mt={-7} rounded="full" bg="#BFF6F6"></Box>
           </Text>
-          <Stack w={{ base: "none", md: "full" }}>
-            <Stack
-              direction={{ base: "column", md: "row" }}
-              width="full"
-              spacing={{ base: "8", md: "4" }}
-              bgColor={"#f8fafa"}
-              p={{ base: "24", md: "12" }}
-              rounded={8000}
-              {...(!isMobile
-                ? { divider: <StackDivider borderColor={Gradientline} /> }
-                : { divider: <StackDivider /> })}
+          <Stack
+            direction={{ base: "column", md: "row" }}
+            width="full"
+            spacing={{ base: "8", md: "4" }}
+            bgColor={"#f8fafa"}
+            p={{ base: "10", md: "8" }}
+            rounded={8000}
+            divider={
+              !isMobile ? (
+                <StackDivider borderColor="Gradientline" />
+              ) : (
+                <StackDivider />
+              )
+            }
+          >
+            <Box
+              flex="1"
             >
-              {stats.map((stat, id) => (
-                <Stat key={id} flex="1" {...stat} />
-              ))}
-            </Stack>
+              <Text
+                fontSize={{ base: "2xl", md: "4xl" }}
+                fontWeight={"700"}
+                fontFamily={"Cafe24 Ssurround"}
+                color="#015A68"
+              >
+                92%의 고객님들이 핏트너의 서비스에 만족하고 계십니다!
+              </Text>
+            </Box>
           </Stack>
           <Stack>
             <Button
-              // colorScheme="blue"
               px="8"
               rounded="full"
               size="lg"

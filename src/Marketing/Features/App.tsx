@@ -22,10 +22,21 @@ export const Features = (props: { onClick: () => void }) => {
       <Stack w={"full"} mx={"auto"} py={{ base: "0", md: "24" }}>
         {!isMobile ? (
           <Stack direction={{ base: "column", md: "row" }}>
-            <Container flex={1}>
-              <Stack py={{ base: "3", md: "6" }}>
-                <Text fontSize={{ base: "xl", md: "3xl" }} fontWeight={"600"}>
+            <Container flex={1} w={"full"}>
+              <Stack
+                py={{ base: "3", md: "6" }}
+                w={"full"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Text
+                  fontSize={{ base: "xl", md: "3xl" }}
+                  fontWeight={"900"}
+                  fontFamily={"Cafe24 Ssurround"}
+                  color="#345459"
+                >
                   핏트너가 드리는 5가지 약속
+                  <Box h={6} w={"full"} mt={-6} rounded="full" bg="#BFF6F6"></Box>
                 </Text>
               </Stack>
               <SimpleGrid

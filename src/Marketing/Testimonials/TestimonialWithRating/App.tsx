@@ -18,18 +18,23 @@ export const TestimonialWithRating = () => (
       <Box w={"fit-content"} p={2} fontWeight={"600"}>
         <HStack spacing={0}>
           <Text
-            color="#015A68"
+            color="#345459"
             textStyle={{ base: "2xl", md: "4xl" }}
-            // fontWeight="medium"
+            fontFamily={"Cafe24 Ssurround"}
+            fontWeight={"800"}
           >
-            500,000
+            당신은
           </Text>
-          <Text textStyle={{ base: "2xl", md: "4xl" }}>명이</Text>
         </HStack>
-        <Box h={6} w={"full"} mt={-5} rounded="full" bg="#BFF6F6"></Box>
       </Box>
-      <Text textStyle={{ base: "2xl", md: "4xl" }} fontWeight={"600"}>
-        맞춤 영양제를 추천 받았습니다.
+      <Text
+        textStyle={{ base: "2xl", md: "4xl" }}
+        fontWeight={"800"}
+        color="#345459"
+        fontFamily={"Cafe24 Ssurround"}
+      >
+        더 건강해 질 수 있습니다.
+        <Box h={6} w={"full"} mt={-6} rounded="full" bg="#BFF6F6"></Box>
       </Text>
     </Stack>
     <Container>

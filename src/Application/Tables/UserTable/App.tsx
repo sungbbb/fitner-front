@@ -81,28 +81,9 @@ export const UserTable = (props: any) => {
         </Box>
         <Box px={{ base: "4", md: "6" }} pb="5">
           <HStack spacing="3" justify="space-between">
-            {/* {!isMobile && (
-              <Text color="fg.muted" textStyle="sm">
-                총 10건의 검색결과가 있습니다.
-              </Text>
-            )} */}
-            {/* <ButtonGroup
-              spacing="3"
-              justifyContent="space-between"
-              width={{ base: "full", md: "auto" }}
-              variant="secondary"
-            >
-              <Button isDisabled={props.isPrevDisabled} onClick={props.onPrev}>
-                이전
-              </Button>
-              <Button isDisabled={props.isNextDisabled} onClick={props.onNext}>
-                다음
-              </Button>
-            </ButtonGroup> */}
           </HStack>
         </Box>
       </Stack>
     </Box>
-    // </Container>
   );
 };

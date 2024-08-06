@@ -26,8 +26,11 @@ export const StepwithLine = () => {
             fontSize={{ base: "2xl", md: "4xl" }}
             fontWeight="extrabold"
             textAlign={"center"}
+            color="#345459"
           >
-            당신의 이야기를 들려주세요 나머지는 다 저희가 할게요
+            당신의 이야기를 들려주세요!<br />
+            나머지는 다 저희가 할게요
+            <Box h={6} w={"full"} mt={-8} rounded="full" bg="#BFF6F6"></Box>
           </Text>
           <Box p={{ base: "4", md: "12" }}>
             {!isMobile ? (
