@@ -72,14 +72,19 @@ function Find(props) {
       createdAt: new Date(),
       image: imageList ? imageList : [],
     };
+
     addDocument("codef_result", documentData).then(async (docRef) => {
-      const userName = documentData.user?.userName || "unknown";
+      const userName = documentData.user?.userName || "미입력";
+      const newUrl = `/find/3?name=${encodeURIComponent(userName)}`;
 
-      // URL에 user 이름을 동적으로 삽입
-      const url = `https://plus.kakao.com/talk/bot/@핏트너/${encodeURIComponent(userName)}님의%20약상담%20요청입니다.`;
+      window.history.pushState({ path: newUrl }, '', newUrl);
 
-      // 새 창 열기
-      window.open(url, "_blank");
+      // KakaoTalk 채널 채팅 시작
+      if (window.Kakao) {
+        window.Kakao.Channel.chat({
+          channelPublicId: '_GxgdpG',
+        });
+      }
 
       // 페이지 이동
       navigate("/");
@@ -106,6 +111,9 @@ function Find(props) {
   };
 
   useEffect(() => {
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init('f65239acc1b677c40c6dfa6d4584568d');
+    };
     return () => {
       setIsLoading(false); // 컴포넌트 언마운트 시 로딩 상태 해제
     };

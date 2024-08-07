@@ -23,7 +23,7 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
           textAlign="center"
           align="center"
           bgImage={require("../../../Assets/Icon/graphArrow.png")}
-          backgroundPosition="center calc(100% + 1px)"
+          backgroundPosition={{ base: "", md: "center calc(100% + 5px)" }} // 반응형 배경 위치 설정
           backgroundRepeat="no-repeat"
           backgroundSize="contain"
         >
@@ -38,9 +38,9 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
           </Text>
           <Stack
             direction={{ base: "column", md: "row" }}
-            width="full"
+            width={{ base: "55%", md: "full" }}
             spacing={{ base: "8", md: "4" }}
-            bgColor={"#f8fafa"}
+            bgColor={{ base: "rgba(248, 250, 250, 0.5)", md: "#f8fafa" }}
             p={{ base: "10", md: "8" }}
             rounded={8000}
             divider={

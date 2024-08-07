@@ -111,9 +111,15 @@ export const Features = (props: { onClick: () => void }) => {
             }}
           >
             <Stack py={6} align={"center"}>
-              <Text fontSize={"2xl"} fontWeight={"600"}>
-                핏트너가 드리는 5가지 약속
-              </Text>
+                <Text
+                  fontSize={"2xl"}
+                  fontWeight={"800"}
+                  fontFamily={"Cafe24 Ssurround"}
+                  color="#345459"
+                >
+                  핏트너가 드리는 5가지 약속
+                  <Box h={6} w={"full"} mt={-6} rounded="full" bg="#BFF6F6"></Box>
+                </Text>
             </Stack>
             <SimpleGrid column={1} rowGap={6}>
               {features.map((feature) => (

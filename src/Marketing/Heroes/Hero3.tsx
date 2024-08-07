@@ -31,20 +31,20 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
                 mt={{ base: -48, md: 0 }}
                 w={"full"}
                 maxW={{ base: "xl", md: "7xl" }}
-                alignItems={{ base: "center", md: "flex-start" }}
+                alignItems={{ base: "flex-start", md: "flex-start" }}
               >
                 <Heading
-                  fontWeight="950"
+                  fontWeight={{ base: "800", md: "900" }}
                   className="text-gradient"
                   fontFamily={"Cafe24 Ssurround"}
-                  size={{ base: "sm", md: "xs" }}
+                  size={{ base: "xs", md: "sm" }}
                 >
                   나에게 꼭 필요한 것만,<br />
                   나에게 꼭 필요한 만큼
                 </Heading>
                 <Heading
                   as="h1"
-                  size={{ base: "sm", md: "sm" }}
+                  size={{ base: "sm", md: "md" }}
                   fontWeight="extrabold"
                   fontFamily={"Cafe24 Ssurround"}
                   className="text-gradient" 
@@ -95,7 +95,6 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
               base: require("../../Assets/main2.png"),
               lg: require("../../Assets/main.png"),
             })}
-            // src="https://images.unsplash.com/photo-1590650153855-d9e808231d41?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=2250&q=80"
             alt="Main Image"
             w="full"
             h="full"

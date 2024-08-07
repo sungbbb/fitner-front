@@ -28,7 +28,7 @@ function Landing(props) {
       <WithImageBackground onClick={() => navigation("/find/0")} />
       <Box
         bgImage={require("../Assets/Image/reviewbackground.png")}
-        bgSize={"cover"}
+        bgSize={{ base: "100% 100%", md: "cover" }}
         bgRepeat={"no-repeat"}
         bgPosition={"center"}
         bgColor={"rgba(245,245,245,0.5)"}
