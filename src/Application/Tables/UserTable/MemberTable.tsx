@@ -283,45 +283,6 @@ export const MemberTable = (props: any) => {
                         한눈에 보기
                       </CardHeader>
                       <CardBody>
-                        {/* <Stack>
-                          <Text>검진년도 : {health.resCheckupYear}</Text>
-                          <Text>검진일자 : {health.resCheckupDate}</Text>
-                          <Text>검진장소 : {health.resCheckupPlace}</Text>
-                          <Text>신장 : {health.resHeight}</Text>
-                          <Text>체중 : {health.resWeight}</Text>
-                          <Text>허리둘레 : {health.resWaist}</Text>
-                          <Text>체질량지수 : {health.resBMI}</Text>
-                          <Text>시력 : {health.resSight}</Text>
-                          <Text>청력 : {health.resHearing}</Text>
-                          <Text>혈압 : {health.resBloodPressure}</Text>
-                          <Text>요단백 : {health.resUrinaryProtein}</Text>
-                          <Text>혈색소 : {health.resHemoglobin}</Text>
-                          <Text>식전혈당 : {health.resFastingBloodSuger}</Text>
-                          <Text>
-                            총콜레스테롤 : {health.resTotalCholesterol}
-                          </Text>
-                          <Text>
-                            HDL콜레스테롤 : {health.resHDLCholesterol}
-                          </Text>
-                          <Text>
-                            트리글리세라이드 : {health.resTriglyceride}
-                          </Text>
-                          <Text>
-                            LDL콜레스테롤 : {health.resLDLCholesterol}
-                          </Text>
-                          <Text>
-                            혈청크레아티닌 : {health.resSerumCreatinine}
-                          </Text>
-                          <Text>신사구체여과율(GFR) : {health.resGFR}</Text>
-                          <Text>AST(SGOT) : {health.resAST}</Text>
-                          <Text>ALT(SGPT) : {health.resALT}</Text>
-                          <Text>감마지피티(y-GPT) : {health.resyGPT}</Text>
-                          <Text>
-                            폐결핵 흉부질환 : {health.resTBChestDisease}
-                          </Text>
-                          <Text>골다공증 : {health.resOsteoporosis}</Text>
-                          <Text>판정 : {health.resJudgement}</Text>
-                        </Stack> */}
                         <Stack>
                           <Grid
                             templateRows="repeat(2, 1fr)"

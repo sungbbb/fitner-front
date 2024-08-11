@@ -6,7 +6,7 @@ import {
   updateDoc,
   doc,
   deleteDoc,
-  orderBy, getDoc
+  orderBy, getDoc, where
 } from "firebase/firestore";
 import { auth, db, storage } from "./firebase_conf";
 import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
@@ -35,6 +35,16 @@ export const addDocument = async (collectionName, data) => {
   const collectionRef = collection(db, collectionName);
 
   try {
+    // 중복 UID 검사
+    if (data.uid) {
+      const q = query(collectionRef, where("uid", "==", data.uid));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        throw new Error(`UID ${data.uid} already exists in the collection.`);
+      }
+    }
+
     // 문서 추가
     const docRef = await addDoc(collectionRef, data);
 
@@ -43,7 +53,7 @@ export const addDocument = async (collectionName, data) => {
 
     await new Promise(resolve => setTimeout(resolve, 200));
 
-    // 중복 체크를 위해 추가된 문서 조회
+    // 방금 추가된 문서 조회
     const addedDocRef = doc(collectionRef, documentId);
     const docSnap = await getDoc(addedDocRef);
 

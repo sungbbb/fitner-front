@@ -43,20 +43,14 @@ function Survey(props) {
       if (survey[i].required && !survey[i].answer) {
         toast({
           title: survey[i].question,
-          // description: "도전하고 살펴보세요.",
           status: "error",
           duration: 5000,
           isClosable: true,
           position: "top-right",
         });
-        // alert(survey[i].question);
         setIndex(i);
         return;
       }
-
-      // if (!survey[i].required) {
-      //   survey[i].answer = "";
-      // }
     }
 
     addDocument("survey_result", {
@@ -94,8 +88,6 @@ function Survey(props) {
   const onChange = (value) => {
     survey[index].answer = value;
     setSurvey([...survey]);
-
-    // console.log(survey[index]);
   };
   return (
     <Container
@@ -123,8 +115,6 @@ function Survey(props) {
         <form>
           <Carousel
             showArrows={false}
-            // centerMode={true}
-            // centerSlidePercentage={100}
             showThumbs={false}
             showStatus={false}
             showIndicators={false}

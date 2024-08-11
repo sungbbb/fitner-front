@@ -37,7 +37,6 @@ export const UserTable = (props: any) => {
   };
 
   return (
-    // <Container py={{ base: "4", md: "8" }} px={{ base: "0", md: 8 }}>
     <Box
       bg="bg.surface"
       boxShadow={{ base: "none", md: "sm" }}
