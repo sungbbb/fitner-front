@@ -1,70 +1,61 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Container,
   HStack,
   Image,
-  Text,
   useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Logo } from "./Logo";
-import { MobileDrawer } from "./MobileNavbar";
-import { ToggleButton } from "./ToggleButton";
 
 export const NavbarWithCallToAction = ({ ...props }) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
   const mobileNavbar = useDisclosure();
+
   return (
-    <Box as="section" position={"fixed"} top={0} w={"full"} zIndex={999}>
-      <Box
-        // borderBottomWidth="1px"
-        // bg="bg.surface"
-        position="relative"
-        // zIndex="tooltip"
-      >
-        <Container py="4">
-          <HStack justify="space-between">
-            {/* <Logo /> */}
-            {/* <Text fontWeight="bold" fontSize="2xl">
-              핏트너
-            </Text> */}
-            <Image
-              src={require("../../../Assets/Logo/Horizontal.png")}
-              w={"auto"}
-              height={"36px"}
-              alt="logo"
-              cursor={"pointer"}
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            />
-            <HStack spacing="8">
-              {/* <ButtonGroup
-                  size="lg"
-                  variant="text"
-                  colorScheme="gray"
-                  spacing="8"
-                >
-                  {["Components", "Pricing", "Marketplace", "Support"].map(
-                    (item) => (
-                      <Button key={item}>{item}</Button>
-                    )
-                  )}
-                </ButtonGroup>
-                <Button>Sign Up</Button> */}
-              <Button
-                borderRadius={"full"}
-                bgGradient={gradient}
-                size={{ base: "md", md: "lg" }}
-                fontSize={{ base: "sm", md: "md" }}
-                onClick={props.onClick}
-              >
-                나에게 꼭 맞는 영양제 찾기
-              </Button>
-            </HStack>
+    <Box
+      as="section"
+      position="fixed" // 네비게이션 바를 스크롤 시에도 상단에 고정
+      width="100%" // 반응형 디자인을 위해 전체 너비 설정
+      maxWidth="1920px" // 최대 너비를 1920px로 제한
+      height="80px"
+      left="50%" // 중앙 정렬
+      top="0px"
+      transform="translateX(-50%)" // 중앙 정렬을 위한 변환
+      boxSizing="border-box"
+      zIndex={999} // 네비게이션 바가 다른 요소들 위에 오도록 설정
+    >
+      <Container py="4">
+        <HStack justify="space-between" align="center">
+          <Image
+            src={require("../../../Assets/Logo/Horizontal.png")}
+            w={"auto"}
+            height={"37.9px"}
+            alt="logo"
+            cursor={"pointer"}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          />
+          <HStack spacing="8">
+            <Button
+              borderRadius={"full"}
+              bgGradient={"linear-gradient(94.15deg, #015a68, #319694)"}
+              color="white"
+              _hover={{
+                bgGradient: "linear-gradient(94.15deg, #319694, #015a68)",
+              }}
+              _active={{
+                bgGradient: "linear-gradient(94.15deg, #015a68, #319694)",
+              }}
+              size={{ base: "md", md: "lg" }}
+              fontSize={{ base: "sm", md: "md" }}
+              onClick={props.onClick}
+              aria-label="나에게 꼭 맞는 영양제 찾기" // 접근성을 위한 ARIA 레이블 추가
+            >
+              나에게 꼭 맞는 영양제 찾기
+            </Button>
           </HStack>
-        </Container>
-      </Box>
+        </HStack>
+      </Container>
     </Box>
   );
 };

@@ -10,8 +10,6 @@ import { Rating } from "./Rating";
 
 interface TestiomonialProps {
   avatarUrl: string;
-  age: string;
-  gender: string;
   company: string;
   name: string;
   logo: () => JSX.Element;
@@ -22,8 +20,6 @@ interface TestiomonialProps {
 
 export const Testimonial = (props: TestiomonialProps) => {
   const {
-    age,
-    gender,
     avatarUrl,
     name,
     quote,
@@ -61,8 +57,8 @@ export const Testimonial = (props: TestiomonialProps) => {
         textStyle={{ base: "sm", md: "md" }}
         fontWeight="medium"
         color={"#505050"}
-      >{`${age} ${gender} ${name} 고객님`}</Text>
-      <Image src={image} w={"80px"} />
+      >{`${name} 고객님`}</Text>
+      {/* <Image src={image} w={"80px"} /> */}
     </Stack>
   );
 };

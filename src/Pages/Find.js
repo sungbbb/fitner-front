@@ -33,19 +33,18 @@ import { addDocument, uploadFile } from "../Firebase/firebase_func";
 import { MdAdd } from "react-icons/md";
 import { FiX } from "react-icons/fi";
 
-function Find(props) {
+function Find() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [step, setStep] = useState(
-    parseInt(window.location.pathname.split("/").pop())
-  );
+
+  const [step, setStep] = useState(parseInt(window.location.pathname.split("/").pop()));
   const [viewImageUpload, setViewImageUpload] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [imageList, setImageList] = useState([]);
   const imageRef = useRef(null);
 
   const [data, setData] = useState({});
-  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (location.state) {
@@ -64,32 +63,17 @@ function Find(props) {
   }, [window.location.pathname]);
 
   const handleSubmit = () => {
-    const documentData = {
+    console.log(data, imageList);
+    addDocument("codef_result", {
       uid: auth?.currentUser?.uid,
       health: data?.healthData ? data?.healthData : {},
       medicine: data?.medicineData ? data?.medicineData : [],
       user: data?.formInput ? data?.formInput : {},
       createdAt: new Date(),
       image: imageList ? imageList : [],
-    };
-
-    addDocument("codef_result", documentData).then(async (docRef) => {
-      const userName = documentData.user?.userName || "미입력";
-      const newUrl = `/find/3?name=${encodeURIComponent(userName)}`;
-
-      window.history.pushState({ path: newUrl }, '', newUrl);
-
-      // KakaoTalk 채널 채팅 시작
-      if (window.Kakao) {
-        window.Kakao.Channel.chat({
-          channelPublicId: '_GxgdpG',
-        });
-      }
-
-      // 페이지 이동
+    }).then(async () => {
+      window.open(`https://pf.kakao.com/_GxgdpG/chat?referer=${window.location.href}`, "_blank");
       navigate("/");
-    }).catch((error) => {
-      console.error("Error adding document: ", error);
     });
   };
 
@@ -141,11 +125,6 @@ function Find(props) {
           >
             <Box maxW="md" mx="auto">
               <StepsWithCircles currentStep={step} />
-              {/* <Logo
-            height="4"
-            color={useColorModeValue("blue.500", "blue.200")}
-            mx="auto"
-          /> */}
               {step === 0 && (
                 <Box textAlign="left" mx="auto" mt="4">
                   <Heading
@@ -266,7 +245,15 @@ function Find(props) {
                   {step < 3 && (
                     <Button
                       variant="outline"
-                      onClick={() => navigate(`/find/${step + 1}`)}
+                      onClick={() => {
+                        const nextStep = step + 1;
+                        if (nextStep === 3) {
+                          const phoneNo = data?.formInput?.phoneNo || '미반영';
+                          navigate(`/find/3?phone=${encodeURIComponent(phoneNo)}`);
+                        } else {
+                          navigate(`/find/${step + 1}`)
+                        }
+                      }}
                     >
                       건너뛰기
                     </Button>

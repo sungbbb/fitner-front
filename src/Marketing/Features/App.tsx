@@ -112,8 +112,8 @@ export const Features = (props: { onClick: () => void }) => {
           >
             <Stack py={6} align={"center"}>
                 <Text
-                  fontSize={"2xl"}
-                  fontWeight={"800"}
+                  fontSize={{ base: "xl", md: "2xl" }}
+                  fontWeight={"700"}
                   fontFamily={"Cafe24 Ssurround"}
                   color="#345459"
                 >

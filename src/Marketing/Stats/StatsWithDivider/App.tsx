@@ -23,13 +23,13 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
           textAlign="center"
           align="center"
           bgImage={require("../../../Assets/Icon/graphArrow.png")}
-          backgroundPosition={{ base: "", md: "center calc(100% + 5px)" }} // 반응형 배경 위치 설정
+          backgroundPosition={{ base: "center calc(100% - 125px)", md: "center calc(100% + 5px)" }} // 반응형 배경 위치 설정
           backgroundRepeat="no-repeat"
           backgroundSize="contain"
         >
           <Text
             fontSize={{ base: "2xl", md: "4xl" }}
-            fontWeight={"extrabold"}
+            fontWeight={"700"}
             fontFamily={"Cafe24 Ssurround"}
             color="#345459"
           >
@@ -38,7 +38,7 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
           </Text>
           <Stack
             direction={{ base: "column", md: "row" }}
-            width={{ base: "55%", md: "full" }}
+            width={{ base: "75%", md: "full" }}
             spacing={{ base: "8", md: "4" }}
             bgColor={{ base: "rgba(248, 250, 250, 0.5)", md: "#f8fafa" }}
             p={{ base: "10", md: "8" }}
@@ -55,9 +55,9 @@ export const StatsWithDivider = (props: { onClick: () => void }) => {
               flex="1"
             >
               <Text
-                fontSize={{ base: "2xl", md: "4xl" }}
-                fontWeight={"700"}
-                fontFamily={"Cafe24 Ssurround"}
+                fontSize={{ base: "xl", md: "4xl" }}
+                fontWeight={"600"}
+                fontFamily={""}
                 color="#015A68"
               >
                 92%의 고객님들이 핏트너의 서비스에 만족하고 계십니다!

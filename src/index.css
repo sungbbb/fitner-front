@@ -13,12 +13,14 @@ code {
 }
 
 @font-face {
-  font-family: "yg-jalnan";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff")
-    format("woff");
+  font-family: "Cafe24 Ssurround";
+  src: url("./Assets/fonts/Cafe24Ssurround-v2.0.woff2") format("woff2"),
+       url("./Assets/fonts/Cafe24Ssurround-v2.0.woff") format("woff"),
+       url("./Assets/fonts/Cafe24Ssurround-v2.0.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
+
 
 .text-gradient {
   background: linear-gradient(45deg, #015a68 0%, #319694 100%);

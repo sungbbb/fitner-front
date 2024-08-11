@@ -22,6 +22,7 @@ export const TestimonialWithRating = () => (
             textStyle={{ base: "2xl", md: "4xl" }}
             fontFamily={"Cafe24 Ssurround"}
             fontWeight={"800"}
+            fontStyle="normal"
           >
             당신은
           </Text>
@@ -32,6 +33,7 @@ export const TestimonialWithRating = () => (
         fontWeight={"800"}
         color="#345459"
         fontFamily={"Cafe24 Ssurround"}
+        fontStyle="normal"
       >
         더 건강해 질 수 있습니다.
         <Box h={6} w={"full"} mt={-6} rounded="full" bg="#BFF6F6"></Box>

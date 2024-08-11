@@ -49,7 +49,6 @@ function Landing(props) {
       <BlogWithThreeColumns onClick={() => navigation("/find/0")} />
       <Features onClick={() => navigation("/find/0")} />
       <CTA1 onClick={() => navigation("/find/0")} />
-      {/* <PopupWithImage isOpen={popupOpen} onClose={() => setPopupOpen(false)} /> */}
       <Footer onClick={() => navigation("/find/0")} />
     </LayoutWithFullContentHeight>
   );

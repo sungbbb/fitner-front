@@ -24,8 +24,9 @@ export const StepwithLine = () => {
         >
           <Text
             fontSize={{ base: "2xl", md: "4xl" }}
-            fontWeight="extrabold"
             textAlign={"center"}
+            fontWeight={"700"}
+            fontFamily="'Cafe24 Ssurround', sans-serif"
             color="#345459"
           >
             당신의 이야기를 들려주세요!<br />
