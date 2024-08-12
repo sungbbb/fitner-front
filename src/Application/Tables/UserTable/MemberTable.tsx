@@ -94,6 +94,7 @@ export const MemberTable = (props: any) => {
       const dateB = b.createdAt.toDate();
       return dateB.getTime() - dateA.getTime(); // 내림차순 정렬
     });
+    console.log("sortedList", sortedList)
 
     setNewList(sortedList);
     setTotalPages(Math.ceil(filteredList.length / itemsPerPage));
@@ -174,15 +175,17 @@ export const MemberTable = (props: any) => {
                 )}
               </Td>
               <Td textAlign={"center"}>
-                {member.medicine ? (
+                {member.medicine && member.medicine.length > 0 ? (
                   <Button
                     onClick={() => {
                       setType(2);
                       try {
-                        member.medicine.map((item: any) => {
+                        // `member.medicine` 배열을 안전하게 처리
+                        const medicines = member.medicine.map((item: any) => {
+                          return item; // 여기서 필요한 작업을 수행
                         });
 
-                        setData(member.medicine);
+                        setData(medicines);
                         onOpen();
                       } catch (error) {
                         alert("[TYPE ERROR] : 잘못된 데이터입니다.");

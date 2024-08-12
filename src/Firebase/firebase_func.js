@@ -21,8 +21,16 @@ export const getAllDoc = async (collectionName) => {
   return docs;
 };
 
-export const getAllDoc2 = async (collectionName) => {
-  const q = query(collection(db, collectionName));
+export const getAllDoc2 = async (collectionName, uid) => {
+  let q;
+
+  if (uid) {
+    // uid가 제공된 경우 해당 uid와 일치하는 문서만 쿼리
+    q = query(collection(db, collectionName), where("uid", "==", uid));
+  } else {
+    // uid가 제공되지 않은 경우 전체 문서를 쿼리
+    q = query(collection(db, collectionName));
+  }
   const docs = [];
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {

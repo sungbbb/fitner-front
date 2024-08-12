@@ -29,7 +29,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { StepsWithCircles } from "../Application/ProgressSteps/StepsWithCircles/App";
 import { useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../Firebase/firebase_conf";
-import { addDocument, uploadFile } from "../Firebase/firebase_func";
+import { addDocument, uploadFile, getAllDoc2 } from "../Firebase/firebase_func";
 import { MdAdd } from "react-icons/md";
 import { FiX } from "react-icons/fi";
 
@@ -45,6 +45,7 @@ function Find() {
 
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [survey, setSurvey] = useState([]);
 
   useEffect(() => {
     if (location.state) {
@@ -248,8 +249,36 @@ function Find() {
                       onClick={() => {
                         const nextStep = step + 1;
                         if (nextStep === 3) {
-                          const phoneNo = data?.formInput?.phoneNo || '미반영';
-                          navigate(`/find/3?phone=${encodeURIComponent(phoneNo)}`);
+                          let userName = '';
+
+                          const fetchUserName = async () => {
+                            try {
+                              const userSurveys = await getAllDoc2("survey_result", auth?.currentUser?.uid);
+
+                              if (userSurveys.length > 0 && data?.formInput?.userName) {
+                                // 설문 데이터와 기본 데이터가 모두 있는 경우, 기본 데이터의 이름을 사용
+                                userName = data.formInput.userName;
+                              } else if (userSurveys.length > 0) {
+                                // 설문 데이터만 있는 경우
+                                userName = userSurveys[0].answer[0].answer;
+                              } else if (data?.formInput?.userName) {
+                                // 기본 데이터만 있는 경우
+                                userName = data.formInput.userName;
+                              } else {
+                                // 둘 다 없는 경우
+                                userName = '미제출';
+                              }
+
+
+                              navigate(`/find/3?name=${encodeURIComponent(userName)}`);
+                            } catch (error) {
+                              console.error("Error fetching surveys:", error);
+                              userName = '미제출';
+                              navigate(`/find/3?name=${encodeURIComponent(userName)}`);
+                            }
+                          };
+
+                          fetchUserName();
                         } else {
                           navigate(`/find/${step + 1}`)
                         }

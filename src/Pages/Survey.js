@@ -36,7 +36,6 @@ function Survey(props) {
   }, []);
 
   const onSubmit = (e) => {
-    console.log("submitted", auth.currentUser.uid);
     e.preventDefault();
 
     for (let i = 0; i < survey.length; i++) {
@@ -88,6 +87,8 @@ function Survey(props) {
   const onChange = (value) => {
     survey[index].answer = value;
     setSurvey([...survey]);
+
+    // console.log(survey[index]);
   };
   return (
     <Container
@@ -115,6 +116,8 @@ function Survey(props) {
         <form>
           <Carousel
             showArrows={false}
+            // centerMode={true}
+            // centerSlidePercentage={100}
             showThumbs={false}
             showStatus={false}
             showIndicators={false}
