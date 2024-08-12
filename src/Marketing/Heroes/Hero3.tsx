@@ -43,7 +43,7 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
                   fontFamily="'Cafe24 Ssurround', sans-serif"
                   fontStyle="normal"
                   fontWeight="700"
-                  fontSize={{ base: "md", md: "3xl" }}
+                  fontSize={{ base: "sm", md: "3xl" }}
                   lineHeight={{ base: "30px", md: "52px" }}
                   letterSpacing="-0.01em"
                   color="#0D525C"
@@ -58,16 +58,16 @@ export const WithImageBackground = (props: { onClick: () => void }) => {
                   width={{ base: "293px", md: "962px" }} // 모바일에서 너비 293px, 데스크탑에서 962px
                   height={{ base: "102px", md: "160px" }} // 모바일에서 높이 102px, 데스크탑에서 160px
                   left={{ base: "calc(50% - 293px/2 - 9px)", md: "calc(50% - 962px/2 - 159px)" }} // 모바일과 데스크탑에서 수평 위치 조정
-                  top={{ base: "184px", md: "320px" }} // 모바일과 데스크탑에서 수직 위치 조정
+                  top={{ base: "180px", md: "320px" }} // 모바일과 데스크탑에서 수직 위치 조정
                   fontFamily="'Cafe24 Ssurround', sans-serif" // 폰트 패밀리 설정
                   fontStyle="normal" // 폰트 스타일 설정
                   fontWeight="700" // 폰트 두께 설정
-                  fontSize={{ base: "2xl", md: "5xl" }} // 모바일에서 폰트 크기 24px, 데스크탑에서 56px
+                  fontSize={{ base: "xl", md: "5xl" }} // 모바일에서 폰트 크기 24px, 데스크탑에서 56px
                   lineHeight={{ base: "34px", md: "80px" }} // 모바일에서 줄 높이 34px, 데스크탑에서 80px
                   letterSpacing="-0.01em" // 자간 설정
                   color="#0D525C" // 텍스트 색상 설정
                   textAlign="left"
-                  mt={0} // 위 여백을 없앰
+                  mt={-2} // 위 여백을 없앰
                 >
                   {isMobile ? (
                     <>

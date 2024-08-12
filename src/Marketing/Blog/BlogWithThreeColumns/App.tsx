@@ -69,8 +69,8 @@ export const BlogWithThreeColumns = (props: { onClick: () => void }) => {
             </Box>
             <Image src={require("../../../Assets/Image/mobileMyLIfe.jpg")} />
             <HStack justify={"space-between"} mt={-8}>
-              <Box flex={1}>
-                  <Text fontSize={"sm"} fontWeight={"600"} py={2}>
+                <Box flex={1} minWidth={0}>
+                  <Text fontSize="sm" fontWeight="600" py={2} whiteSpace="nowrap">
                     당신만의 주치 약사가 생깁니다.
                   </Text>
                   <Text fontSize={"xs"}>
@@ -84,7 +84,7 @@ export const BlogWithThreeColumns = (props: { onClick: () => void }) => {
                 </Text>
               </Box>
               <Box flex={1} textAlign={"right"}>
-                <Text fontSize={"sm"} fontWeight={"600"} py={2}>
+                <Text fontSize="sm" fontWeight="600" py={2} whiteSpace="nowrap">
                   하루하루 더 건강해지는 삶
                 </Text>
                 <Text fontSize={"xs"}>
