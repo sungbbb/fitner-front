@@ -230,7 +230,6 @@ export const PopupWithImage = (props: any) => {
       user: formInput,
       createdAt: new Date(),
     }).then(async () => {
-      // props.onClose();
       setStep(0);
     });
   };
