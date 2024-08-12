@@ -117,7 +117,18 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
           fontFamily={"Cafe24 Ssurround"}
           color="#345459"
         >
-          {"핏트너가 당신의 건강을 바꾸는\n8단계 비밀"}
+          핏트너가 당신의 건강을 바꾸는
+        </Text>
+        <Text
+          fontSize={{ base: "2xl", md: "4xl" }}
+          fontWeight="extrabold"
+          textAlign={"center"}
+          whiteSpace={{ base: "pre-wrap", md: "nowrap" }}
+          fontFamily={"Cafe24 Ssurround"}
+          color="#345459"
+          mt={-10}
+        >
+          8단계 비밀
           <Box h={6} w={"full"} mt={-8} rounded="full" bg="#BFF6F6"></Box>
         </Text>
         <Container>
@@ -168,11 +179,12 @@ export const HeroWithCropedImage = (props: { onClick: () => void }) => {
                 {eightSecrets.map((item, id) => (
                   <Tab
                     key={id}
-                    borderRadius={"3xl"}
-                    fontSize={"sm"}
+                    borderRadius={"2xl"}
+                    fontSize={"xs"}
                     onClick={() => setSelected(item.id)}
                     bgColor={seleted === item.id ? "#004A56" : "gray.100"}
                     color={seleted === item.id ? "white" : "black"}
+                    minWidth="auto"
                   >
                     {item.title}
                   </Tab>

@@ -54,10 +54,10 @@ export const BlogWithThreeColumns = (props: { onClick: () => void }) => {
         ) : (
           <Stack align={"center"} spacing={0}>
             <Box px={"auto"}>
-              <Text fontSize={"md"} fontWeight={"600"} py={2}>
+                <Text fontSize={"sm"} fontWeight={"600"} py={2}>
                 고민할 필요가 없는 최적의 영양제
               </Text>
-              <Text fontSize={"sm"}>
+                <Text fontSize={"xs"}>
                 핏트너는 당신의 건강상태, 먹는 약, 원하는 효과,
                 <br />
                 생활습관 뿐만 아니라 유전자와 마이크로바이옴까지
@@ -70,22 +70,35 @@ export const BlogWithThreeColumns = (props: { onClick: () => void }) => {
             <Image src={require("../../../Assets/Image/mobileMyLIfe.jpg")} />
             <HStack justify={"space-between"} mt={-8}>
               <Box flex={1}>
-                <Text fontSize={"md"} fontWeight={"600"} py={2}>
-                  당신만의 주치 약사가 생깁니다.
-                </Text>
-                <Text fontSize={"sm"}>
-                  약을 먹는 분들께는 전문 약사가 1:1로 관리해 드리므로 부작용을
-                  최소화하고 효과를 극대화할 수 있습니다.
+                  <Text fontSize={"sm"} fontWeight={"600"} py={2}>
+                    당신만의 주치 약사가 생깁니다.
+                  </Text>
+                  <Text fontSize={"xs"}>
+                    약을 먹는 분들께는 전문 약사가
+                    <br />
+                    1:1로 관리해 드리므로
+                    <br />
+                    부작용을 최소화하고
+                    <br />
+                    효과를 극대화할 수 있습니다.
                 </Text>
               </Box>
               <Box flex={1} textAlign={"right"}>
-                <Text fontSize={"md"} fontWeight={"600"} py={2}>
+                <Text fontSize={"sm"} fontWeight={"600"} py={2}>
                   하루하루 더 건강해지는 삶
                 </Text>
-                <Text fontSize={"sm"}>
-                  우리 몸이 필요로 하는 영양소를 골고루 섭취하고, 건강한 생활
-                  습관을 실천하면서 전문가의 코칭을 받는다면 어제보다 더
-                  건강해질 수밖에 없습니다.
+                <Text fontSize={"xs"}>
+                    우리 몸이 필요로 하는
+                    <br />
+                    영양소를 골고루 섭취하고,
+                    <br />
+                    건강한 생활 습관을 실천하면서
+                    <br />
+                    전문가의 코칭을 받는다면
+                    <br />
+                    어제보다 더 건강해질
+                    <br />
+                    수밖에 없습니다.
                 </Text>
               </Box>
             </HStack>

@@ -34,7 +34,7 @@ export const LogoGridWithTitle = () => (
             <Stack align="center">
               <Image src={image} alt={title} w={"64px"} h={"64px"} />
               <Text
-                fontSize={{ base: "md", md: "xl" }}
+                fontSize={{ base: "sm", md: "xl" }}
                 fontWeight="bold"
                 color="fg.muted"
                 textAlign="center"

@@ -27,7 +27,10 @@ function Landing(props) {
       <Navbar onClick={() => navigation("/find/0")} />
       <WithImageBackground onClick={() => navigation("/find/0")} />
       <Box
-        bgImage={require("../Assets/Image/reviewbackground.png")}
+        bgImage={{
+          lg: require("../Assets/Image/reviewbackground.png"),
+          base: require("../Assets/Image/reviewbackground2.png"),
+        }}
         bgSize={{ base: "100% 100%", md: "cover" }}
         bgRepeat={"no-repeat"}
         bgPosition={"center"}
