@@ -64,7 +64,6 @@ function Find() {
   }, [window.location.pathname]);
 
   const handleSubmit = () => {
-    console.log(data, imageList);
     addDocument("codef_result", {
       uid: auth?.currentUser?.uid,
       health: data?.healthData ? data?.healthData : {},
@@ -77,7 +76,6 @@ function Find() {
       navigate("/");
     });
   };
-
 
   const handleChange = (event) => {
     const files = event.target.files;
@@ -108,15 +106,22 @@ function Find() {
     <Container maxW="container.xl">
       <Center minH={"100vh"}>
         <Flex>
-          <Image
-            display={{ base: "none", md: "block" }}
-            w={"50%"}
-            objectFit={"cover"}
-            src={require("../Assets/Image/illust.png")}
-            alt="Lovely Image"
-            fallback={<Skeleton />}
+          <Box
+            position="absolute"
+            top="0"
+            left="0"
+            width="100%"
+            height="100vh"
+            bgImage={{
+              lg: require("../Assets/Image/findbackground.png"),
+              base: require("../Assets/Image/findbackground2.png"),
+            }}
+            bgSize={{ base: "100% 100%", md: "cover" }}
+            bgRepeat="no-repeat"
+            bgPosition="center"
+            bgColor="rgba(245,245,245,0.5)"
+            zIndex="-1"
           />
-
           <Flex
             direction="column"
             align="center"
