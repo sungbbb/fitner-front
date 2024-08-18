@@ -153,7 +153,6 @@ export const PopupWithImage = (props: any) => {
         onSnapshot(q, (querySnapshot) => {
           let list: any[] = [];
           querySnapshot.forEach((doc) => {
-            console.log(list);
             list.push(doc.data());
           });
 

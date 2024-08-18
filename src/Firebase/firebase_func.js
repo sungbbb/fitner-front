@@ -6,7 +6,7 @@ import {
   updateDoc,
   doc,
   deleteDoc,
-  orderBy, getDoc, where
+  orderBy, getDoc, where, setDoc
 } from "firebase/firestore";
 import { auth, db, storage } from "./firebase_conf";
 import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
@@ -49,31 +49,20 @@ export const addDocument = async (collectionName, data) => {
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
-        throw new Error(`UID ${data.uid} already exists in the collection.`);
+        // UID가 이미 존재하는 경우 - 문서 업데이트
+        const existingDoc = querySnapshot.docs[0];
+        await setDoc(existingDoc.ref, data, { merge: true }); // 기존 문서에 데이터를 병합하여 업데이트
+        return existingDoc.id; // 업데이트된 문서의 ID 반환
       }
     }
 
-    // 문서 추가
-    const docRef = await addDoc(collectionRef, data);
+    // UID가 존재하지 않거나, 새로운 문서 추가
+    const newDocRef = doc(collectionRef);
+    await setDoc(newDocRef, data);
 
-    // 방금 추가된 문서의 ID
-    const documentId = docRef.id;
-
-    await new Promise(resolve => setTimeout(resolve, 200));
-
-    // 방금 추가된 문서 조회
-    const addedDocRef = doc(collectionRef, documentId);
-    const docSnap = await getDoc(addedDocRef);
-
-    if (!docSnap.exists()) {
-      console.warn(`Document with ID ${documentId} does not exist.`);
-      return null; // 문서가 존재하지 않는 경우
-    }
-
-    // 문서가 존재하는 경우, ID 반환
-    return documentId;
+    return newDocRef.id; // 새로 추가된 문서의 ID 반환
   } catch (error) {
-    console.error("Error adding document: ", error);
+    console.error("Error adding or updating document: ", error);
     throw error; // 오류를 상위로 전달
   }
 };
