@@ -6,18 +6,21 @@ interface StepProps extends StackProps {
   isActive: boolean
   isLastStep: boolean
   label: string
+  imageSrc: string
 }
 
 export const Step = (props: StepProps) => {
-  const { isActive, isCompleted, isLastStep, label, ...stackProps } = props
+  const { isActive, isCompleted, isLastStep, label, imageSrc, ...stackProps } = props
 
   return (
     <HStack flex={isLastStep ? '0' : '1'} spacing="0" {...stackProps}>
-      <StepCircle isActive={isActive} isCompleted={isCompleted} label={label} />
+      <StepCircle isActive={isActive} isCompleted={isCompleted} label={label} imageSrc={imageSrc} />
       {!isLastStep && (
         <Image
           position={"absolute"}
-          marginLeft="150px"
+          marginLeft="250px"
+          marginTop="250px"
+          boxSize="20px"
           src={require("../../../Assets/Image/rightArrow.png")}
         />
       )}

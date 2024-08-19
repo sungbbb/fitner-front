@@ -1,6 +1,13 @@
 import { Box, Container, HStack } from "@chakra-ui/react";
 import { Step } from "./Step";
 
+const images = [
+  require("../../../Assets/Logo/step1.png"),
+  require("../../../Assets/Logo/step2.png"),
+  require("../../../Assets/Logo/step3.png"),
+  require("../../../Assets/Logo/step4.png"),
+];
+
 export const StepsWithCircles = (props: any) => {
   const numberOfSteps = 4;
   const { currentStep } = props;
@@ -20,6 +27,7 @@ export const StepsWithCircles = (props: any) => {
               isCompleted={currentStep > id}
               isLastStep={numberOfSteps === id + 1}
               label={`STEP ${id + 1}`}
+              imageSrc={images[id]}
             />
           ))}
         </HStack>

@@ -130,126 +130,34 @@ function Find() {
             px={{ base: "4", md: "6" }}
           >
             <Box maxW="md" mx="auto">
-              <StepsWithCircles currentStep={step} />
-              {step === 0 && (
-                <Box textAlign="left" mx="auto" mt="4">
-                  <Heading
-                    fontWeight="extrabold"
-                    fontSize={{ base: "3xl", md: "4xl" }}
-                    bgClip="text"
-                    bgGradient="linear(to-r, teal.500, teal.300)"
-                  >
-                    내게 맞는 영양제 찾기
-                  </Heading>
-                  <Stack fontSize={{ base: "md", md: "sm" }} mt="2">
-                    <Text>
-                      이제부터 당신에게 꼭 맞는 영양제를 찾기위한 건강설문을
-                      진행할게요
-                    </Text>
-                    <Text>
-                      이 설문은 당신의 건강을 파악하기 위해 SCI 의학 논문을
-                      분석하여 만들어졌습니다.
-                    </Text>
-                  </Stack>
-                </Box>
-              )}
-              {step === 1 && (
-                <Box textAlign="left" mx="auto" mt="4">
-                  <Heading
-                    fontWeight="extrabold"
-                    fontSize={{ base: "3xl", md: "4xl" }}
-                    bgClip="text"
-                    bgGradient="linear(to-r, teal.500, teal.300)"
-                  >
-                    축하합니다!
-                  </Heading>
-                  <Stack fontSize={{ base: "md", md: "sm" }} mt="2">
-                    <Text>
-                      당신은 지금 건강증진을 위한 첫번째 단계를 끝냈습니다. 이제
-                      당신의 건강검진 자료와 투약 이력을 알려주세요
-                    </Text>
-                    <Text>더 정확한 영양제를 추천해드리겠습니다</Text>
-                  </Stack>
-                </Box>
-              )}
-              {step === 2 && (
-                <Box textAlign="left" mx="auto" mt="4">
-                  <Heading
-                    fontWeight="extrabold"
-                    fontSize={{ base: "3xl", md: "4xl" }}
-                    bgClip="text"
-                    bgGradient="linear(to-r, teal.500, teal.300)"
-                  >
-                    이제 거의 다 됐습니다.
-                  </Heading>
-                  <Stack fontSize={{ base: "md", md: "sm" }} mt="2">
-                    <Text>
-                      지금 드시는 약을 알려주시면 더 정확한 영양제를 추천해 드릴
-                      수 있습니다.
-                    </Text>
-                  </Stack>
-                </Box>
-              )}
-              {step === 3 && (
-                <Box textAlign="left" mx="auto" mt="4">
-                  <Heading
-                    fontWeight="extrabold"
-                    fontSize={{ base: "3xl", md: "4xl" }}
-                    bgClip="text"
-                    bgGradient="linear(to-r, teal.500, teal.300)"
-                  >
-                    감사합니다.
-                  </Heading>
-                  <Stack fontSize={{ base: "md", md: "sm" }} mt="2">
-                    <Text>
-                      알려주신 소중한 정보로 여러분에게 꼭 맞는 영양제를 찾도록
-                      하겠습니다.
-                    </Text>
-                    <Text>
-                      아래 1:1 약사 상담하기 버튼을 클릭하시면 24시간 이내에 AI
-                      와 약사가 당신의 정보를 분석하여 알려줄 겁니다.
-                    </Text>
-                    <Text>정확한 영양제 추천을 위해 조금만 기다려주세요</Text>
-                  </Stack>
-                </Box>
-              )}
+              <Box textAlign="center" mx="auto" mt="-48" mb="-8">
+                <Text
+                  fontWeight="medium"
+                  fontFamily="Pretendard, sans-serif"
+                  fontSize={{ base: "xl", md: "2xl" }}
+                  bgClip="text"
+                  color="#111111"
+                  bgGradient="linear(to-r, teal.500, teal.300)"
+                >
+                  건강설문과 약사 상담으로<br />
+                  <Text as="span" fontWeight="bold">
+                    내게 꼭 맞는 영양제 찾기
+                  </Text>
+                </Text>
+              </Box>
+              <StepsWithCircles currentStep={step}/>
 
-              <Stack spacing="7" mt="8" w={"100%"}>
-                <Stack direction={{ base: "column", md: "row" }} w={"100%"}>
-                  {step === 0 && (
-                    <Button onClick={() => navigate("/survey")}>
-                      설문 시작하기
-                    </Button>
-                  )}
-                  {step === 1 && (
-                    <HStack>
-                      <Button
-                        w={"full"}
-                        onClick={() => {
-                          navigate("/cert");
-                        }}
-                      >
-                        건강검진자료 및 투약이력 알려주기
-                      </Button>
-                    </HStack>
-                  )}
-                  {step === 2 && (
-                    <Button onClick={() => setViewImageUpload(true)}>
-                      먹는약 업로드하기
-                    </Button>
-                  )}
-                  {step === 3 && (
-                    <Button
-                      onClick={() => {
-                        handleSubmit();
-                      }}
-                    >
-                      1:1 약사 상담하기
-                    </Button>
-                  )}
-
+              <Stack spacing="7" mt="48" w={"100%"}>
+                <Stack
+                  direction={{ base: "column", md: "row" }}
+                  w="100%"
+                  justifyContent="center"
+                  alignItems="center"
+                  mt="4"
+                >
                   {step < 3 && (
                     <Button
+                      w="225px"
                       variant="outline"
                       onClick={() => {
                         const nextStep = step + 1;
@@ -292,17 +200,42 @@ function Find() {
                       건너뛰기
                     </Button>
                   )}
+                  {step === 0 && (
+                    <Button
+                      w="225px"
+                      bgGradient="linear(to-r, #015A68, #319694)"
+                      color="white"
+                      onClick={() => navigate("/survey")}>
+                      설문 시작하기
+                    </Button>
+                  )}
+                  {step === 1 && (
+                    <HStack>
+                      <Button
+                        w={"full"}
+                        onClick={() => {
+                          navigate("/cert");
+                        }}
+                      >
+                        건강검진자료 및 투약이력 알려주기
+                      </Button>
+                    </HStack>
+                  )}
+                  {step === 2 && (
+                    <Button onClick={() => setViewImageUpload(true)}>
+                      먹는약 업로드하기
+                    </Button>
+                  )}
+                  {step === 3 && (
+                    <Button
+                      onClick={() => {
+                        handleSubmit();
+                      }}
+                    >
+                      1:1 약사 상담하기
+                    </Button>
+                  )}
                 </Stack>
-
-                <Text
-                  fontSize="sm"
-                  color={useColorModeValue("gray.600", "gray.400")}
-                >
-                  {step === 0
-                    ? "설문이 어렵다면 건너뛰셔도 됩니다. 다만 더 정확한 분석을 위해 꼭 설문을 부탁드려요"
-                    : step === 1 &&
-                    "건강검진, 투약자료 알려주기가 어렵다면 건너뛰기를 눌러주세요. 다만 더 정확한 분석을 위해 꼭 알려주기를 부탁드려요"}
-                </Text>
               </Stack>
             </Box>
           </Flex>
