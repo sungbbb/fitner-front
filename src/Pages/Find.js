@@ -105,6 +105,28 @@ function Find() {
   return (
     <Container maxW="container.xl">
       <Center minH={"100vh"}>
+        <Box
+          position="fixed"  // 상단에 고정
+          top="0"
+          left="0"
+          width="100%"
+          bg="transparent"
+          zIndex="1000"
+          py="4"
+          px="8"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Image
+            src={require("../Assets/Logo/Horizontal.png")}
+            w="auto"
+            height="37.9px"
+            alt="logo"
+            cursor="pointer"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          />
+        </Box>
         <Flex>
           <Box
             position="absolute"
@@ -116,9 +138,9 @@ function Find() {
               lg: require("../Assets/Image/findbackground.png"),
               base: require("../Assets/Image/findbackground2.png"),
             }}
-            bgSize={{ base: "100% 100%", md: "cover" }}
+            bgSize={{ base: "cover", md: "cover" }}
+            bgPosition="center center"  // 배경 이미지를 수평 및 수직으로 중앙에 배치
             bgRepeat="no-repeat"
-            bgPosition="center"
             bgColor="rgba(245,245,245,0.5)"
             zIndex="-1"
           />
@@ -132,10 +154,12 @@ function Find() {
             <Box maxW="md" mx="auto">
               <Box textAlign="center" mx="auto" mt="-48" mb="-8">
                 <Text
-                  fontWeight="medium"
-                  fontFamily="Pretendard, sans-serif"
-                  fontSize={{ base: "xl", md: "2xl" }}
+                  fontWeight="normal"
+                  fontFamily="Pretendard"
+                  fontSize={{ base: "lg", md: "xl" }}
                   bgClip="text"
+                  mb={{ base: "-30%", lg: "-25%"}}
+                  mt={{ base: "45%", lg: "20%" }}
                   color="#111111"
                   bgGradient="linear(to-r, teal.500, teal.300)"
                 >
@@ -147,9 +171,9 @@ function Find() {
               </Box>
               <StepsWithCircles currentStep={step}/>
 
-              <Stack spacing="7" mt="48" w={"100%"}>
+              <Stack spacing="7" mt={"30%"} w={"100%"}>
                 <Stack
-                  direction={{ base: "column", md: "row" }}
+                  direction={{ base: "row", md: "row" }}
                   w="100%"
                   justifyContent="center"
                   alignItems="center"
@@ -157,7 +181,7 @@ function Find() {
                 >
                   {step < 3 && (
                     <Button
-                      w="225px"
+                      w={{ base: "140px", lg: "225px" }}
                       variant="outline"
                       onClick={() => {
                         const nextStep = step + 1;
@@ -202,7 +226,7 @@ function Find() {
                   )}
                   {step === 0 && (
                     <Button
-                      w="225px"
+                      w={{ base: "140px", lg: "225px" }}
                       bgGradient="linear(to-r, #015A68, #319694)"
                       color="white"
                       onClick={() => navigate("/survey")}>

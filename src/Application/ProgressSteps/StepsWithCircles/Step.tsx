@@ -1,4 +1,4 @@
-import { Image, HStack, StackProps } from '@chakra-ui/react'
+import { Image, HStack, StackProps, useMediaQuery } from '@chakra-ui/react'
 import { StepCircle } from './StepCircle'
 
 interface StepProps extends StackProps {
@@ -12,15 +12,19 @@ interface StepProps extends StackProps {
 export const Step = (props: StepProps) => {
   const { isActive, isCompleted, isLastStep, label, imageSrc, ...stackProps } = props
 
+  // 모바일 화면 크기인지 확인
+  const [isMobile] = useMediaQuery("(max-width: 768px)")
+
   return (
     <HStack flex={isLastStep ? '0' : '1'} spacing="0" {...stackProps}>
       <StepCircle isActive={isActive} isCompleted={isCompleted} label={label} imageSrc={imageSrc} />
-      {!isLastStep && (
+      {!isLastStep && (!isMobile || label !== "STEP 2") && (
         <Image
           position={"absolute"}
-          marginLeft="250px"
-          marginTop="250px"
+          marginLeft={{ base: "155px", lg: "240px" }}
+          marginTop={{ base: "0px", lg: "10px" }}
           boxSize="20px"
+          zIndex="100"
           src={require("../../../Assets/Image/rightArrow.png")}
         />
       )}
