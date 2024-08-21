@@ -32,6 +32,7 @@ import { auth } from "../Firebase/firebase_conf";
 import { addDocument, uploadFile, getAllDoc2 } from "../Firebase/firebase_func";
 import { MdAdd } from "react-icons/md";
 import { FiX } from "react-icons/fi";
+import { isMobile } from 'react-device-detect';
 
 function Find() {
   const navigate = useNavigate();
@@ -205,9 +206,15 @@ function Find() {
                                 // 둘 다 없는 경우
                                 userName = '미제출';
                               }
-
-
-                              navigate(`/find/3?name=${encodeURIComponent(userName)}`);
+                              if (isMobile) {  // 모바일 환경에서만 특정 URL로 리디렉션
+                                if (userName !== '미제출') {
+                                  window.open(`https://pf.kakao.com/talk/bot/@핏트너/${encodeURIComponent(userName)}님의 약상담 요청입니다`, "_blank");
+                                } else {
+                                  window.open(`https://pf.kakao.com/talk/bot/@핏트너/고객님의 약상담 요청입니다`, "_blank");
+                                }
+                              } else {
+                                navigate(`/find/3?name=${encodeURIComponent(userName)}`);
+                              }
                             } catch (error) {
                               console.error("Error fetching surveys:", error);
                               userName = '미제출';
