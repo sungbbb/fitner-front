@@ -183,8 +183,6 @@ export const PopupWithImage = (props: any) => {
       var isMobile = /Mobi|Android/i.test(navigator.userAgent);
       var isAndroid = /Android/i.test(navigator.userAgent);
 
-      console.log(isMobile, isAndroid);
-
       if (certStep === 2) {
         if (formInput.loginTypeLevel === "1" && isMobile) {
           window.location.href = "kakaotalk://launch";
@@ -270,14 +268,6 @@ export const PopupWithImage = (props: any) => {
         console.log(error);
         setMedicineData(null);
         setHealthData(null);
-        // toast({
-        //   title: "인증에 실패하였습니다.",
-        //   status: "error",
-        //   duration: 3000,
-        //   isClosable: true,
-        //   position: "top-right",
-        // });
-        // onClose();
       });
   };
 
@@ -332,14 +322,6 @@ export const PopupWithImage = (props: any) => {
         console.log(error);
         setMedicineData(null);
         setHealthData(null);
-        // toast({
-        //   title: "인증에 실패하였습니다.",
-        //   status: "error",
-        //   duration: 3000,
-        //   isClosable: true,
-        //   position: "top-right",
-        // });
-        // onClose();
       });
 
     const param = {
@@ -364,7 +346,6 @@ export const PopupWithImage = (props: any) => {
         return res.json();
       })
       .then(async (data) => {
-        console.log("2", data);
         if (data.result.code === "CF-00000") {
           setCertStep(certStep + 1);
         }
@@ -384,14 +365,6 @@ export const PopupWithImage = (props: any) => {
       })
       .catch((error) => {
         console.log(error);
-        // toast({
-        //   title: "인증에 실패하였습니다.",
-        //   status: "error",
-        //   duration: 3000,
-        //   isClosable: true,
-        //   position: "top-right",
-        // });
-        // onClose();
       });
   };
 

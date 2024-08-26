@@ -11,9 +11,7 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { HiChevronRight } from "react-icons/hi";
 import { MdArrowForward } from "react-icons/md";
-import { gradient } from "../Navbars/NavbarWithCallToAction/App";
 
 export const WithImageBackground = (props: { onClick: () => void }) => {
   const isMobile = useBreakpointValue({ base: true, md: false })

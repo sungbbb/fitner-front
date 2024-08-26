@@ -21,8 +21,8 @@ export const Step = (props: StepProps) => {
       {!isLastStep && (!isMobile || label !== "STEP 2") && (
         <Image
           position={"absolute"}
-          marginLeft={{ base: "155px", lg: "240px" }}
-          marginTop={{ base: "0px", lg: "10px" }}
+          marginLeft={{ base: "177px", lg: "230px" }}
+          marginTop={{ base: "45px", lg: "-10px" }}
           boxSize="20px"
           zIndex="100"
           src={require("../../../Assets/Image/rightArrow.png")}

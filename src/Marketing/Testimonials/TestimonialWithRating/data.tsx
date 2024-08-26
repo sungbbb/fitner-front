@@ -48,7 +48,6 @@ const Logo2 = () => (
 export const testimonials = [
   {
     avatarUrl: require("../../../Assets/avartar1.jpg"),
-    // avatarUrl: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
     company: "Logoipsum",
     name: "손**",
     logo: Logo1,
@@ -59,7 +58,6 @@ export const testimonials = [
   },
   {
     avatarUrl: require("../../../Assets/avartar2.jpg"),
-    // avatarUrl: "https://tinyurl.com/299apdk5",
     company: "ABC Inc",
     name: "김**",
     logo: Logo2,
@@ -70,7 +68,6 @@ export const testimonials = [
   },
   {
     avatarUrl: require("../../../Assets/avartar3.jpg"),
-    // "https://images.unsplash.com/photo-1547037579-f0fc020ac3be?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTI2fHxtYW4lMjBzbWlsaW5nfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     company: "Plumtic HQ",
     name: "고**",
     logo: Logo1,

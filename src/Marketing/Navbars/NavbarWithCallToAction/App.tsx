@@ -4,14 +4,11 @@ import {
   Container,
   HStack,
   Image,
-  useBreakpointValue,
-  useDisclosure,
 } from "@chakra-ui/react";
 
-export const NavbarWithCallToAction = ({ ...props }) => {
-  const isDesktop = useBreakpointValue({ base: false, lg: true });
-  const mobileNavbar = useDisclosure();
+export const gradient = "linear-gradient(45deg, #015A68 0%, #319694 100%)";
 
+export const NavbarWithCallToAction = ({ ...props }) => {
   return (
     <Box
       as="section"
@@ -38,14 +35,10 @@ export const NavbarWithCallToAction = ({ ...props }) => {
           <HStack spacing="8">
             <Button
               borderRadius={"full"}
-              bgGradient={"linear-gradient(94.15deg, #015a68, #319694)"}
+              bgGradient={gradient}
               color="white"
-              _hover={{
-                bgGradient: "linear-gradient(94.15deg, #319694, #015a68)",
-              }}
-              _active={{
-                bgGradient: "linear-gradient(94.15deg, #015a68, #319694)",
-              }}
+              _hover={{ bgGradient: gradient }}
+              _active={{ bgGradient: gradient }}
               size={{ base: "md", md: "lg" }}
               fontSize={{ base: "sm", md: "md" }}
               onClick={props.onClick}
@@ -59,5 +52,3 @@ export const NavbarWithCallToAction = ({ ...props }) => {
     </Box>
   );
 };
-
-export const gradient = "linear-gradient(45deg, #015A68 0%, #319694 100%)";

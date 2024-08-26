@@ -33,21 +33,17 @@ import { addDocument, uploadFile, getAllDoc2 } from "../Firebase/firebase_func";
 import { MdAdd } from "react-icons/md";
 import { FiX } from "react-icons/fi";
 import { isMobile } from 'react-device-detect';
-
 function Find() {
   const navigate = useNavigate();
   const location = useLocation();
-
   const [step, setStep] = useState(parseInt(window.location.pathname.split("/").pop()));
   const [viewImageUpload, setViewImageUpload] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [imageList, setImageList] = useState([]);
   const imageRef = useRef(null);
-
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [survey, setSurvey] = useState([]);
-
   useEffect(() => {
     if (location.state) {
       if (location.state.isSurvey) {
@@ -59,11 +55,9 @@ function Find() {
       }
     }
   }, [location.state]);
-
   useEffect(() => {
     setStep(parseInt(window.location.pathname.split("/").pop()));
   }, [window.location.pathname]);
-
   const handleSubmit = () => {
     addDocument("codef_result", {
       uid: auth?.currentUser?.uid,
@@ -73,11 +67,33 @@ function Find() {
       createdAt: new Date(),
       image: imageList ? imageList : [],
     }).then(async () => {
-      window.open(`https://pf.kakao.com/_GxgdpG/chat?referer=${window.location.href}`, "_blank");
+      const userSurveys = await getAllDoc2("survey_result", auth?.currentUser?.uid);
+      let userName = '';
+      if (userSurveys.length > 0 && data?.formInput?.userName) {
+        // 설문 데이터와 기본 데이터가 모두 있는 경우, 기본 데이터의 이름을 사용
+        userName = data.formInput.userName;
+      } else if (userSurveys.length > 0) {
+        // 설문 데이터만 있는 경우
+        userName = userSurveys[0].answer[0].answer;
+      } else if (data?.formInput?.userName) {
+        // 기본 데이터만 있는 경우
+        userName = data.formInput.userName;
+      } else {
+        // 둘 다 없는 경우
+        userName = '미제출';
+      }
+      if (isMobile) {
+        if (userName !== '미제출') {
+          window.open(`https://pf.kakao.com/talk/bot/@핏트너/${encodeURIComponent(userName)}님의 약상담 요청입니다`, "_blank");
+        } else {
+          window.open(`https://pf.kakao.com/talk/bot/@핏트너/고객님의 약상담 요청입니다`, "_blank");
+        }
+      } else {
+        window.open(`https://pf.kakao.com/_GxgdpG/chat?referer=${window.location.href}`, "_blank");
+      }
       navigate("/");
     });
   };
-
   const handleChange = (event) => {
     const files = event.target.files;
     setIsLoading(true); // 업로드 시작 시 로딩 상태 설정
@@ -88,12 +104,10 @@ function Find() {
         setIsLoading(false); // 업로드 완료 시 로딩 상태 해제
       });
     }
-
     if (imageRef.current) {
       imageRef.current.value = "";
     }
   };
-
   useEffect(() => {
     if (window.Kakao && !window.Kakao.isInitialized()) {
       window.Kakao.init('f65239acc1b677c40c6dfa6d4584568d');
@@ -102,7 +116,6 @@ function Find() {
       setIsLoading(false); // 컴포넌트 언마운트 시 로딩 상태 해제
     };
   }, [navigate]);
-
   return (
     <Container maxW="container.xl">
       <Center minH={"100vh"}>
@@ -153,14 +166,14 @@ function Find() {
             px={{ base: "4", md: "6" }}
           >
             <Box maxW="md" mx="auto">
-              <Box textAlign="center" mx="auto" mt="-48" mb="-8">
+              <Box textAlign="center" mx="auto" mt="-48" mb="7%">
                 <Text
                   fontWeight="normal"
                   fontFamily="Pretendard"
                   fontSize={{ base: "lg", md: "xl" }}
                   bgClip="text"
-                  mb={{ base: "-30%", lg: "-25%"}}
-                  mt={{ base: "45%", lg: "20%" }}
+                  mb={{ base: "-30%", lg: "-25%" }}
+                  mt={{ base: "20%", lg: "20%" }}
                   color="#111111"
                   bgGradient="linear(to-r, teal.500, teal.300)"
                 >
@@ -170,15 +183,15 @@ function Find() {
                   </Text>
                 </Text>
               </Box>
-              <StepsWithCircles currentStep={step}/>
-
+              <StepsWithCircles currentStep={step} />
               <Stack spacing="7" mt={"30%"} w={"100%"}>
                 <Stack
                   direction={{ base: "row", md: "row" }}
                   w="100%"
                   justifyContent="center"
                   alignItems="center"
-                  mt="4"
+                  mt="3"
+                  transform={{ base: "translateX(-20px)", md: "none" }}
                 >
                   {step < 3 && (
                     <Button
@@ -188,11 +201,9 @@ function Find() {
                         const nextStep = step + 1;
                         if (nextStep === 3) {
                           let userName = '';
-
                           const fetchUserName = async () => {
                             try {
                               const userSurveys = await getAllDoc2("survey_result", auth?.currentUser?.uid);
-
                               if (userSurveys.length > 0 && data?.formInput?.userName) {
                                 // 설문 데이터와 기본 데이터가 모두 있는 경우, 기본 데이터의 이름을 사용
                                 userName = data.formInput.userName;
@@ -204,15 +215,8 @@ function Find() {
                                 userName = data.formInput.userName;
                               } else {
                                 // 둘 다 없는 경우
+                                console.log("userName", userName)
                                 userName = '미제출';
-                              }
-                              if (isMobile) {  // 모바일 환경에서만 특정 URL로 리디렉션
-                                if (userName !== '미제출') {
-                                  window.open(`https://pf.kakao.com/talk/bot/@핏트너/${encodeURIComponent(userName)}님의 약상담 요청입니다`, "_blank");
-                                } else {
-                                  window.open(`https://pf.kakao.com/talk/bot/@핏트너/고객님의 약상담 요청입니다`, "_blank");
-                                }
-                              } else {
                                 navigate(`/find/3?name=${encodeURIComponent(userName)}`);
                               }
                             } catch (error) {
@@ -270,7 +274,6 @@ function Find() {
               </Stack>
             </Box>
           </Flex>
-
           <Modal
             size={{ base: "full", md: "md" }}
             isCentered
@@ -289,7 +292,6 @@ function Find() {
                   </Text>
                 </Stack>
               </ModalHeader>
-
               <ModalCloseButton onClick={() => setViewImageUpload(false)} />
               <ModalBody>
                 {isLoading ? (
@@ -343,7 +345,6 @@ function Find() {
                   </SimpleGrid>
                 )}
               </ModalBody>
-
               <ModalFooter mb={4}>
                 <Button
                   w={"full"}
@@ -364,5 +365,4 @@ function Find() {
     </Container>
   );
 }
-
 export default Find;

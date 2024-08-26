@@ -1,26 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { LayoutWithFullContentHeight } from "../Marketing/Layouts/LayoutWithFullContentHeight/App";
-import { WithImageBackground } from "../Marketing/Heroes/Hero3";
-import { LogoGridWithTitle } from "../Marketing/LogoGrid/LogoGridWithTitle/App";
+// 외부 라이브러리 임포트
 import { Box } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+
+// 레이아웃 관련 컴포넌트 임포트
+import { LayoutWithFullContentHeight } from "../Marketing/Layouts/LayoutWithFullContentHeight/App";
+import { Navbar } from "../Marketing/Layouts/LayoutWithFullContentHeight/Navbar";
+import { Footer } from "../Marketing/Layouts/LayoutWithFullContentHeight/Footer";
+
+// 히어로 관련 컴포넌트 임포트
+import { WithImageBackground } from "../Marketing/Heroes/Hero3";
+import { HeroWithImage } from "../Marketing/Heroes/Hero5";
+import { HeroWithCropedImage } from "../Marketing/Heroes/Hero1";
+
+// 그리드 및 기타 섹션 임포트
+import { LogoGridWithTitle } from "../Marketing/LogoGrid/LogoGridWithTitle/App";
 import { TestimonialWithRating } from "../Marketing/Testimonials/TestimonialWithRating/App";
 import { StatsWithDivider } from "../Marketing/Stats/StatsWithDivider/App";
-import { HeroWithImage } from "../Marketing/Heroes/Hero5";
 import { Features } from "../Marketing/Features/App";
-import { HeroWithCropedImage } from "../Marketing/Heroes/Hero1";
 import { CTA1 } from "../Marketing/CallToActions/CTA1";
 import { BlogWithThreeColumns } from "../Marketing/Blog/BlogWithThreeColumns/App";
-import { PopupWithImage } from "../E-Commerce/ShopPopup.js/PopupWithImage/App";
-import { Navbar } from "../Marketing/Layouts/LayoutWithFullContentHeight/Navbar";
+
+// 추가적인 섹션 임포트
 import { StepwithLine } from "./StepwithLine";
 import { BeforeAndAfter } from "./BeforeAndAfter";
-import { Footer } from "../Marketing/Layouts/LayoutWithFullContentHeight/Footer";
-import useCustomBack from "./useCustomBack";
-import { useNavigate } from "react-router-dom";
 
 function Landing(props) {
   const navigation = useNavigate();
-  const [popupOpen, setPopupOpen] = React.useState(false);
 
   return (
     <LayoutWithFullContentHeight>
@@ -39,7 +44,6 @@ function Landing(props) {
         <LogoGridWithTitle />
         <TestimonialWithRating />
       </Box>
-      {/* <HeroWithImageTop /> */}
       <StatsWithDivider onClick={() => navigation("/find/0")} />
       <Box bgColor={"white"}>
         <HeroWithImage onClick={() => navigation("/find/0")} />

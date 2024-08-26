@@ -16,24 +16,25 @@ export const StepsWithCircles = (props: any) => {
     <Box bg="transparent">
       <Container display="flex" justifyContent="center" alignItems="center" minH="40" width="100%">
         <SimpleGrid
-          columns={{ base: 2, lg: 4 }}  // 모바일에서는 2개씩, 데스크탑에서는 4개씩 한 줄에 배치
-          spacing={{ base: "-10%", lg: "65%" }}  // 간격 설정
-          width="100%"
-          height={"100%"}
-          transform="translateY(150px)"
-          marginLeft={{ base: "11%", lg: "-60%" }}  // 왼쪽으로 약간 더 이동시키기 위해 음수 마진 추가
-          marginRight={{ base: "17%", lg: "" }}
-          justifyContent="center"  // 내용을 가운데 정렬
+          gap={{ base: "16",lg: "60%" }}
+          columns={{ base: 2, lg: 4 }}  // 모바일에서 2열, 데스크탑에서 4열
+          spacing="10px"  // 각 항목 간격
+          transform={{ base: "translate(10px, 150px)", lg: "translate(-140px, 150px)" }}
+          maxWidth="100%"  // 최대 너비 설정
+          mx="auto"  // 가운데 정렬
+          mb={{ base: "40%", lg: "30%" }}
+          mt={{ base: "-10%"}}
         >
           {[...Array(numberOfSteps)].map((_, id) => (
-            <Step
-              key={id}
-              isActive={currentStep === id}
-              isCompleted={currentStep > id}
-              isLastStep={numberOfSteps === id + 1}
-              label={`STEP ${id + 1}`}
-              imageSrc={images[id]}
-            />
+            <Box key={id} display="flex" justifyContent="center">
+              <Step
+                isActive={currentStep === id}
+                isCompleted={currentStep > id}
+                isLastStep={numberOfSteps === id + 1}
+                label={`STEP ${id + 1}`}
+                imageSrc={images[id]}
+              />
+            </Box>
           ))}
         </SimpleGrid>
       </Container>

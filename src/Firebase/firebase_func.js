@@ -23,6 +23,7 @@ export const getAllDoc = async (collectionName) => {
 
 export const getAllDoc2 = async (collectionName, uid) => {
   let q;
+  console.log("uid", uid)
 
   if (uid) {
     // uid가 제공된 경우 해당 uid와 일치하는 문서만 쿼리
@@ -84,6 +85,16 @@ export const signAuth = async () => {
     });
 };
 
+export const reauthenticateAnonymously = async () => {
+  try {
+    await signInAnonymously(auth);
+    console.log("Reauthenticated anonymously");
+  } catch (error) {
+    console.error("Error reauthenticating anonymously:", error);
+    throw error;
+  }
+};
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
@@ -99,7 +110,6 @@ onAuthStateChanged(auth, (user) => {
 });
 
 export const uploadFile = async (dir, file) => {
-  console.log(file);
   const storageRef = ref(storage, dir + "/" + file.name);
   const snapshot = await uploadBytes(storageRef, file);
   const downloadURL = await getDownloadURL(snapshot.ref);

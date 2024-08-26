@@ -25,7 +25,7 @@ export const StepCircle = (props: StepCircleProps) => {
         bg={isActive ? '#015A68' : '#FFFFFF'}
         borderWidth="2px"
         borderColor={isActive ? '#015A68' : 'inherit'}
-        marginLeft={{ base: "-25%", lg: "0" }}
+        marginLeft={{ base: "-22%", lg: "0" }}
         borderRadius="25px"
         justifyContent="center"
         alignItems="center"
@@ -46,14 +46,15 @@ export const StepCircle = (props: StepCircleProps) => {
       {/* 타원형 아래에 이미지 배치 */}
       <Box
         position="relative"
-        mt="-50px"  // 타원형과 이미지 간의 간격 크게 조정
+        mt={{ base: "-18%", lg: "-60px" }}
         zIndex="-1"
         width="250px"
       >
         <Image
           src={imageSrc}
-          height={{ base: "250px", lg: "300px" }}
-          width={{ base: "180px", lg: "300px" }}
+          mb={{ base: "-30%", lg: "" }}
+          height={{ base: "100%", lg: "300px" }}
+          width={{ base: "76%", lg: "300px" }}
         />
       </Box>
     </Box>

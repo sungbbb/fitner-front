@@ -17,8 +17,10 @@ import {
   Text,
   Textarea,
   useToast,
+  Box,
+  VStack
 } from "@chakra-ui/react";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { auth } from "../Firebase/firebase_conf";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +30,9 @@ function Survey(props) {
   const toast = useToast();
   const [survey, setSurvey] = React.useState([]);
   const [index, setIndex] = React.useState(0);
-  const [percent, setPercent] = React.useState(0);
+  const [leftPercent, setLeftPercent] = React.useState(0);
+  const [rightPercent, setRightPercent] = React.useState(0);
+
   useEffect(() => {
     getAllDoc("survey").then((data) => {
       setSurvey(data);
@@ -69,55 +73,174 @@ function Survey(props) {
   };
 
   function getPercent() {
-    let cnt = 0;
+    let leftCount = 0;
+    let rightCount = 0;
 
     for (let i = 0; i < survey.length; i++) {
-      if (survey[i].answer) {
-        cnt++;
+      if (i < 10 && survey[i].answer) {
+        leftCount++;
+      } else if (i >= 10 && survey[i].answer) {
+        rightCount++;
       }
     }
-    return (cnt / survey.length) * 100;
+
+    const leftPercent = (leftCount / Math.min(10, survey.length)) * 100;
+    const rightPercent = (rightCount / (survey.length > 10 ? survey.length - 10 : 0)) * 100;
+
+    return { leftPercent, rightPercent };
   }
 
   useEffect(() => {
-    let percent = getPercent();
-    setPercent(percent);
+    const { leftPercent, rightPercent } = getPercent();
+    setLeftPercent(leftPercent);
+    setRightPercent(rightPercent);
   }, [index]);
 
   const onChange = (value) => {
     survey[index].answer = value;
     setSurvey([...survey]);
-
-    // console.log(survey[index]);
   };
+
   return (
     <Container
       minW={"300px"}
       maxW="container.sm"
-      p={{ base: "4", md: "8" }}
+      p={{ base: "14", md: "8" }}
       alignItems={"center"}
       justifyContent={"center"}
       py={{ base: "12", md: "24" }}
     >
-      <Stack spacing={{ base: "8", md: "10" }}>
+      <Box
+        position="fixed"
+        top="0"
+        left="0"
+        width="100%"
+        bg="transparent"
+        zIndex="1000"
+        py="4"
+        px="8"
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Image
+          src={require("../Assets/Logo/Horizontal.png")}
+          w="auto"
+          height="37.9px"
+          alt="logo"
+          cursor="pointer"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        />
         <Text
-          textDecoration={"underline"}
+          fontFamily="Pretendard"
+          textDecoration={"none"}
           opacity={0.5}
-          textAlign={"right"}
+          textAlign={"center"}
           onClick={onSubmit}
-          w={"full"}
+          w={"100px"}
+          h={"40px"}
+          paddingX="4"
+          paddingY="2"
+          borderRadius="full"
+          cursor="pointer"
+          border="1px solid #015A68"
+          backgroundColor="transparent"
+          color="#015A68"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          fontWeight="900"
+          fontSize="14px"
         >
           제출하기
         </Text>
-        <Progress value={percent} />
-        <Center>
-          <Image src={require("../Assets/logo.png")} w={"150px"} h={"150px"} />
-        </Center>
+      </Box>
+      <Stack
+        spacing={{ base: "2", lg: "10" }}
+        mt="15%"
+      >
+        <HStack spacing={1} width="100%" justifyContent="space-between" mb="20px">
+          <VStack flex="1" alignItems="center">
+            <HStack spacing={1} justifyContent="center">
+              <Box 
+                bg={leftPercent > 0 ? "#015A68" : "transparent"}
+                border="1px solid #015A68"
+                color={leftPercent >= 0 ? "white" : "#015A68"}
+                borderRadius="full"
+                fontSize="xs"
+                fontFamily="Pretendard"
+                px={1.5}
+                py={0.5}
+              >
+                STEP1
+              </Box>
+              <Text
+                fontFamily="Pretendard"
+                fontSize="xs"
+                color="#111111"
+                fontWeight="600"
+              >
+                기본정보
+              </Text>
+            </HStack>
+            <Box width="100%">
+              <Progress
+                value={leftPercent}
+                bg="gray.200"  // 배경색을 기본 회색으로 설정
+                height="6px"   // 두께를 조금 더 키움
+                borderRadius="lg" // 둥근 모서리 추가
+                sx={{
+                  "& > div": {
+                    backgroundColor: "#015A68", // Progress 바 채워진 부분의 색상을 변경
+                  },
+                }}
+              />
+            </Box>
+          </VStack>
+
+          {/* Right Progress Bar with Text */}
+          <VStack flex="1" alignItems="center">
+            <HStack spacing={1} justifyContent="center">
+              <Box
+                bg={rightPercent > 0 ? "#015A68" : "transparent"}
+                border="1px solid #015A68"
+                color={rightPercent > 0 ? "white" : "#015A68"}
+                borderRadius="full"
+                fontSize="xs"
+                fontFamily="Pretendard"
+                px={1.5}
+                py={0.5}
+              >
+                STEP2
+              </Box>
+              <Text
+                fontFamily="Pretendard"
+                fontSize="xs"
+                color="#111111"
+                fontWeight="600"
+              >
+                생활 습관 및 증상
+              </Text>
+            </HStack>
+            <Box width="100%">
+              <Progress
+                value={rightPercent}
+                bg="gray.200"  
+                height="6px"  
+                borderRadius="lg"
+                sx={{
+                  "& > div": {
+                    backgroundColor: "#015A68",
+                  },
+                }}
+              />
+            </Box>
+          </VStack>
+        </HStack>
+
         <form>
           <Carousel
             showArrows={false}
-            // centerMode={true}
-            // centerSlidePercentage={100}
             showThumbs={false}
             showStatus={false}
             showIndicators={false}
@@ -161,7 +284,7 @@ function Survey(props) {
             ))}
           </Carousel>
         </form>
-        <Center>
+        <Center mt={"-15%"}>
           <HStack>
             {index > 0 && (
               <Button variant={"outline"} onClick={() => setIndex(index - 1)}>
