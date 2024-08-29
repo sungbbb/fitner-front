@@ -24,11 +24,8 @@ import {
   PassIcon,
   PaycoIcon,
   SinhanIcon, 
-  TossIcon,
 } from "../Assets/icons";
 import { useLocation, useNavigate } from "react-router-dom";
-import { addDocument } from "../Firebase/firebase_func";
-import { auth } from "../Firebase/firebase_conf";
 
 const host_url = "https://port-0-fitner-lxu0mkd6748b546f.sel5.cloudtype.app";
 export const loginType = [
@@ -441,7 +438,6 @@ const CounterWithCircularProgress = ({ completed = false }) => {
     }
   }, [completed]);
 
-  // 카운터가 완료된 상태일 때 100%로 고정
   const progressValue = completed ? 100 : count;
 
   return (

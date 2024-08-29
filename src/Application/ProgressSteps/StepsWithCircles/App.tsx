@@ -16,12 +16,11 @@ export const StepsWithCircles = (props: any) => {
     <Box bg="transparent">
       <Container display="flex" justifyContent="center" alignItems="center" minH="40" width="100%">
         <SimpleGrid
-          gap={{ base: "16",lg: "60%" }}
+          gap={{ base: "20",lg: "60%" }}
           columns={{ base: 2, lg: 4 }}  // 모바일에서 2열, 데스크탑에서 4열
           spacing="10px"  // 각 항목 간격
           transform={{ base: "translate(10px, 150px)", lg: "translate(-140px, 150px)" }}
           maxWidth="100%"  // 최대 너비 설정
-          mx="auto"  // 가운데 정렬
           mb={{ base: "40%", lg: "30%" }}
           mt={{ base: "-10%"}}
         >

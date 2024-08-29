@@ -18,6 +18,7 @@ export const StepCircle = (props: StepCircleProps) => {
       display="flex"
       flexDirection="column"
       alignItems="center"
+      transform="translateX(-15px)" // 컴포넌트를 왼쪽으로 이동
     >
       <Box
         width={{ base: "100px", lg: "100px" }}
@@ -25,7 +26,6 @@ export const StepCircle = (props: StepCircleProps) => {
         bg={isActive ? '#015A68' : '#FFFFFF'}
         borderWidth="2px"
         borderColor={isActive ? '#015A68' : 'inherit'}
-        marginLeft={{ base: "-22%", lg: "0" }}
         borderRadius="25px"
         justifyContent="center"
         alignItems="center"
@@ -49,6 +49,9 @@ export const StepCircle = (props: StepCircleProps) => {
         mt={{ base: "-18%", lg: "-60px" }}
         zIndex="-1"
         width="250px"
+        display="flex" // 추가
+        justifyContent="center" // 추가
+        alignItems="center" // 추가
       >
         <Image
           src={imageSrc}

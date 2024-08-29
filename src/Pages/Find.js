@@ -5,8 +5,6 @@ import {
   Center,
   Container,
   Flex,
-  Heading,
-  HStack,
   IconButton,
   Image,
   Input,
@@ -21,7 +19,6 @@ import {
   Skeleton,
   Stack,
   Text,
-  useColorModeValue,
   useDisclosure,
   Spinner
 } from "@chakra-ui/react";
@@ -58,6 +55,10 @@ function Find() {
   useEffect(() => {
     setStep(parseInt(window.location.pathname.split("/").pop()));
   }, [window.location.pathname]);
+  const modalOpen = () => {
+    onOpen();
+  };
+
   const handleSubmit = () => {
     addDocument("codef_result", {
       uid: auth?.currentUser?.uid,
@@ -152,8 +153,8 @@ function Find() {
               lg: require("../Assets/Image/findbackground.png"),
               base: require("../Assets/Image/findbackground2.png"),
             }}
-            bgSize={{ base: "cover", md: "cover" }}
-            bgPosition="center center"  // 배경 이미지를 수평 및 수직으로 중앙에 배치
+            bgSize="cover"
+            bgPosition="center center"
             bgRepeat="no-repeat"
             bgColor="rgba(245,245,245,0.5)"
             zIndex="-1"
@@ -191,11 +192,86 @@ function Find() {
                   justifyContent="center"
                   alignItems="center"
                   mt="3"
-                  transform={{ base: "translateX(-20px)", md: "none" }}
+                  transform={{ base: "translateX(-5px)", md: "none" }}
                 >
+                  {step === 0 && (
+                    <Button
+                      flex="1"
+                      bgGradient="linear(to-r, #015A68, #319694)"
+                      color="white"
+                      onClick={() => navigate("/survey")}
+                    >
+                      설문 시작하기
+                    </Button>
+                  )}
+                  {step === 1 && (
+                    <Button
+                      flex="1"
+                      fontSize={{ base: "xs", lg: "sm" }}
+                      onClick={() => {
+                        navigate("/cert");
+                      }}
+                    >
+                      건강검진자료 및 투약이력 알려주기
+                    </Button>
+                  )}
+                  {step === 2 && (
+                    <Button flex="1" onClick={() => setViewImageUpload(true)}>
+                      먹는약 업로드하기
+                    </Button>
+                  )}
+                  {step === 3 && (
+                    <Button
+                      flex="1"
+                      onClick={() => {
+                        modalOpen();
+                      }}
+                    >
+                      1:1 약사 상담하기
+                    </Button>
+                  )}
+                  {/* 모달 구성 */}
+                  <Modal
+                    isOpen={isOpen}
+                    onClose={onClose}
+                    isCentered
+                    size={{ base: "sm", md: "md" }}
+                  >
+                    <ModalOverlay />
+                    <ModalContent
+                      maxW={{ base: "50%", md: "500px" }} // 모바일에서는 95% 너비로 설정
+                      mb={{ base: "80%", md: "20%" }} // 모바일에서는 하단에 위치하도록 설정
+                      mt={{ base: "auto" }} // 모바일에서는 상단 여백을 없애고 하단에 위치
+                    >
+                      <ModalHeader display="flex" justifyContent="center">
+                        <Text fontWeight="bold" textAlign="center">
+                          1:1 약사 상담하기
+                        </Text>
+                      </ModalHeader>
+                      <ModalCloseButton />
+                      <ModalBody display="flex" justifyContent="center" alignItems="center">
+                        <Text>
+                          약사 상담하기 버튼을 클릭하시면 24시간 이내에 <br />
+                          AI와 약사가 당신의 정보를 분석해 알려드립니다.
+                        </Text>
+                      </ModalBody>
+                      <ModalFooter mb={4}>
+                        <Button
+                          w={"full"}
+                          colorScheme="teal"
+                          onClick={() => {
+                            handleSubmit();
+                            onClose();
+                          }}
+                        >
+                          카톡으로 1:1 약사상담하기
+                        </Button>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
                   {step < 3 && (
                     <Button
-                      w={{ base: "140px", lg: "225px" }}
+                      flex="1"
                       variant="outline"
                       onClick={() => {
                         const nextStep = step + 1;
@@ -205,17 +281,12 @@ function Find() {
                             try {
                               const userSurveys = await getAllDoc2("survey_result", auth?.currentUser?.uid);
                               if (userSurveys.length > 0 && data?.formInput?.userName) {
-                                // 설문 데이터와 기본 데이터가 모두 있는 경우, 기본 데이터의 이름을 사용
                                 userName = data.formInput.userName;
                               } else if (userSurveys.length > 0) {
-                                // 설문 데이터만 있는 경우
                                 userName = userSurveys[0].answer[0].answer;
                               } else if (data?.formInput?.userName) {
-                                // 기본 데이터만 있는 경우
                                 userName = data.formInput.userName;
                               } else {
-                                // 둘 다 없는 경우
-                                console.log("userName", userName)
                                 userName = '미제출';
                                 navigate(`/find/3?name=${encodeURIComponent(userName)}`);
                               }
@@ -235,53 +306,24 @@ function Find() {
                       건너뛰기
                     </Button>
                   )}
-                  {step === 0 && (
-                    <Button
-                      w={{ base: "140px", lg: "225px" }}
-                      bgGradient="linear(to-r, #015A68, #319694)"
-                      color="white"
-                      onClick={() => navigate("/survey")}>
-                      설문 시작하기
-                    </Button>
-                  )}
-                  {step === 1 && (
-                    <HStack>
-                      <Button
-                        w={"full"}
-                        onClick={() => {
-                          navigate("/cert");
-                        }}
-                      >
-                        건강검진자료 및 투약이력 알려주기
-                      </Button>
-                    </HStack>
-                  )}
-                  {step === 2 && (
-                    <Button onClick={() => setViewImageUpload(true)}>
-                      먹는약 업로드하기
-                    </Button>
-                  )}
-                  {step === 3 && (
-                    <Button
-                      onClick={() => {
-                        handleSubmit();
-                      }}
-                    >
-                      1:1 약사 상담하기
-                    </Button>
-                  )}
                 </Stack>
               </Stack>
             </Box>
           </Flex>
+
           <Modal
-            size={{ base: "full", md: "md" }}
-            isCentered
+            size={{ base: "sm", md: "md" }}
+            isCentered={{ base: false, md: true}}
             isOpen={step === 2 && viewImageUpload}
             onClose={onClose}
+            motionPreset="slideInBottom"
           >
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent
+              maxW={{ base: "100%", md: "500px" }} // 모바일에서는 95% 너비로 설정
+              mb={{ base: 0, md: "20%" }} // 모바일에서는 하단에 위치하도록 설정
+              mt={{ base: "auto" }} // 모바일에서는 상단 여백을 없애고 하단에 위치
+            >
               <ModalHeader>
                 <Stack>
                   <Text fontWeight={"bold"} fontSize="xl">
@@ -307,10 +349,11 @@ function Find() {
                           icon={<FiX />}
                           position={"absolute"}
                           mt={2}
-                          ml={2}
+                          right={2}
                           variant={"solid"}
                           colorScheme={"gray"}
-                          size={"sm"}
+                          borderRadius="full" // 둥글게 설정
+                          size={"sx"}
                           zIndex={9999}
                           onClick={() =>
                             setImageList(imageList.filter((i) => i !== url))

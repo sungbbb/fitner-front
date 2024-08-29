@@ -163,9 +163,9 @@ function Survey(props) {
           <VStack flex="1" alignItems="center">
             <HStack spacing={1} justifyContent="center">
               <Box 
-                bg={leftPercent > 0 ? "#015A68" : "transparent"}
+                bg={index <= 9 ? "#015A68" : "transparent"}
+                color={index <= 9 ? "white" : "#015A68"}
                 border="1px solid #015A68"
-                color={leftPercent >= 0 ? "white" : "#015A68"}
                 borderRadius="full"
                 fontSize="xs"
                 fontFamily="Pretendard"
@@ -198,13 +198,12 @@ function Survey(props) {
             </Box>
           </VStack>
 
-          {/* Right Progress Bar with Text */}
           <VStack flex="1" alignItems="center">
             <HStack spacing={1} justifyContent="center">
               <Box
-                bg={rightPercent > 0 ? "#015A68" : "transparent"}
+                bg={index >= 10 ? "#015A68" : "transparent"}
+                color={index >= 10 ? "white" : "#015A68"}
                 border="1px solid #015A68"
-                color={rightPercent > 0 ? "white" : "#015A68"}
                 borderRadius="full"
                 fontSize="xs"
                 fontFamily="Pretendard"
@@ -284,6 +283,7 @@ function Survey(props) {
             ))}
           </Carousel>
         </form>
+        <Box mt={5} mb={1}></Box>
         <Center mt={"-15%"}>
           <HStack>
             {index > 0 && (
