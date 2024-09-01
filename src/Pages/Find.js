@@ -20,8 +20,21 @@ import {
   Stack,
   Text,
   useDisclosure,
-  Spinner
+  Spinner,
+  FormControl,
+  FormLabel,
+  useBreakpointValue
 } from "@chakra-ui/react";
+import {
+  KBIcon,
+  KakaoIcon,
+  NaverIcon,
+  PassIcon,
+  PaycoIcon,
+  SinhanIcon,
+  TossIcon,
+  SamsungPassIcon,
+} from "../Assets/icons";
 import React, { useEffect, useRef, useState } from "react";
 import { StepsWithCircles } from "../Application/ProgressSteps/StepsWithCircles/App";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -29,18 +42,62 @@ import { auth } from "../Firebase/firebase_conf";
 import { addDocument, uploadFile, getAllDoc2 } from "../Firebase/firebase_func";
 import { MdAdd } from "react-icons/md";
 import { FiX } from "react-icons/fi";
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "react-device-detect";
+
+export const loginType = [
+  { idx: "1", title: "카카오톡", icon: <KakaoIcon /> },
+  { idx: "2", title: "페이코", icon: <PaycoIcon /> },
+  { idx: "3", title: "삼성패스", icon: <SamsungPassIcon /> },
+  { idx: "4", title: "KB모바일", icon: <KBIcon /> },
+  { idx: "5", title: "PASS", icon: <PassIcon /> },
+  { idx: "6", title: "네이버", icon: <NaverIcon /> },
+  { idx: "7", title: "신한인증서", icon: <SinhanIcon /> },
+  { idx: "8", title: "토스", icon: <TossIcon /> },
+];
+
 function Find() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [step, setStep] = useState(parseInt(window.location.pathname.split("/").pop()));
+  const [step, setStep] = useState(
+    parseInt(window.location.pathname.split("/").pop())
+  );
   const [viewImageUpload, setViewImageUpload] = useState(false);
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [showForm, setShowForm] = useState(false);
+  const isMd = useBreakpointValue({ base: false, md: true });
+
+  // 본인확인 모달 상태 관리
+  const {
+    isOpen: isCertModalOpen,
+    onOpen: openCertModal,
+    onClose: closeCertModal,
+  } = useDisclosure();
+
+  // 약사 상담 모달 상태 관리
+  const {
+    isOpen: isMainModalOpen,
+    onOpen: openMainModal,
+    onClose: closeMainModal,
+  } = useDisclosure();
+
   const [imageList, setImageList] = useState([]);
   const imageRef = useRef(null);
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [survey, setSurvey] = useState([]);
+  const [formInput, setFormInput] = useState({
+    organization: "0002",
+    loginType: "5",
+    loginTypeLevel: "1",
+    userName: "",
+    phoneNo: "",
+    identity: "",
+    inquiryType: "0",
+    searchStartYear: (new Date().getFullYear() - 10).toString(),
+    searchEndYear: new Date().getFullYear().toString(),
+    type: "1",
+    telecom: "0",
+  });
+
   useEffect(() => {
     if (location.state) {
       if (location.state.isSurvey) {
@@ -52,12 +109,10 @@ function Find() {
       }
     }
   }, [location.state]);
+
   useEffect(() => {
     setStep(parseInt(window.location.pathname.split("/").pop()));
   }, [window.location.pathname]);
-  const modalOpen = () => {
-    onOpen();
-  };
 
   const handleSubmit = () => {
     addDocument("codef_result", {
@@ -69,59 +124,69 @@ function Find() {
       image: imageList ? imageList : [],
     }).then(async () => {
       const userSurveys = await getAllDoc2("survey_result", auth?.currentUser?.uid);
-      let userName = '';
+      let userName = "";
       if (userSurveys.length > 0 && data?.formInput?.userName) {
-        // 설문 데이터와 기본 데이터가 모두 있는 경우, 기본 데이터의 이름을 사용
         userName = data.formInput.userName;
       } else if (userSurveys.length > 0) {
-        // 설문 데이터만 있는 경우
         userName = userSurveys[0].answer[0].answer;
       } else if (data?.formInput?.userName) {
-        // 기본 데이터만 있는 경우
         userName = data.formInput.userName;
       } else {
-        // 둘 다 없는 경우
-        userName = '미제출';
+        userName = "미제출";
       }
       if (isMobile) {
-        if (userName !== '미제출') {
-          window.open(`https://pf.kakao.com/talk/bot/@핏트너/${encodeURIComponent(userName)}님의 약상담 요청입니다`, "_blank");
+        if (userName !== "미제출") {
+          window.open(
+            `https://pf.kakao.com/talk/bot/@핏트너/${encodeURIComponent(
+              userName
+            )}님의 약상담 요청입니다`,
+            "_blank"
+          );
         } else {
-          window.open(`https://pf.kakao.com/talk/bot/@핏트너/고객님의 약상담 요청입니다`, "_blank");
+          window.open(
+            `https://pf.kakao.com/talk/bot/@핏트너/고객님의 약상담 요청입니다`,
+            "_blank"
+          );
         }
       } else {
-        window.open(`https://pf.kakao.com/_GxgdpG/chat?referer=${window.location.href}`, "_blank");
+        window.open(
+          `https://pf.kakao.com/_GxgdpG/chat?referer=${window.location.href}`,
+          "_blank"
+        );
       }
       navigate("/");
     });
   };
+
   const handleChange = (event) => {
     const files = event.target.files;
-    setIsLoading(true); // 업로드 시작 시 로딩 상태 설정
+    setIsLoading(true);
     if (files && files.length > 0) {
       const firstFile = files[0];
       uploadFile("medicine", firstFile).then(async (url) => {
         setImageList([...imageList, url]);
-        setIsLoading(false); // 업로드 완료 시 로딩 상태 해제
+        setIsLoading(false);
       });
     }
     if (imageRef.current) {
       imageRef.current.value = "";
     }
   };
+
   useEffect(() => {
     if (window.Kakao && !window.Kakao.isInitialized()) {
-      window.Kakao.init('f65239acc1b677c40c6dfa6d4584568d');
-    };
+      window.Kakao.init("f65239acc1b677c40c6dfa6d4584568d");
+    }
     return () => {
-      setIsLoading(false); // 컴포넌트 언마운트 시 로딩 상태 해제
+      setIsLoading(false);
     };
   }, [navigate]);
+
   return (
     <Container maxW="container.xl">
       <Center minH={"100vh"}>
         <Box
-          position="fixed"  // 상단에 고정
+          position="fixed"
           top="0"
           left="0"
           width="100%"
@@ -178,7 +243,8 @@ function Find() {
                   color="#111111"
                   bgGradient="linear(to-r, teal.500, teal.300)"
                 >
-                  건강설문과 약사 상담으로<br />
+                  건강설문과 약사 상담으로
+                  <br />
                   <Text as="span" fontWeight="bold">
                     내게 꼭 맞는 영양제 찾기
                   </Text>
@@ -207,14 +273,129 @@ function Find() {
                   {step === 1 && (
                     <Button
                       flex="1"
-                      fontSize={{ base: "xs", lg: "sm" }}
-                      onClick={() => {
-                        navigate("/cert");
-                      }}
+                      fontSize={{ base: "11px", lg: "sm" }}
+                      onClick={openCertModal}
                     >
                       건강검진자료 및 투약이력 알려주기
                     </Button>
                   )}
+                  {/* 본인확인 모달 */}
+                  <Modal
+                    isOpen={isCertModalOpen}
+                    isCentered
+                    onClose={() => {
+                      closeCertModal();
+                      setShowForm(false); // 모달을 닫을 때 상태 초기화
+                      setFormInput({}); // 폼 입력값 초기화
+                    }}
+                  >
+                    <ModalOverlay />
+                    <ModalContent
+                      maxW={{ base: "100vw", md: "500px" }} // 모바일에서는 전체 너비
+                      minH={{ base: "100vh", md: "auto" }} // 모바일에서는 전체 높이
+                      borderRadius={{ base: "0", md: "md" }} // 모바일에서는 모서리를 둥글게 하지 않음
+                      mt="13%" // 모달을 살짝 위로 이동
+                    >
+                      <ModalHeader>간편인증</ModalHeader>
+                      <ModalCloseButton />
+                      <ModalBody>
+                        <Stack spacing={"4"} mt={-2}>
+                          <Text fontSize="sm" color="#111111" fontWeight={"400"}>
+                            건강검진자료 및 투약이력조회를 위한 본인인증을 확인해 주세요.
+                          </Text>
+                          <Text fontSize="9px" color="#111111" fontWeight={"600"} mb={-2}>
+                            인증수단
+                          </Text>
+                          <SimpleGrid gap="4" columns={4}>
+                            {loginType.map((type, index) => (
+                              <Flex
+                                key={index}
+                                onClick={() => {
+                                  setFormInput({
+                                    ...formInput,
+                                    loginTypeLevel: type.idx,
+                                  });
+                                  setShowForm(true); // 아이콘 클릭 시 폼을 표시
+                                }}
+                                cursor="pointer"
+                                height="30px" // 높이를 조정하여 직사각형으로 변경
+                                minHeight="30px"
+                                aspectRatio={3.5}
+                                border="2px solid"
+                                borderColor={
+                                  formInput.loginTypeLevel === type.idx ? "teal.500" : "gray.200"
+                                }
+                                alignItems="center"
+                                justifyContent="center"
+                                borderRadius="md"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={1} p={2}>
+                                  <Box w={4} h={4}>
+                                    {type.icon}
+                                  </Box>
+                                  <Text fontSize="11px" textAlign="center">
+                                    {type.title}
+                                  </Text>
+                                </Stack>
+                              </Flex>
+                            ))}
+                          </SimpleGrid>
+
+                          {/* 폼 입력 화면 (md에서 항상 폼 표시) */}
+                          {isMd && (
+                              <form onSubmit={handleSubmit}>
+                                <Stack
+                                  spacing={3} // 폼 내의 요소들 간의 간격을 줄여줌
+                                  py={2} // 전체 폼의 상하 패딩을 줄임
+                                  justifyContent={"space-between"}
+                                  width="100%" // Stack의 너비를 전체 사용
+                                >
+                                  <Stack spacing={2}> {/* 입력 필드 사이의 간격을 줄임 */}
+                                    <FormControl isRequired>
+                                      <FormLabel>이름</FormLabel>
+                                      <Input
+                                        onChange={(e) => {
+                                          setFormInput({ ...formInput, userName: e.target.value });
+                                        }}
+                                        focusBorderColor="teal"
+                                        placeholder="홍길동"
+                                      />
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                      <FormLabel>생년월일</FormLabel>
+                                      <Input
+                                        type="number"
+                                        onChange={(e) => {
+                                          setFormInput({ ...formInput, identity: e.target.value });
+                                        }}
+                                        focusBorderColor="teal"
+                                        placeholder="YYYYMMDD"
+                                      />
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                      <FormLabel>휴대폰번호</FormLabel>
+                                      <Input
+                                        type="number"
+                                        onChange={(e) => {
+                                          setFormInput({ ...formInput, phoneNo: e.target.value });
+                                        }}
+                                        focusBorderColor="teal"
+                                        placeholder="01012341234"
+                                      />
+                                    </FormControl>
+                                  </Stack>
+                                </Stack>
+                              </form>
+                          )}
+                        </Stack>
+                      </ModalBody>
+                      <ModalFooter justifyContent="center">
+                        <Button w="full" colorScheme="teal">
+                          인증하기
+                        </Button>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
                   {step === 2 && (
                     <Button flex="1" onClick={() => setViewImageUpload(true)}>
                       먹는약 업로드하기
@@ -224,24 +405,24 @@ function Find() {
                     <Button
                       flex="1"
                       onClick={() => {
-                        modalOpen();
+                        openMainModal();
                       }}
                     >
                       1:1 약사 상담하기
                     </Button>
                   )}
-                  {/* 모달 구성 */}
+                  {/* 1:1 약사 상담 모달 */}
                   <Modal
-                    isOpen={isOpen}
-                    onClose={onClose}
+                    isOpen={isMainModalOpen}
+                    onClose={closeMainModal}
                     isCentered
                     size={{ base: "sm", md: "md" }}
                   >
                     <ModalOverlay />
                     <ModalContent
-                      maxW={{ base: "50%", md: "500px" }} // 모바일에서는 95% 너비로 설정
-                      mb={{ base: "80%", md: "20%" }} // 모바일에서는 하단에 위치하도록 설정
-                      mt={{ base: "auto" }} // 모바일에서는 상단 여백을 없애고 하단에 위치
+                      maxW={{ base: "50%", md: "500px" }}
+                      mb={{ base: "80%", md: "20%" }}
+                      mt={{ base: "auto" }}
                     >
                       <ModalHeader display="flex" justifyContent="center">
                         <Text fontWeight="bold" textAlign="center">
@@ -249,7 +430,11 @@ function Find() {
                         </Text>
                       </ModalHeader>
                       <ModalCloseButton />
-                      <ModalBody display="flex" justifyContent="center" alignItems="center">
+                      <ModalBody
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                      >
                         <Text>
                           약사 상담하기 버튼을 클릭하시면 24시간 이내에 <br />
                           AI와 약사가 당신의 정보를 분석해 알려드립니다.
@@ -261,7 +446,7 @@ function Find() {
                           colorScheme="teal"
                           onClick={() => {
                             handleSubmit();
-                            onClose();
+                            closeMainModal();
                           }}
                         >
                           카톡으로 1:1 약사상담하기
@@ -276,30 +461,43 @@ function Find() {
                       onClick={() => {
                         const nextStep = step + 1;
                         if (nextStep === 3) {
-                          let userName = '';
+                          let userName = "";
                           const fetchUserName = async () => {
                             try {
-                              const userSurveys = await getAllDoc2("survey_result", auth?.currentUser?.uid);
-                              if (userSurveys.length > 0 && data?.formInput?.userName) {
+                              const userSurveys = await getAllDoc2(
+                                "survey_result",
+                                auth?.currentUser?.uid
+                              );
+                              if (
+                                userSurveys.length > 0 &&
+                                data?.formInput?.userName
+                              ) {
                                 userName = data.formInput.userName;
                               } else if (userSurveys.length > 0) {
                                 userName = userSurveys[0].answer[0].answer;
                               } else if (data?.formInput?.userName) {
                                 userName = data.formInput.userName;
                               } else {
-                                userName = '미제출';
-                                navigate(`/find/3?name=${encodeURIComponent(userName)}`);
+                                userName = "미제출";
+                                navigate(
+                                  `/find/3?name=${encodeURIComponent(userName)}`
+                                );
                               }
                             } catch (error) {
-                              console.error("Error fetching surveys:", error);
-                              userName = '미제출';
-                              navigate(`/find/3?name=${encodeURIComponent(userName)}`);
+                              console.error(
+                                "Error fetching surveys:",
+                                error
+                              );
+                              userName = "미제출";
+                              navigate(
+                                `/find/3?name=${encodeURIComponent(userName)}`
+                              );
                             }
                           };
 
                           fetchUserName();
                         } else {
-                          navigate(`/find/${step + 1}`)
+                          navigate(`/find/${step + 1}`);
                         }
                       }}
                     >
@@ -313,16 +511,16 @@ function Find() {
 
           <Modal
             size={{ base: "sm", md: "md" }}
-            isCentered={{ base: false, md: true}}
+            isCentered={{ base: false, md: true }}
             isOpen={step === 2 && viewImageUpload}
-            onClose={onClose}
+            onClose={closeMainModal}
             motionPreset="slideInBottom"
           >
             <ModalOverlay />
             <ModalContent
-              maxW={{ base: "100%", md: "500px" }} // 모바일에서는 95% 너비로 설정
-              mb={{ base: 0, md: "20%" }} // 모바일에서는 하단에 위치하도록 설정
-              mt={{ base: "auto" }} // 모바일에서는 상단 여백을 없애고 하단에 위치
+              maxW={{ base: "100%", md: "500px" }}
+              mb={{ base: 0, md: "20%" }}
+              mt={{ base: "auto" }}
             >
               <ModalHeader>
                 <Stack>
@@ -352,7 +550,7 @@ function Find() {
                           right={2}
                           variant={"solid"}
                           colorScheme={"gray"}
-                          borderRadius="full" // 둥글게 설정
+                          borderRadius="full"
                           size={"sx"}
                           zIndex={9999}
                           onClick={() =>
@@ -393,9 +591,9 @@ function Find() {
                   w={"full"}
                   colorScheme="teal"
                   onClick={() => {
-                    setIsLoading(true); // 로딩 시작
+                    setIsLoading(true);
                     navigate(`/find/${step + 1}`);
-                    onClose();
+                    setViewImageUpload(false);
                   }}
                 >
                   완료
