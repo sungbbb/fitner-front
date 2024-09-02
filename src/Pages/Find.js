@@ -23,6 +23,9 @@ import {
   Spinner,
   FormControl,
   FormLabel,
+  useToast,
+  VStack,
+  Progress, CircularProgressLabel, CircularProgress,
   useBreakpointValue
 } from "@chakra-ui/react";
 import {
@@ -44,6 +47,7 @@ import { MdAdd } from "react-icons/md";
 import { FiX } from "react-icons/fi";
 import { isMobile } from "react-device-detect";
 
+const host_url = "https://port-0-fitner-lxu0mkd6748b546f.sel5.cloudtype.app";
 export const loginType = [
   { idx: "1", title: "카카오톡", icon: <KakaoIcon /> },
   { idx: "2", title: "페이코", icon: <PaycoIcon /> },
@@ -64,6 +68,10 @@ function Find() {
   const [viewImageUpload, setViewImageUpload] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const isMd = useBreakpointValue({ base: false, md: true });
+  const toast = useToast();
+  const [medicineData, setMedicineData] = useState();
+  const [healthData, setHealthData] = useState();
+  const [progressValue, setProgressValue] = useState(0);
 
   // 본인확인 모달 상태 관리
   const {
@@ -79,11 +87,22 @@ function Find() {
     onClose: closeMainModal,
   } = useDisclosure();
 
+  // 인증 완료 모달 상태 관리
+  const {
+    isOpen: isSuccessModalOpen,
+    onOpen: openSuccessModal,
+    onClose: closeSuccessModal,
+  } = useDisclosure();
+
+  // 진행 상태 모달 상태 관리
+  const { isOpen: isProgressModalOpen, onOpen: openProgressModal, onClose: closeProgressModal } = useDisclosure();
+
   const [imageList, setImageList] = useState([]);
   const imageRef = useRef(null);
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [survey, setSurvey] = useState([]);
+  const [sessionId, setSessionId] = useState(null);
   const [formInput, setFormInput] = useState({
     organization: "0002",
     loginType: "5",
@@ -97,6 +116,8 @@ function Find() {
     type: "1",
     telecom: "0",
   });
+  const [param, setParam] = useState({}); // 새로운 상태 추가
+
 
   useEffect(() => {
     if (location.state) {
@@ -156,6 +177,151 @@ function Find() {
       }
       navigate("/");
     });
+  };
+
+  const iDentitySubmit = (e) => {
+    e.preventDefault();
+
+    const session = new Date().getTime().toString();
+    setSessionId(session);
+
+    // A 요청
+    fetch(`${host_url}/result`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: session, ...formInput }),
+    })
+      .then(async (res) => {
+        return await res.json();
+      })
+      .then(async (data) => {
+        if (data.result.code === "CF-03002") {
+          toast({
+            title: "추가 인증을 진행해주세요!",
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+            position: "top-right",
+          });
+          // 전송 성공
+          setParam(data);
+          openSuccessModal();
+        } else if (data.result.code === "CF-00000") {// 성공
+        } else {
+          toast({
+            title: "인증에 실패하였습니다. 인증을 다시 시도해주세요.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleCallData = () => {
+    setIsLoading(true)
+    let startDate = new Date();
+    let endDate = new Date();
+    startDate.setFullYear(startDate.getFullYear() - 10);
+    const infoParam = {
+      ...formInput,
+      id: sessionId,
+      startDate: startDate.toISOString().substring(0, 10).replaceAll("-", ""),
+      endDate: endDate.toISOString().substring(0, 10).replaceAll("-", ""),
+    };
+
+    const resultParam = {
+      ...formInput,
+      id: sessionId,
+      simpleAuth: "1",
+      is2Way: true,
+      twoWayInfo: param.data,
+    };
+
+    fetch(`${host_url}/information`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(infoParam),
+    })
+      .then(async (res) => {
+        return await res.json();
+      })
+      .then(async (data) => {
+        console.log("data.result.cod111e", data.result.code)
+        if (data.result.code === "CF-03002") {
+          toast({
+            title: "추가 인증을 진행해주세요!",
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+            position: "top-right",
+          });
+          setIsLoading(false)
+        } else if (data.result.code !== "CF-00000") {
+        } else {
+          // 전송 성공
+          setIsLoading(false)
+          console.log("data.data1", data.data)
+          setMedicineData(data.data);
+          console.log("data.data", data.data)
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false)
+        console.log(err);
+      });
+
+    fetch(`${host_url}/result`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(resultParam),
+    })
+      .then(async (res) => {
+        return await res.json();
+      })
+      .then(async (data) => {
+        console.log("data.result.code", data.result.code)
+        if (data.result.code === "CF-03002") {
+          toast({
+            title: "추가 인증을 진행해주세요!",
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+            position: "top-right",
+          });
+          setIsLoading(false)
+        } else if (data.result.code !== "CF-00000") {
+          toast({
+            title: "인증에 실패하였습니다. 인증을 다시 시도해주세요.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "top-right",
+          });
+          setIsLoading(false);
+        } else {
+          // 전송 성공
+          // closeCertModal();
+          // closeSuccessModal();
+          openProgressModal(); // 인증 완료 후 진행 상태 모달 열기
+          setIsLoading(false)
+          setHealthData(data.data);
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false)
+        console.log(err);
+      });
   };
 
   const handleChange = (event) => {
@@ -294,7 +460,7 @@ function Find() {
                       maxW={{ base: "100vw", md: "500px" }} // 모바일에서는 전체 너비
                       minH={{ base: "100vh", md: "auto" }} // 모바일에서는 전체 높이
                       borderRadius={{ base: "0", md: "md" }} // 모바일에서는 모서리를 둥글게 하지 않음
-                      mt="13%" // 모달을 살짝 위로 이동
+                      mt="8%" // 모달을 살짝 위로 이동
                     >
                       <ModalHeader>간편인증</ModalHeader>
                       <ModalCloseButton />
@@ -343,59 +509,113 @@ function Find() {
 
                           {/* 폼 입력 화면 (md에서 항상 폼 표시) */}
                           {isMd && (
-                              <form onSubmit={handleSubmit}>
-                                <Stack
-                                  spacing={3} // 폼 내의 요소들 간의 간격을 줄여줌
-                                  py={2} // 전체 폼의 상하 패딩을 줄임
-                                  justifyContent={"space-between"}
-                                  width="100%" // Stack의 너비를 전체 사용
-                                >
-                                  <Stack spacing={2}> {/* 입력 필드 사이의 간격을 줄임 */}
-                                    <FormControl isRequired>
-                                      <FormLabel>이름</FormLabel>
-                                      <Input
-                                        onChange={(e) => {
-                                          setFormInput({ ...formInput, userName: e.target.value });
-                                        }}
-                                        focusBorderColor="teal"
-                                        placeholder="홍길동"
-                                      />
-                                    </FormControl>
-                                    <FormControl isRequired>
-                                      <FormLabel>생년월일</FormLabel>
-                                      <Input
-                                        type="number"
-                                        onChange={(e) => {
-                                          setFormInput({ ...formInput, identity: e.target.value });
-                                        }}
-                                        focusBorderColor="teal"
-                                        placeholder="YYYYMMDD"
-                                      />
-                                    </FormControl>
-                                    <FormControl isRequired>
-                                      <FormLabel>휴대폰번호</FormLabel>
-                                      <Input
-                                        type="number"
-                                        onChange={(e) => {
-                                          setFormInput({ ...formInput, phoneNo: e.target.value });
-                                        }}
-                                        focusBorderColor="teal"
-                                        placeholder="01012341234"
-                                      />
-                                    </FormControl>
-                                  </Stack>
+                            <form onSubmit={iDentitySubmit}>
+                              <Stack
+                                spacing={3} // 폼 내의 요소들 간의 간격을 줄여줌
+                                py={2} // 전체 폼의 상하 패딩을 줄임
+                                justifyContent={"space-between"}
+                                width="100%" // Stack의 너비를 전체 사용
+                              >
+                                <Stack spacing={2}> {/* 입력 필드 사이의 간격을 줄임 */}
+                                  <FormControl isRequired>
+                                    <FormLabel>이름</FormLabel>
+                                    <Input
+                                      onChange={(e) => {
+                                        setFormInput({ ...formInput, userName: e.target.value });
+                                      }}
+                                      focusBorderColor="teal"
+                                      placeholder="홍길동"
+                                    />
+                                  </FormControl>
+                                  <FormControl isRequired>
+                                    <FormLabel>생년월일</FormLabel>
+                                    <Input
+                                      type="number"
+                                      onChange={(e) => {
+                                        setFormInput({ ...formInput, identity: e.target.value });
+                                      }}
+                                      focusBorderColor="teal"
+                                      placeholder="YYYYMMDD"
+                                    />
+                                  </FormControl>
+                                  <FormControl isRequired>
+                                    <FormLabel>휴대폰번호</FormLabel>
+                                    <Input
+                                      type="number"
+                                      onChange={(e) => {
+                                        setFormInput({ ...formInput, phoneNo: e.target.value });
+                                      }}
+                                      focusBorderColor="teal"
+                                      placeholder="01012341234"
+                                    />
+                                  </FormControl>
                                 </Stack>
-                              </form>
+                              </Stack>
+                              {/* 버튼을 폼 내부의 ModalFooter에 위치시켜 폼 제출 기능 유지 */}
+                              <ModalFooter justifyContent="center">
+                                <Button w="50%" colorScheme="teal" type="submit">
+                                  인증하기
+                                </Button>
+                              </ModalFooter>
+                            </form>
                           )}
                         </Stack>
                       </ModalBody>
+                    </ModalContent>
+                  </Modal>
+                  <Modal
+                    isOpen={isSuccessModalOpen}
+                    onClose={closeSuccessModal}
+                    isCentered
+                  >
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalHeader textAlign="center">간편인증</ModalHeader>
+                      <ModalCloseButton />
+                      <ModalBody>
+                        <Text fontSize="14" color="#111111" fontWeight={"600"}>
+                          인증 요청 메시지를 보냈습니다.
+                        </Text>
+                        <Text fontSize="11px" color="#111111" fontWeight={"400"} mt={2}>
+                          인증을 진행한 후 <br />
+                          아래 간편인증 완료 버튼을 클릭하세요.
+                        </Text>
+                        <Image
+                          src={require("../Assets/Icon/sucessIcon.png")}
+                          alt="인증 단계"
+                          mt={2} // 이미지와 텍스트 사이에 여백을 추가
+                          w="50%" // 원하는 너비 설정
+                          objectFit="contain"
+                          mx="auto" // 이미지 가운데 정렬
+                        />
+                      </ModalBody>
                       <ModalFooter justifyContent="center">
-                        <Button w="full" colorScheme="teal">
-                          인증하기
+                        <Button w="50%" colorScheme="teal" onClick={handleCallData} isLoading={isLoading} isDisabled={isLoading}>
+                          간편인증 완료
                         </Button>
                       </ModalFooter>
                     </ModalContent>
                   </Modal>
+                  {/* 진행 상태 모달 */}
+                  <Modal isOpen={isProgressModalOpen} onClose={closeProgressModal} isCentered>
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalHeader textAlign="center">데이터 처리 중</ModalHeader>
+                      <ModalCloseButton />
+                      <ModalBody>
+                        <VStack spacing={8}>
+                          <Text fontSize={"lg"}>정보를 가지고 오는 중입니다...</Text>
+                          <CounterWithCircularProgress completed={medicineData} />
+                        </VStack>
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button colorScheme="teal" onClick={closeProgressModal} isDisabled={!medicineData}>
+                          닫기
+                        </Button>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
+
                   {step === 2 && (
                     <Button flex="1" onClick={() => setViewImageUpload(true)}>
                       먹는약 업로드하기
@@ -606,4 +826,28 @@ function Find() {
     </Container>
   );
 }
+const CounterWithCircularProgress = ({ completed = false }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!completed) {
+      const interval = setInterval(() => {
+        setCount((prevCount) => (prevCount >= 99 ? 99 : prevCount + 1));
+      }, 100);
+
+      return () => clearInterval(interval);
+    }
+  }, [completed]);
+
+  const progressValue = completed ? 100 : count;
+
+  return (
+    <Box>
+      <CircularProgress value={progressValue} size="100px" color="teal.500">
+        <CircularProgressLabel>{progressValue}%</CircularProgressLabel>
+      </CircularProgress>
+    </Box>
+  );
+};
+
 export default Find;
