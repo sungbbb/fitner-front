@@ -24,8 +24,8 @@ import {
   FormControl,
   FormLabel,
   useToast,
-  VStack,
-  Progress, CircularProgressLabel, CircularProgress,
+  VStack, HStack,
+  Progress,
   useBreakpointValue
 } from "@chakra-ui/react";
 import {
@@ -39,13 +39,13 @@ import {
   SamsungPassIcon,
 } from "../Assets/icons";
 import React, { useEffect, useRef, useState } from "react";
-import { StepsWithCircles } from "../Application/ProgressSteps/StepsWithCircles/App";
 import { useLocation, useNavigate } from "react-router-dom";
-import { auth } from "../Firebase/firebase_conf";
-import { addDocument, uploadFile, getAllDoc2 } from "../Firebase/firebase_func";
 import { MdAdd } from "react-icons/md";
 import { FiX } from "react-icons/fi";
 import { isMobile } from "react-device-detect";
+import { addDocument, uploadFile, getAllDoc2 } from "../Firebase/firebase_func";
+import { StepsWithCircles } from "../Application/ProgressSteps/StepsWithCircles/App";
+import { auth } from "../Firebase/firebase_conf";
 
 const host_url = "https://port-0-fitner-lxu0mkd6748b546f.sel5.cloudtype.app";
 export const loginType = [
@@ -62,9 +62,8 @@ export const loginType = [
 function Find() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [step, setStep] = useState(
-    parseInt(window.location.pathname.split("/").pop())
-  );
+  const [step, setStep] = useState(parseInt(window.location.pathname.split("/").pop()));
+  const [anotherStep, setAnotherStep] = useState(0);
   const [viewImageUpload, setViewImageUpload] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const isMd = useBreakpointValue({ base: false, md: true });
@@ -96,7 +95,6 @@ function Find() {
 
   // 진행 상태 모달 상태 관리
   const { isOpen: isProgressModalOpen, onOpen: openProgressModal, onClose: closeProgressModal } = useDisclosure();
-
   const [imageList, setImageList] = useState([]);
   const imageRef = useRef(null);
   const [data, setData] = useState({});
@@ -207,7 +205,7 @@ function Find() {
           });
           // 전송 성공
           setParam(data);
-          openSuccessModal();
+          setAnotherStep(1);
         } else if (data.result.code === "CF-00000") {// 성공
         } else {
           toast({
@@ -255,7 +253,6 @@ function Find() {
         return await res.json();
       })
       .then(async (data) => {
-        console.log("data.result.cod111e", data.result.code)
         if (data.result.code === "CF-03002") {
           toast({
             title: "추가 인증을 진행해주세요!",
@@ -269,9 +266,7 @@ function Find() {
         } else {
           // 전송 성공
           setIsLoading(false)
-          console.log("data.data1", data.data)
           setMedicineData(data.data);
-          console.log("data.data", data.data)
         }
       })
       .catch((err) => {
@@ -290,7 +285,6 @@ function Find() {
         return await res.json();
       })
       .then(async (data) => {
-        console.log("data.result.code", data.result.code)
         if (data.result.code === "CF-03002") {
           toast({
             title: "추가 인증을 진행해주세요!",
@@ -310,10 +304,7 @@ function Find() {
           });
           setIsLoading(false);
         } else {
-          // 전송 성공
-          // closeCertModal();
-          // closeSuccessModal();
-          openProgressModal(); // 인증 완료 후 진행 상태 모달 열기
+          setAnotherStep(2);
           setIsLoading(false)
           setHealthData(data.data);
         }
@@ -322,6 +313,10 @@ function Find() {
         setIsLoading(false)
         console.log(err);
       });
+  };
+
+  const handleComplete = () => {
+    setAnotherStep(3);
   };
 
   const handleChange = (event) => {
@@ -445,6 +440,7 @@ function Find() {
                       건강검진자료 및 투약이력 알려주기
                     </Button>
                   )}
+
                   {/* 본인확인 모달 */}
                   <Modal
                     isOpen={isCertModalOpen}
@@ -453,70 +449,224 @@ function Find() {
                       closeCertModal();
                       setShowForm(false); // 모달을 닫을 때 상태 초기화
                       setFormInput({}); // 폼 입력값 초기화
+                      setAnotherStep(0);
                     }}
                   >
                     <ModalOverlay />
                     <ModalContent
-                      maxW={{ base: "100vw", md: "500px" }} // 모바일에서는 전체 너비
-                      minH={{ base: "100vh", md: "auto" }} // 모바일에서는 전체 높이
+                      maxW={{ base: anotherStep === 0 || anotherStep === 4 ? "100vh" : "90%", md: "500px" }} // 모바일에서는 전체 너비
+                      minH={{ base: anotherStep === 0 || anotherStep === 4 ? "100vh" : "30%", md: "auto" }} // 모바일에서는 전체 높이
                       borderRadius={{ base: "0", md: "md" }} // 모바일에서는 모서리를 둥글게 하지 않음
-                      mt="8%" // 모달을 살짝 위로 이동
+                      mt={{ base: "0", md: "-5%" }}
+                      position="fixed"
+                      top={{ base: anotherStep === 0 || anotherStep === 4 ? "0" : "20%", md: "auto" }}
+                      left={{ base: anotherStep === 0 || anotherStep === 4 ? "0" : "5%", md: "auto" }}
+                      overflow="hidden" // 스크롤바 숨기기
                     >
-                      <ModalHeader>간편인증</ModalHeader>
+                      {anotherStep === 0 && (
+                        <ModalHeader textAlign={{ base: "center", md:"left"}}>간편인증</ModalHeader>
+                      )}
+                      {(anotherStep === 1 || anotherStep === 4) && (
+                        <ModalHeader textAlign="center">간편인증</ModalHeader>
+                      )}
+                      {(anotherStep === 2 || anotherStep === 3) && (
+                        <ModalHeader textAlign="center">
+                          건강검진자료 및 투약이력 조회
+                        </ModalHeader>
+                      )}
                       <ModalCloseButton />
-                      <ModalBody>
-                        <Stack spacing={"4"} mt={-2}>
-                          <Text fontSize="sm" color="#111111" fontWeight={"400"}>
-                            건강검진자료 및 투약이력조회를 위한 본인인증을 확인해 주세요.
-                          </Text>
-                          <Text fontSize="9px" color="#111111" fontWeight={"600"} mb={-2}>
-                            인증수단
-                          </Text>
-                          <SimpleGrid gap="4" columns={4}>
-                            {loginType.map((type, index) => (
-                              <Flex
-                                key={index}
-                                onClick={() => {
-                                  setFormInput({
-                                    ...formInput,
-                                    loginTypeLevel: type.idx,
-                                  });
-                                  setShowForm(true); // 아이콘 클릭 시 폼을 표시
-                                }}
-                                cursor="pointer"
-                                height="30px" // 높이를 조정하여 직사각형으로 변경
-                                minHeight="30px"
-                                aspectRatio={3.5}
-                                border="2px solid"
-                                borderColor={
-                                  formInput.loginTypeLevel === type.idx ? "teal.500" : "gray.200"
-                                }
-                                alignItems="center"
-                                justifyContent="center"
-                                borderRadius="md"
-                              >
-                                <Stack direction="row" alignItems="center" spacing={1} p={2}>
-                                  <Box w={4} h={4}>
-                                    {type.icon}
-                                  </Box>
-                                  <Text fontSize="11px" textAlign="center">
-                                    {type.title}
-                                  </Text>
-                                </Stack>
-                              </Flex>
-                            ))}
-                          </SimpleGrid>
+                      {anotherStep === 0 && (
+                        <ModalBody>
+                          <Stack spacing={"4"} mt={-2}>
+                            <Text fontSize="sm" color="#111111" fontWeight={"400"}>
+                              건강검진자료 및 투약이력조회를 위한 본인인증을 확인해 주세요.
+                            </Text>
+                            <Text fontSize="9px" color="#111111" fontWeight={"600"} mb={-2}>
+                              인증수단
+                            </Text>
+                            <SimpleGrid gap="4" columns={{ base: 2, md: 4 }}>
+                              {loginType.map((type, index) => (
+                                <Flex
+                                  key={index}
+                                  onClick={() => {
+                                    setFormInput({
+                                      ...formInput,
+                                      loginTypeLevel: type.idx,
+                                    });
+                                    setShowForm(true);
+                                  }}
+                                  cursor="pointer"
+                                  height={{ base: "50px", md: "30px" }}
+                                  minHeight="30px"
+                                  aspectRatio={3.5}
+                                  border="2px solid"
+                                  borderColor={
+                                    formInput.loginTypeLevel === type.idx ? "teal.500" : "gray.200"
+                                  }
+                                  alignItems="center"
+                                  justifyContent="center"
+                                  borderRadius="md"
+                                >
+                                  <Stack direction="row" alignItems="center" spacing={1} p={2}>
+                                    <Box w={4} h={4}>
+                                      {type.icon}
+                                    </Box>
+                                    <Text fontSize="11px" textAlign="center">
+                                      {type.title}
+                                    </Text>
+                                  </Stack>
+                                </Flex>
+                              ))}
+                            </SimpleGrid>
 
-                          {/* 폼 입력 화면 (md에서 항상 폼 표시) */}
-                          {isMd && (
+                            {/* 폼 입력 화면 (md에서 항상 폼 표시) */}
+                            {isMd ? (
+                              <form onSubmit={iDentitySubmit}>
+                                <Stack spacing={3} py={2} justifyContent={"space-between"} width="100%">
+                                  <Stack spacing={2}>
+                                    <FormControl isRequired>
+                                      <FormLabel>이름</FormLabel>
+                                      <Input
+                                        onChange={(e) => {
+                                          setFormInput({ ...formInput, userName: e.target.value });
+                                        }}
+                                        focusBorderColor="teal"
+                                        placeholder="홍길동"
+                                      />
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                      <FormLabel>생년월일</FormLabel>
+                                      <Input
+                                        type="number"
+                                        onChange={(e) => {
+                                          setFormInput({ ...formInput, identity: e.target.value });
+                                        }}
+                                        focusBorderColor="teal"
+                                        placeholder="YYYYMMDD"
+                                      />
+                                    </FormControl>
+                                    <FormControl isRequired>
+                                      <FormLabel>휴대폰번호</FormLabel>
+                                      <Input
+                                        type="number"
+                                        onChange={(e) => {
+                                          setFormInput({ ...formInput, phoneNo: e.target.value });
+                                        }}
+                                        focusBorderColor="teal"
+                                        placeholder="01012341234"
+                                      />
+                                    </FormControl>
+                                  </Stack>
+                                </Stack>
+                                <ModalFooter justifyContent="center">
+                                  <Button
+                                    w="100%"
+                                    colorScheme="teal"
+                                    onClick={() => {
+                                      if (showForm) {
+                                        setAnotherStep(4); // 아이콘이 클릭된 경우에만 다음 단계로 이동
+                                      } else {
+                                        // 아이콘이 클릭되지 않았을 때 메시지 표시
+                                        toast({
+                                          title: "인증수단을 선택해 주세요.",
+                                          status: "warning",
+                                          duration: 3000,
+                                          isClosable: true,
+                                          position: "top",
+                                        });
+                                      }
+                                    }}
+                                  >
+                                    다음
+                                  </Button>
+                                </ModalFooter>
+                              </form>
+                            ) : (
+                              <ModalFooter justifyContent="center" mt="100%">
+                                <Button w="100%" colorScheme="teal" onClick={() => setAnotherStep(4)}>
+                                  다음
+                                </Button>
+                              </ModalFooter>
+                            )}
+                          </Stack>
+                        </ModalBody>
+                      )}
+
+                      {anotherStep === 1 && (
+                        <>
+                          <ModalBody>
+                            <Text fontSize="14" color="#111111" fontWeight={"600"}>
+                              인증 요청 메시지를 보냈습니다.
+                            </Text>
+                            <Text fontSize="11px" color="#111111" fontWeight={"400"} mt={2}>
+                              인증을 진행한 후 <br />
+                              아래 간편인증 완료 버튼을 클릭하세요.
+                            </Text>
+                            <Image
+                              src={require("../Assets/Icon/sucessIcon.png")}
+                              alt="인증 단계"
+                              mt={2}
+                              w="50%"
+                              objectFit="contain"
+                              mx="auto"
+                            />
+                          </ModalBody>
+                          <ModalFooter justifyContent="center">
+                            <Button
+                              w="50%"
+                              colorScheme="teal"
+                              onClick={handleCallData}
+                              isLoading={isLoading}
+                              isDisabled={isLoading}
+                            >
+                              간편인증 완료
+                            </Button>
+                          </ModalFooter>
+                        </>
+                      )}
+                      {anotherStep === 2 && (
+                        <>
+                          <ModalBody>
+                            <Text fontSize="13px" color="#111111" fontWeight={"400"} mt={2}>
+                              건강검진자료 및 투약이력을 가져오고 있어요. <br />
+                              잠시만 기다려주세요!
+                            </Text>
+                            <CounterWithCircularProgress completed={!!medicineData} onComplete={handleComplete} />
+                          </ModalBody>
+                        </>
+                      )}
+                      {anotherStep === 3 && (
+                        <ModalBody textAlign="center">
+                          {/* 조회 완료 상태 내용 */}
+                          <Text fontSize="12px" color="#111111" fontWeight={"400"}>
+                            필요한 정보를 모두 불러왔어요!
+                          </Text>
+                          <ModalFooter justifyContent="center">
+                            <Button
+                              w="60%"
+                              colorScheme="teal"
+                              onClick={() => {
+                                closeCertModal();
+                                setShowForm(false); // 모달을 닫을 때 상태 초기화
+                                setFormInput({}); // 폼 입력값 초기화
+                                setAnotherStep(0);
+                                navigate('/find/2');
+                              }}
+                            >
+                              다음
+                            </Button>
+                          </ModalFooter>
+                        </ModalBody>
+                      )}
+                      {anotherStep === 4 && (
+                        <ModalBody>
+                          <Stack spacing={"4"} mt={-2}>
+                            <Text fontSize="sm" color="#111111" fontWeight={"400"}>
+                              정보를 입력해주세요
+                            </Text>
                             <form onSubmit={iDentitySubmit}>
-                              <Stack
-                                spacing={3} // 폼 내의 요소들 간의 간격을 줄여줌
-                                py={2} // 전체 폼의 상하 패딩을 줄임
-                                justifyContent={"space-between"}
-                                width="100%" // Stack의 너비를 전체 사용
-                              >
-                                <Stack spacing={2}> {/* 입력 필드 사이의 간격을 줄임 */}
+                              <Stack spacing={3} py={2} justifyContent={"space-between"} width="100%">
+                                <Stack spacing={2}>
                                   <FormControl isRequired>
                                     <FormLabel>이름</FormLabel>
                                     <Input
@@ -551,68 +701,15 @@ function Find() {
                                   </FormControl>
                                 </Stack>
                               </Stack>
-                              {/* 버튼을 폼 내부의 ModalFooter에 위치시켜 폼 제출 기능 유지 */}
                               <ModalFooter justifyContent="center">
                                 <Button w="50%" colorScheme="teal" type="submit">
                                   인증하기
                                 </Button>
                               </ModalFooter>
                             </form>
-                          )}
-                        </Stack>
-                      </ModalBody>
-                    </ModalContent>
-                  </Modal>
-                  <Modal
-                    isOpen={isSuccessModalOpen}
-                    onClose={closeSuccessModal}
-                    isCentered
-                  >
-                    <ModalOverlay />
-                    <ModalContent>
-                      <ModalHeader textAlign="center">간편인증</ModalHeader>
-                      <ModalCloseButton />
-                      <ModalBody>
-                        <Text fontSize="14" color="#111111" fontWeight={"600"}>
-                          인증 요청 메시지를 보냈습니다.
-                        </Text>
-                        <Text fontSize="11px" color="#111111" fontWeight={"400"} mt={2}>
-                          인증을 진행한 후 <br />
-                          아래 간편인증 완료 버튼을 클릭하세요.
-                        </Text>
-                        <Image
-                          src={require("../Assets/Icon/sucessIcon.png")}
-                          alt="인증 단계"
-                          mt={2} // 이미지와 텍스트 사이에 여백을 추가
-                          w="50%" // 원하는 너비 설정
-                          objectFit="contain"
-                          mx="auto" // 이미지 가운데 정렬
-                        />
-                      </ModalBody>
-                      <ModalFooter justifyContent="center">
-                        <Button w="50%" colorScheme="teal" onClick={handleCallData} isLoading={isLoading} isDisabled={isLoading}>
-                          간편인증 완료
-                        </Button>
-                      </ModalFooter>
-                    </ModalContent>
-                  </Modal>
-                  {/* 진행 상태 모달 */}
-                  <Modal isOpen={isProgressModalOpen} onClose={closeProgressModal} isCentered>
-                    <ModalOverlay />
-                    <ModalContent>
-                      <ModalHeader textAlign="center">데이터 처리 중</ModalHeader>
-                      <ModalCloseButton />
-                      <ModalBody>
-                        <VStack spacing={8}>
-                          <Text fontSize={"lg"}>정보를 가지고 오는 중입니다...</Text>
-                          <CounterWithCircularProgress completed={medicineData} />
-                        </VStack>
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button colorScheme="teal" onClick={closeProgressModal} isDisabled={!medicineData}>
-                          닫기
-                        </Button>
-                      </ModalFooter>
+                          </Stack>
+                        </ModalBody>
+                      )}
                     </ModalContent>
                   </Modal>
 
@@ -826,7 +923,7 @@ function Find() {
     </Container>
   );
 }
-const CounterWithCircularProgress = ({ completed = false }) => {
+const CounterWithCircularProgress = ({ completed = false, onComplete }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -836,17 +933,32 @@ const CounterWithCircularProgress = ({ completed = false }) => {
       }, 100);
 
       return () => clearInterval(interval);
+    } else {
+      // 완료 시 콜백 호출
+      onComplete();
     }
-  }, [completed]);
+  }, [completed, onComplete]);
 
   const progressValue = completed ? 100 : count;
 
   return (
-    <Box>
-      <CircularProgress value={progressValue} size="100px" color="teal.500">
-        <CircularProgressLabel>{progressValue}%</CircularProgressLabel>
-      </CircularProgress>
-    </Box>
+    <HStack spacing={4} alignItems="center">
+      <Box flex="1">
+        {/* Progress Bar */}
+        <Progress
+          value={progressValue}
+          size="lg"
+          colorScheme="teal"
+          height="32px"
+          hasStripe // optional: for a striped effect
+          isAnimated // optional: for animation
+        />
+      </Box>
+      {/* Percentage Text */}
+      <Text fontSize="xl" fontWeight="bold">
+        {progressValue}%
+      </Text>
+    </HStack>
   );
 };
 

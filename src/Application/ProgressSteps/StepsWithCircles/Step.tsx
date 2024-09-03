@@ -13,7 +13,7 @@ export const Step = (props: StepProps) => {
   const { isActive, isCompleted, isLastStep, label, imageSrc, ...stackProps } = props
 
   // 모바일 화면 크기인지 확인
-  const [isMobile] = useMediaQuery("(max-width: 768px)")
+  const [isMobile] = useMediaQuery("(max-width: 990px)")
 
   return (
     <HStack
