@@ -104,7 +104,7 @@ function Find() {
   const [formInput, setFormInput] = useState({
     organization: "0002",
     loginType: "5",
-    loginTypeLevel: "1",
+    loginTypeLevel: "",
     userName: "",
     phoneNo: "",
     identity: "",
@@ -365,7 +365,10 @@ function Find() {
             height="37.9px"
             alt="logo"
             cursor="pointer"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              navigate("/");
+            }}
           />
         </Box>
         <Flex>
@@ -520,7 +523,7 @@ function Find() {
                             </SimpleGrid>
 
                             {/* 폼 입력 화면 (md에서 항상 폼 표시) */}
-                            {isMd ? (
+                            {!isMobile ? (
                               <form onSubmit={iDentitySubmit}>
                                 <Stack spacing={3} py={2} justifyContent={"space-between"} width="100%">
                                   <Stack spacing={2}>
@@ -564,7 +567,7 @@ function Find() {
                                     colorScheme="teal"
                                     onClick={() => {
                                       if (showForm) {
-                                        setAnotherStep(4); // 아이콘이 클릭된 경우에만 다음 단계로 이동
+                                        setAnotherStep(1); // 아이콘이 클릭된 경우에만 다음 단계로 이동
                                       } else {
                                         // 아이콘이 클릭되지 않았을 때 메시지 표시
                                         toast({
@@ -658,7 +661,7 @@ function Find() {
                           </ModalFooter>
                         </ModalBody>
                       )}
-                      {anotherStep === 4 && (
+                      {(anotherStep === 4 && isMobile) && (
                         <ModalBody>
                           <Stack spacing={"4"} mt={-2}>
                             <Text fontSize="sm" color="#111111" fontWeight={"400"}>

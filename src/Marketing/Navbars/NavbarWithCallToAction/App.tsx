@@ -5,10 +5,11 @@ import {
   HStack,
   Image,
 } from "@chakra-ui/react";
-
+import { useNavigate } from "react-router-dom";
 export const gradient = "linear-gradient(45deg, #015A68 0%, #319694 100%)";
 
 export const NavbarWithCallToAction = ({ ...props }) => {
+  const navigate = useNavigate();
   return (
     <Box
       as="section"
@@ -30,7 +31,10 @@ export const NavbarWithCallToAction = ({ ...props }) => {
             height={"37.9px"}
             alt="logo"
             cursor={"pointer"}
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              navigate("/");
+            }}
           />
           <HStack spacing="8">
             <Button

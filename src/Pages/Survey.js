@@ -87,6 +87,7 @@ function Survey(props) {
     const leftPercent = (leftCount / Math.min(10, survey.length)) * 100;
     const rightPercent = (rightCount / (survey.length > 10 ? survey.length - 10 : 0)) * 100;
 
+
     return { leftPercent, rightPercent };
   }
 
@@ -100,6 +101,7 @@ function Survey(props) {
     survey[index].answer = value;
     setSurvey([...survey]);
   };
+  const buttonColor = index === survey.length - 1 ? "Y" : "N";
 
   return (
     <Container
@@ -129,7 +131,10 @@ function Survey(props) {
           height="37.9px"
           alt="logo"
           cursor="pointer"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            navigate("/");
+          }}
         />
         <Text
           fontFamily="Pretendard"
@@ -144,8 +149,8 @@ function Survey(props) {
           borderRadius="full"
           cursor="pointer"
           border="1px solid #015A68"
-          backgroundColor="transparent"
-          color="#015A68"
+          bg={buttonColor === "Y" ? "#015A68" : "transparent"}
+          color={buttonColor === "Y" ? "white" : "#015A68"}
           display="flex"
           justifyContent="center"
           alignItems="center"
