@@ -1,4 +1,5 @@
 import { Box, Image, SquareProps, Text } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
 interface StepCircleProps extends SquareProps {
   isCompleted: boolean
@@ -9,6 +10,11 @@ interface StepCircleProps extends SquareProps {
 
 export const StepCircle = (props: StepCircleProps) => {
   const { isCompleted, isActive, label, imageSrc, ...rest } = props
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/find/${parseInt(label) - 1}`);
+  };
 
   return (
     <Box
@@ -38,12 +44,13 @@ export const StepCircle = (props: StepCircleProps) => {
           color={isActive ? 'white' : '#015A68'}
           fontWeight="medium"
           fontFamily="Pretendard"
+          cursor="pointer"
+          onClick={handleClick}
         >
-          {label}
+          {`STEP ${label}`}
         </Text>
       </Box>
 
-      {/* 타원형 아래에 이미지 배치 */}
       <Box
         position="relative"
         mt={{ base: "-18%", lg: "-60px" }}
@@ -53,8 +60,22 @@ export const StepCircle = (props: StepCircleProps) => {
         justifyContent="center" // 추가
         alignItems="center" // 추가
       >
+        {/* 라벨이 활성화되었을 때만 테두리 표시 */}
+        {isActive && (
+          <Box
+            position="absolute"
+            border={'3px solid #015A68'} // 테두리 두께
+            borderRadius="22px" // 테두리 둥글기
+            top="20px"
+            width="200px"
+            height="249px"
+            transition="border 0.3s ease"
+          />
+        )}
         <Image
           src={imageSrc}
+          cursor="pointer"
+          onClick={handleClick}
           mb={{ base: "-30%", lg: "" }}
           height={{ base: "100%", lg: "300px" }}
           width={{ base: "76%", lg: "300px" }}

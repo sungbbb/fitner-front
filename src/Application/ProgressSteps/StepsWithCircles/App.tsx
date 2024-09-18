@@ -30,7 +30,7 @@ export const StepsWithCircles = (props: any) => {
                 isActive={currentStep === id}
                 isCompleted={currentStep > id}
                 isLastStep={numberOfSteps === id + 1}
-                label={`STEP ${id + 1}`}
+                label={`${id + 1}`}
                 imageSrc={images[id]}
               />
             </Box>

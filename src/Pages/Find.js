@@ -24,7 +24,7 @@ import {
   FormControl,
   FormLabel,
   useToast,
-  VStack, HStack,
+  HStack,
   Progress,
   useBreakpointValue
 } from "@chakra-ui/react";
@@ -66,11 +66,9 @@ function Find() {
   const [anotherStep, setAnotherStep] = useState(0);
   const [viewImageUpload, setViewImageUpload] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const isMd = useBreakpointValue({ base: false, md: true });
   const toast = useToast();
   const [medicineData, setMedicineData] = useState();
   const [healthData, setHealthData] = useState();
-  const [progressValue, setProgressValue] = useState(0);
 
   // 본인확인 모달 상태 관리
   const {
@@ -115,7 +113,6 @@ function Find() {
     telecom: "0",
   });
   const [param, setParam] = useState({}); // 새로운 상태 추가
-
 
   useEffect(() => {
     if (location.state) {
@@ -183,43 +180,52 @@ function Find() {
     const session = new Date().getTime().toString();
     setSessionId(session);
 
-    // A 요청
-    fetch(`${host_url}/result`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: session, ...formInput }),
-    })
-      .then(async (res) => {
-        return await res.json();
+    if (showForm) {
+      fetch(`${host_url}/result`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: session, ...formInput }),
       })
-      .then(async (data) => {
-        if (data.result.code === "CF-03002") {
-          toast({
-            title: "추가 인증을 진행해주세요!",
-            status: "warning",
-            duration: 3000,
-            isClosable: true,
-            position: "top-right",
-          });
-          // 전송 성공
-          setParam(data);
-          setAnotherStep(1);
-        } else if (data.result.code === "CF-00000") {// 성공
-        } else {
-          toast({
-            title: "인증에 실패하였습니다. 인증을 다시 시도해주세요.",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-            position: "top-right",
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+        .then(async (res) => {
+          return await res.json();
+        })
+        .then(async (data) => {
+          if (data.result.code === "CF-03002") {
+            toast({
+              title: "추가 인증을 진행해주세요!",
+              status: "warning",
+              duration: 3000,
+              isClosable: true,
+              position: "top-right",
+            });
+            // 전송 성공
+            setParam(data);
+            setAnotherStep(1);
+          } else if (data.result.code === "CF-00000") {// 성공
+          } else {
+            toast({
+              title: "인증에 실패하였습니다. 인증을 다시 시도해주세요.",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+              position: "top-right",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (!isMobile) {
+      toast({
+        title: "인증수단을 선택해 주세요.",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
       });
+    }
   };
 
   const handleCallData = () => {
@@ -396,14 +402,21 @@ function Find() {
             px={{ base: "4", md: "6" }}
           >
             <Box maxW="md" mx="auto">
-              <Box textAlign="center" mx="auto" mt="-48" mb="7%">
+              <Box
+                position="fixed"
+                top="10px"
+                left="0"
+                width="100%"
+                textAlign="center"
+                zIndex="999"
+              >
                 <Text
                   fontWeight="normal"
                   fontFamily="Pretendard"
                   fontSize={{ base: "lg", md: "xl" }}
                   bgClip="text"
-                  mb={{ base: "-30%", lg: "-25%" }}
-                  mt={{ base: "20%", lg: "20%" }}
+                  mb={{ base: "-40%", lg: "-45%" }}
+                  mt={{ base: "20%", lg: "10%" }}
                   color="#111111"
                   bgGradient="linear(to-r, teal.500, teal.300)"
                 >
@@ -467,7 +480,7 @@ function Find() {
                       overflow="hidden" // 스크롤바 숨기기
                     >
                       {anotherStep === 0 && (
-                        <ModalHeader textAlign={{ base: "center", md:"left"}}>간편인증</ModalHeader>
+                        <ModalHeader textAlign={{ base: "center", md: "left" }}>간편인증</ModalHeader>
                       )}
                       {(anotherStep === 1 || anotherStep === 4) && (
                         <ModalHeader textAlign="center">간편인증</ModalHeader>
@@ -565,20 +578,7 @@ function Find() {
                                   <Button
                                     w="100%"
                                     colorScheme="teal"
-                                    onClick={() => {
-                                      if (showForm) {
-                                        setAnotherStep(1); // 아이콘이 클릭된 경우에만 다음 단계로 이동
-                                      } else {
-                                        // 아이콘이 클릭되지 않았을 때 메시지 표시
-                                        toast({
-                                          title: "인증수단을 선택해 주세요.",
-                                          status: "warning",
-                                          duration: 3000,
-                                          isClosable: true,
-                                          position: "top",
-                                        });
-                                      }
-                                    }}
+                                    type="submit"
                                   >
                                     다음
                                   </Button>

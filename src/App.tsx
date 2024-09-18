@@ -13,7 +13,6 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/find/*" element={<Find />} />
         <Route path="/survey" element={<Survey />} />
-        <Route path="/cert" element={<Cert />} />
         <Route path="/info" element={<Info />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/admin" element={<Admin />} />
